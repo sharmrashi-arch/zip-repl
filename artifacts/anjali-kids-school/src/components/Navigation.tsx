@@ -1,39 +1,40 @@
 import { useState, useEffect } from "react"
 import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
+import { useLocation, Link } from "wouter"
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState("home")
+  const [location] = useLocation()
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 60)
-
-      const sections = ["hero", "about", "programs", "teachers", "gallery", "admissions", "contact"]
-      const scrollY = window.scrollY + 100
-      for (const id of sections) {
-        const el = document.getElementById(id)
-        if (el && scrollY >= el.offsetTop && scrollY < el.offsetTop + el.offsetHeight) {
-          setActiveSection(id === "hero" ? "home" : id)
-          break
-        }
-      }
-    }
+    const handleScroll = () => setIsScrolled(window.scrollY > 60)
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false)
+  }, [location])
+
+  const isHome = location === "/"
+
   const navLinks = [
-    { name: "Home",       href: "#hero",       id: "home" },
-    { name: "About",      href: "#about",      id: "about" },
-    { name: "Programs",   href: "#programs",   id: "programs" },
-    { name: "Teachers",   href: "#teachers",   id: "teachers" },
-    { name: "Gallery",    href: "#gallery",    id: "gallery" },
-    { name: "Admissions", href: "#admissions", id: "admissions" },
-    { name: "Contact",    href: "#contact",    id: "contact" },
+    { name: "Home",       href: "/",            page: true },
+    { name: "About",      href: "/about",        page: true },
+    { name: "Programs",   href: isHome ? "#programs"   : "/#programs",   page: false },
+    { name: "Teachers",   href: "/teachers",     page: true },
+    { name: "Gallery",    href: "/gallery",      page: true },
+    { name: "Admissions", href: isHome ? "#admissions" : "/#admissions", page: false },
+    { name: "Contact",    href: isHome ? "#contact"    : "/#contact",    page: false },
   ]
+
+  const isActive = (href: string) => {
+    if (href === "/") return location === "/"
+    return location.startsWith(href)
+  }
 
   return (
     <header
@@ -45,7 +46,7 @@ export default function Navigation() {
     >
       <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
         {/* Logo */}
-        <a href="#hero" className="flex items-center gap-3 group">
+        <Link href="/" className="flex items-center gap-3 group">
           <div className="w-11 h-11 bg-gradient-to-br from-orange-400 to-orange-600 rounded-2xl flex items-center justify-center shadow-md group-hover:shadow-orange-300 group-hover:scale-105 transition-all duration-300">
             <span className="text-white font-extrabold text-base tracking-tight">AK</span>
           </div>
@@ -53,29 +54,28 @@ export default function Navigation() {
             <span className="font-extrabold text-[1.15rem] text-gray-900 tracking-tight">Anjali Kids</span>
             <span className="text-[0.65rem] font-bold text-orange-500 uppercase tracking-[0.15em]">Play School</span>
           </div>
-        </a>
+        </Link>
 
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-1">
           {navLinks.map((link) => {
-            const isActive = activeSection === link.id
-            return (
-              <a
-                key={link.name}
-                href={link.href}
-                className={`relative px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                  isActive
-                    ? "text-orange-600"
-                    : "text-gray-600 hover:text-orange-500"
-                }`}
-              >
-                {isActive && (
+            const active = isActive(link.href)
+            const cls = `relative px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+              active ? "text-orange-600" : "text-gray-600 hover:text-orange-500"
+            }`
+            return link.page ? (
+              <Link key={link.name} href={link.href} className={cls}>
+                {active && (
                   <motion.span
                     layoutId="nav-pill"
                     className="absolute inset-0 bg-orange-50 rounded-full border border-orange-200"
                     transition={{ type: "spring", stiffness: 380, damping: 32 }}
                   />
                 )}
+                <span className="relative z-10">{link.name}</span>
+              </Link>
+            ) : (
+              <a key={link.name} href={link.href} className={cls}>
                 <span className="relative z-10">{link.name}</span>
               </a>
             )
@@ -85,7 +85,7 @@ export default function Navigation() {
         {/* CTA */}
         <div className="hidden lg:block">
           <a
-            href="#admissions"
+            href={isHome ? "#admissions" : "/#admissions"}
             className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-bold text-sm px-6 py-2.5 rounded-full shadow-md hover:shadow-orange-300 transition-all duration-300 hover:scale-105"
           >
             Enroll Now
@@ -113,23 +113,24 @@ export default function Navigation() {
             className="lg:hidden overflow-hidden bg-white border-t border-orange-100 shadow-xl"
           >
             <nav className="container mx-auto px-4 py-5 flex flex-col gap-1">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`block px-4 py-3 rounded-xl text-base font-semibold transition-colors ${
-                    activeSection === link.id
-                      ? "bg-orange-50 text-orange-600"
-                      : "text-gray-700 hover:bg-orange-50 hover:text-orange-500"
-                  }`}
-                >
-                  {link.name}
-                </a>
-              ))}
+              {navLinks.map((link) => {
+                const active = isActive(link.href)
+                const cls = `block px-4 py-3 rounded-xl text-base font-semibold transition-colors ${
+                  active ? "bg-orange-50 text-orange-600" : "text-gray-700 hover:bg-orange-50 hover:text-orange-500"
+                }`
+                return link.page ? (
+                  <Link key={link.name} href={link.href} className={cls}>
+                    {link.name}
+                  </Link>
+                ) : (
+                  <a key={link.name} href={link.href} className={cls} onClick={() => setIsMobileMenuOpen(false)}>
+                    {link.name}
+                  </a>
+                )
+              })}
               <div className="pt-3">
                 <a
-                  href="#admissions"
+                  href={isHome ? "#admissions" : "/#admissions"}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="block text-center bg-gradient-to-r from-orange-400 to-orange-600 text-white font-bold text-base px-6 py-3 rounded-full shadow-md"
                 >

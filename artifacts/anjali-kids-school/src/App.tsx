@@ -2,6 +2,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import NotFound from '@/pages/not-found';
 import { Route, Switch, Router as WouterRouter } from 'wouter';
 import Home from '@/pages/Home';
+import AboutPage from '@/pages/AboutPage';
+import TeachersPage from '@/pages/TeachersPage';
+import GalleryPage from '@/pages/GalleryPage';
 
 const queryClient = new QueryClient();
 
@@ -9,6 +12,9 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/about" component={AboutPage} />
+      <Route path="/teachers" component={TeachersPage} />
+      <Route path="/gallery" component={GalleryPage} />
       <Route component={NotFound} />
     </Switch>
   );
