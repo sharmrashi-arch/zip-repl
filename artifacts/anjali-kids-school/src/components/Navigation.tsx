@@ -1,100 +1,140 @@
 import { useState, useEffect } from "react"
-import { Button } from "./ui/button"
 import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState("home")
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
+      setIsScrolled(window.scrollY > 60)
+
+      const sections = ["hero", "about", "programs", "teachers", "gallery", "admissions", "contact"]
+      const scrollY = window.scrollY + 100
+      for (const id of sections) {
+        const el = document.getElementById(id)
+        if (el && scrollY >= el.offsetTop && scrollY < el.offsetTop + el.offsetHeight) {
+          setActiveSection(id === "hero" ? "home" : id)
+          break
+        }
+      }
     }
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   const navLinks = [
-    { name: "About", href: "#about" },
-    { name: "Programs", href: "#programs" },
-    { name: "Teachers", href: "#teachers" },
-    { name: "Gallery", href: "#gallery" },
-    { name: "Admissions", href: "#admissions" },
-    { name: "Contact", href: "#contact" },
+    { name: "Home",       href: "#hero",       id: "home" },
+    { name: "About",      href: "#about",      id: "about" },
+    { name: "Programs",   href: "#programs",   id: "programs" },
+    { name: "Teachers",   href: "#teachers",   id: "teachers" },
+    { name: "Gallery",    href: "#gallery",    id: "gallery" },
+    { name: "Admissions", href: "#admissions", id: "admissions" },
+    { name: "Contact",    href: "#contact",    id: "contact" },
   ]
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white/90 backdrop-blur-md shadow-sm py-4" : "bg-transparent py-6"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        isScrolled
+          ? "bg-white/95 backdrop-blur-lg shadow-md py-3"
+          : "bg-white/80 backdrop-blur-sm py-4 border-b border-orange-100"
       }`}
     >
-      <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
-        <a href="#" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white font-display font-bold text-xl group-hover:scale-110 transition-transform">
-            AK
+      <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
+        {/* Logo */}
+        <a href="#hero" className="flex items-center gap-3 group">
+          <div className="w-11 h-11 bg-gradient-to-br from-orange-400 to-orange-600 rounded-2xl flex items-center justify-center shadow-md group-hover:shadow-orange-300 group-hover:scale-105 transition-all duration-300">
+            <span className="text-white font-extrabold text-base tracking-tight">AK</span>
           </div>
-          <div className="flex flex-col">
-            <span className="font-display font-bold text-xl leading-tight text-foreground">Anjali Kids</span>
-            <span className="text-xs font-semibold text-primary uppercase tracking-wider">Play School</span>
+          <div className="flex flex-col leading-none">
+            <span className="font-extrabold text-[1.15rem] text-gray-900 tracking-tight">Anjali Kids</span>
+            <span className="text-[0.65rem] font-bold text-orange-500 uppercase tracking-[0.15em]">Play School</span>
           </div>
         </a>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-8">
-          <ul className="flex items-center gap-8">
-            {navLinks.map((link) => (
-              <li key={link.name}>
-                <a
-                  href={link.href}
-                  className="text-foreground/80 hover:text-primary font-medium transition-colors text-sm uppercase tracking-wide"
-                >
-                  {link.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <Button asChild size="sm" className="font-bold">
-            <a href="#admissions">Enroll Now</a>
-          </Button>
+        <nav className="hidden lg:flex items-center gap-1">
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.id
+            return (
+              <a
+                key={link.name}
+                href={link.href}
+                className={`relative px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+                  isActive
+                    ? "text-orange-600"
+                    : "text-gray-600 hover:text-orange-500"
+                }`}
+              >
+                {isActive && (
+                  <motion.span
+                    layoutId="nav-pill"
+                    className="absolute inset-0 bg-orange-50 rounded-full border border-orange-200"
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                  />
+                )}
+                <span className="relative z-10">{link.name}</span>
+              </a>
+            )
+          })}
         </nav>
 
-        {/* Mobile Menu Toggle */}
+        {/* CTA */}
+        <div className="hidden lg:block">
+          <a
+            href="#admissions"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-bold text-sm px-6 py-2.5 rounded-full shadow-md hover:shadow-orange-300 transition-all duration-300 hover:scale-105"
+          >
+            Enroll Now
+          </a>
+        </div>
+
+        {/* Mobile Toggle */}
         <button
-          className="lg:hidden text-foreground p-2"
+          className="lg:hidden p-2 rounded-xl hover:bg-orange-50 text-gray-700 transition-colors"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle menu"
         >
-          {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
-      {/* Mobile Nav */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 right-0 bg-white shadow-xl border-t border-border lg:hidden"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25 }}
+            className="lg:hidden overflow-hidden bg-white border-t border-orange-100 shadow-xl"
           >
-            <nav className="container mx-auto px-4 py-6 flex flex-col gap-4">
+            <nav className="container mx-auto px-4 py-5 flex flex-col gap-1">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="block py-2 text-lg font-medium text-foreground hover:text-primary"
+                  className={`block px-4 py-3 rounded-xl text-base font-semibold transition-colors ${
+                    activeSection === link.id
+                      ? "bg-orange-50 text-orange-600"
+                      : "text-gray-700 hover:bg-orange-50 hover:text-orange-500"
+                  }`}
                 >
                   {link.name}
                 </a>
               ))}
-              <div className="pt-4">
-                <Button asChild className="w-full">
-                  <a href="#admissions" onClick={() => setIsMobileMenuOpen(false)}>
-                    Enroll Now
-                  </a>
-                </Button>
+              <div className="pt-3">
+                <a
+                  href="#admissions"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block text-center bg-gradient-to-r from-orange-400 to-orange-600 text-white font-bold text-base px-6 py-3 rounded-full shadow-md"
+                >
+                  Enroll Now
+                </a>
               </div>
             </nav>
           </motion.div>
