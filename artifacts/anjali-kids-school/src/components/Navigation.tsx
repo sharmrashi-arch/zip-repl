@@ -47,12 +47,18 @@ export default function Navigation() {
     >
       <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center group">
-          <img
-            src={logoImg}
-            alt="Anjali Kids Play School"
-            className="h-14 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
-          />
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="w-11 h-11 rounded-full overflow-hidden flex-shrink-0 shadow-md group-hover:scale-105 transition-transform duration-300">
+            <img
+              src={logoImg}
+              alt="Anjali Kids Play School Logo"
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="flex flex-col leading-none">
+            <span className="font-extrabold text-[1.15rem] text-gray-900 tracking-tight">Anjali Kids</span>
+            <span className="text-[0.65rem] font-bold text-orange-500 uppercase tracking-[0.15em]">Play School</span>
+          </div>
         </Link>
 
         {/* Desktop Nav */}
