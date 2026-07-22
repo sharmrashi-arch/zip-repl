@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useLocation, Link } from "wouter"
+import logoImg from "@assets/logomeee_1784693180336.jfif"
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -46,14 +47,12 @@ export default function Navigation() {
     >
       <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-11 h-11 bg-gradient-to-br from-orange-400 to-orange-600 rounded-2xl flex items-center justify-center shadow-md group-hover:shadow-orange-300 group-hover:scale-105 transition-all duration-300">
-            <span className="text-white font-extrabold text-base tracking-tight">AK</span>
-          </div>
-          <div className="flex flex-col leading-none">
-            <span className="font-extrabold text-[1.15rem] text-gray-900 tracking-tight">Anjali Kids</span>
-            <span className="text-[0.65rem] font-bold text-orange-500 uppercase tracking-[0.15em]">Play School</span>
-          </div>
+        <Link href="/" className="flex items-center group">
+          <img
+            src={logoImg}
+            alt="Anjali Kids Play School"
+            className="h-14 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
+          />
         </Link>
 
         {/* Desktop Nav */}
