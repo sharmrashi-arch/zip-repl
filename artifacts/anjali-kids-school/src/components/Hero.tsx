@@ -3,68 +3,87 @@ import heroImage from "@assets/generated_images/hero.jpg"
 
 export default function Hero() {
   return (
-    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-orange-50 via-amber-50 to-teal-50 pt-20">
-      {/* Decorative blobs */}
-      <div className="absolute -top-32 -right-32 w-[620px] h-[620px] bg-orange-200/40 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-32 -left-32 w-[480px] h-[480px] bg-teal-200/40 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-yellow-200/30 rounded-full blur-3xl pointer-events-none" />
+    <section
+      id="hero"
+      className="relative w-full min-h-screen flex items-center overflow-hidden pt-16"
+    >
+      {/* Full-bleed background image */}
+      <img
+        src={heroImage}
+        alt="Anjali Kids Play School"
+        className="absolute inset-0 w-full h-full object-cover object-center"
+      />
 
-      <div className="container mx-auto px-4 md:px-8 grid lg:grid-cols-[5fr_7fr] gap-8 lg:gap-12 items-center py-12 lg:py-20">
+      {/* Dark gradient overlay — strong on left, fades right */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/10" />
+      {/* Extra bottom fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/40 to-transparent" />
 
-        {/* Left — Text */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="flex flex-col items-start"
-        >
+      {/* Content */}
+      <div className="relative z-10 w-full container mx-auto px-6 md:px-12 py-24">
+        <div className="max-w-2xl">
+
           {/* Badge */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="flex items-center gap-2 bg-white border border-orange-200 text-orange-600 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full shadow-sm mb-6"
+            initial={{ opacity: 0, y: -16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm border border-white/30 text-white text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-7"
           >
             <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
             Admissions Open for 2025–26
           </motion.div>
 
           {/* Heading */}
-          <h1 className="text-4xl sm:text-5xl xl:text-6xl font-extrabold leading-[1.08] tracking-tight text-gray-900 mb-5">
-            Where Every{" "}
-            <span className="relative inline-block">
-              <span className="relative z-10 text-orange-500">Child</span>
-              <svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 200 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2 9 C50 3, 150 3, 198 9" stroke="#FDBA74" strokeWidth="4" strokeLinecap="round"/>
-              </svg>
-            </span>{" "}
-            <br className="hidden sm:block" />
-            Loves to Learn
-          </h1>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="text-4xl sm:text-5xl xl:text-6xl font-extrabold leading-[1.1] tracking-tight text-white mb-6"
+          >
+            Welcome to{" "}
+            <span className="text-orange-400">Anjali Kids</span>{" "}
+            Play School
+          </motion.h1>
 
-          {/* Sub */}
-          <p className="text-base md:text-lg text-gray-500 font-medium leading-relaxed mb-8 max-w-[420px]">
-            A registered playschool in Pundri, Haryana — world-class early childhood education for children aged 2.5 to 4.5 years, built on inquiry-based learning and genuine care.
-          </p>
+          {/* Description */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="text-lg text-white/80 font-medium leading-relaxed mb-10 max-w-xl"
+          >
+            Nurturing young minds with love, care, and world-class early childhood education in Pundri, Haryana. Giving every child the right start in life.
+          </motion.p>
 
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-10">
+          {/* CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="flex flex-col sm:flex-row gap-4 mb-16"
+          >
             <a
               href="#admissions"
-              className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-bold text-base px-7 py-3.5 rounded-full shadow-lg hover:shadow-orange-300 transition-all duration-300 hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold text-base px-8 py-4 rounded-lg shadow-lg transition-all duration-300 hover:-translate-y-0.5"
             >
-              Enroll Your Child
+              Enroll Your Child →
             </a>
             <a
               href="#programs"
-              className="inline-flex items-center justify-center gap-2 bg-white border-2 border-orange-300 text-orange-600 font-bold text-base px-7 py-3.5 rounded-full hover:bg-orange-50 transition-all duration-300 hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/40 text-white font-bold text-base px-8 py-4 rounded-lg transition-all duration-300 hover:-translate-y-0.5"
             >
               Explore Programs
             </a>
-          </div>
+          </motion.div>
 
           {/* Stats row */}
-          <div className="flex flex-wrap gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+            className="flex flex-wrap gap-8"
+          >
             {[
               { value: "5★", label: "Google Rating" },
               { value: "2.5–4.5", label: "Years Age Group" },
@@ -72,73 +91,19 @@ export default function Hero() {
               { value: "April", label: "Session Starts" },
             ].map((stat) => (
               <div key={stat.label} className="flex flex-col">
-                <span className="text-2xl font-extrabold text-orange-500">{stat.value}</span>
-                <span className="text-xs font-semibold text-gray-400 uppercase tracking-wide">{stat.label}</span>
+                <span className="text-2xl font-extrabold text-orange-400">{stat.value}</span>
+                <span className="text-xs font-semibold text-white/60 uppercase tracking-wide">{stat.label}</span>
               </div>
             ))}
-          </div>
-        </motion.div>
-
-        {/* Right — Image (bigger) */}
-        <motion.div
-          initial={{ opacity: 0, x: 60 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.9, ease: "easeOut", delay: 0.15 }}
-          className="relative flex items-center justify-center"
-        >
-          {/* Decorative ring */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="w-[92%] h-[92%] rounded-[40%_60%_55%_45%/45%_55%_60%_40%] border-4 border-orange-200/60 animate-spin-very-slow" />
-          </div>
-
-          {/* Card — bigger, taller */}
-          <div className="relative w-full rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white">
-            <img
-              src={heroImage}
-              alt="Happy children learning and playing at Anjali Kids Play School"
-              className="w-full h-auto object-cover aspect-[3/4] lg:aspect-[4/5]"
-            />
-            {/* Overlay gradient at bottom */}
-            <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent" />
-
-            {/* Bottom text overlay */}
-            <div className="absolute bottom-6 left-6 right-6">
-              <p className="text-white font-bold text-lg drop-shadow-lg">Anjali Kids Play School</p>
-              <p className="text-white/80 text-sm font-medium drop-shadow">Pundri, Haryana</p>
-            </div>
-          </div>
-
-          {/* Floating card — top left */}
-          <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
-            className="absolute top-6 -left-4 bg-white rounded-2xl shadow-xl border border-gray-100 px-4 py-3 flex items-center gap-3"
-          >
-            <div className="w-10 h-10 rounded-xl bg-teal-100 flex items-center justify-center">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D9488" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-            </div>
-            <div>
-              <p className="text-xs font-bold text-gray-800 leading-tight">Inquiry-Based</p>
-              <p className="text-xs text-gray-400 font-medium">Learning Method</p>
-            </div>
           </motion.div>
+        </div>
+      </div>
 
-          {/* Floating card — bottom right */}
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: 0.8 }}
-            className="absolute -bottom-4 -right-4 bg-white rounded-2xl shadow-xl border border-gray-100 px-4 py-3 flex items-center gap-3"
-          >
-            <div className="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#EA580C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            </div>
-            <div>
-              <p className="text-xs font-bold text-gray-800 leading-tight">Pundri, Haryana</p>
-              <p className="text-xs text-gray-400 font-medium">Open 7 Days a Week</p>
-            </div>
-          </motion.div>
-        </motion.div>
-
+      {/* Slide dots (decorative, like ZedKing) */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+        <span className="w-3 h-3 rounded-full bg-orange-500" />
+        <span className="w-8 h-3 rounded-full bg-white/40" />
+        <span className="w-3 h-3 rounded-full bg-white/40" />
       </div>
     </section>
   )
