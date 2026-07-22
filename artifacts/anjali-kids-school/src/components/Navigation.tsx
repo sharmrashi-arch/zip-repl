@@ -25,7 +25,7 @@ export default function Navigation() {
   const navLinks = [
     { name: "Home",       href: "/",            page: true },
     { name: "About",      href: "/about",        page: true },
-    { name: "Programs",   href: isHome ? "#programs"   : "/#programs",   page: false },
+    { name: "Programs",   href: "/programs",     page: true },
     { name: "Teachers",   href: "/teachers",     page: true },
     { name: "Gallery",    href: "/gallery",      page: true },
     { name: "Admissions", href: isHome ? "#admissions" : "/#admissions", page: false },
