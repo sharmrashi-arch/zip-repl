@@ -1,5 +1,8 @@
 import { motion } from "framer-motion"
 import { Palette, BookOpen, Music, Trees, Smile, Compass, Library, Star, Calendar } from "lucide-react"
+import progImg1 from "@assets/21_1784699060075.jpg"
+import progImg2 from "@assets/11_image_1784699138864.jfif"
+import progImg3 from "@assets/10_image_1784699150805.jpeg"
 
 const corePrograms = [
   {
@@ -87,6 +90,32 @@ export default function Programs() {
                 {prog.desc}
               </p>
             </motion.div>
+          ))}
+        </motion.div>
+
+        {/* School Photos */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-20 max-w-5xl mx-auto"
+        >
+          {[
+            { src: progImg1, label: "School Activities" },
+            { src: progImg2, label: "Hands-on Learning" },
+            { src: progImg3, label: "Creative Sessions" },
+          ].map((img, i) => (
+            <div key={i} className="relative overflow-hidden rounded-2xl shadow-md group aspect-[4/3]">
+              <img
+                src={img.src}
+                alt={img.label}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                <span className="text-white font-bold text-sm">{img.label}</span>
+              </div>
+            </div>
           ))}
         </motion.div>
 
