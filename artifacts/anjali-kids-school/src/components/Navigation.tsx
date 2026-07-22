@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useLocation, Link } from "wouter"
-import logoImg from "@assets/logomeee_1784693180336.jfif"
+import logoImg from "@assets/anjali_kids_logo_1784698197427.png"
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
