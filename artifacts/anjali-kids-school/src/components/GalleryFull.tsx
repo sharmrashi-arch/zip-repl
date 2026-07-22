@@ -11,6 +11,10 @@ import img8 from "@assets/8_image_1784612353936.jpg"
 import img9 from "@assets/d9dace56-5901-4bb0-8871-4fa19b3cb26f_1784612375496.jpg"
 import img10 from "@assets/9_image_1784612386393.jfif"
 import img11 from "@assets/10_image_1784612396798.jpeg"
+import img12 from "@assets/21_1784699753720.jpg"
+import img13 from "@assets/22_1784699765142.jfif"
+import img14 from "@assets/23_1784699775148.webp"
+import img15 from "@assets/24_1784699788478.jpg"
 
 const images = [
   { src: img1,  title: "Free Cooking Activity" },
@@ -24,6 +28,10 @@ const images = [
   { src: img9,  title: "School Activity" },
   { src: img10, title: "Creative Time" },
   { src: img11, title: "School Moments" },
+  { src: img12, title: "Mini Theatre" },
+  { src: img13, title: "Play Room" },
+  { src: img14, title: "Classroom" },
+  { src: img15, title: "Outdoor Activity" },
 ]
 
 export default function GalleryFull() {

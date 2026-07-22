@@ -6,6 +6,7 @@ import AboutPage from '@/pages/AboutPage';
 import TeachersPage from '@/pages/TeachersPage';
 import GalleryPage from '@/pages/GalleryPage';
 import ProgramsPage from '@/pages/ProgramsPage';
+import AdmissionsPage from '@/pages/AdmissionsPage';
 
 const queryClient = new QueryClient();
 
@@ -17,6 +18,7 @@ function Router() {
       <Route path="/programs" component={ProgramsPage} />
       <Route path="/teachers" component={TeachersPage} />
       <Route path="/gallery" component={GalleryPage} />
+      <Route path="/admissions" component={AdmissionsPage} />
       <Route component={NotFound} />
     </Switch>
   );
