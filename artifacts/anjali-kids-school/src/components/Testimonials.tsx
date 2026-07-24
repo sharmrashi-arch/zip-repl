@@ -1,3 +1,4 @@
+import { useRef } from "react"
 import { motion } from "framer-motion"
 import { Quote } from "lucide-react"
 
@@ -28,9 +29,14 @@ const testimonials = [
   }
 ]
 
+// Duplicate for seamless loop
+const looped = [...testimonials, ...testimonials]
+
 export default function Testimonials() {
+  const trackRef = useRef<HTMLDivElement>(null)
+
   return (
-    <section className="py-24 bg-primary/5 relative">
+    <section className="py-24 bg-primary/5 relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16 max-w-2xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
@@ -41,22 +47,26 @@ export default function Testimonials() {
             </p>
           </motion.div>
         </div>
+      </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-          {testimonials.map((test, i) => (
-            <motion.div
+      {/* Marquee track — no container restriction so it bleeds edge-to-edge */}
+      <div className="w-full overflow-hidden">
+        <motion.div
+          ref={trackRef}
+          className="flex gap-6 w-max"
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ duration: 18, ease: "linear", repeat: Infinity }}
+        >
+          {looped.map((test, i) => (
+            <div
               key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-              className="bg-white p-8 rounded-3xl border border-border shadow-sm flex flex-col h-full relative"
+              className="w-72 flex-shrink-0 bg-white p-8 rounded-3xl border border-border shadow-sm flex flex-col relative"
             >
-              <Quote className="text-primary/20 absolute top-6 right-6 w-12 h-12" />
-              <div className="flex text-amber-400 mb-6 relative z-10">
+              <Quote className="text-primary/20 absolute top-6 right-6 w-10 h-10" />
+              <div className="flex text-amber-400 mb-4 relative z-10">
                 {'★★★★★'.split('').map((star, idx) => <span key={idx}>{star}</span>)}
               </div>
-              <p className="text-foreground font-medium leading-relaxed mb-8 flex-grow relative z-10">
+              <p className="text-foreground font-medium leading-relaxed mb-6 flex-grow relative z-10 text-sm">
                 "{test.review}"
               </p>
               <div className="flex items-center gap-3 relative z-10 mt-auto">
@@ -68,9 +78,9 @@ export default function Testimonials() {
                   <p className="text-xs text-muted-foreground">Parent</p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )

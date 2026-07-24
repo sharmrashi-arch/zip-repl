@@ -78,24 +78,31 @@ export default function Hero() {
           </motion.div>
 
           {/* Stats row */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="flex flex-wrap gap-8"
-          >
+          <div className="flex flex-wrap gap-8">
             {[
               { value: "5★", label: "Google Rating" },
               { value: "2.5–4.5", label: "Years Age Group" },
               { value: "3+", label: "Expert Teachers" },
               { value: "April", label: "Session Starts" },
-            ].map((stat) => (
-              <div key={stat.label} className="flex flex-col">
-                <span className="text-2xl font-extrabold text-orange-400">{stat.value}</span>
+            ].map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, scale: 0.5, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 + i * 0.15, type: "spring", stiffness: 260, damping: 18 }}
+                className="flex flex-col"
+              >
+                <motion.span
+                  className="text-2xl font-extrabold text-orange-400"
+                  animate={{ scale: [1, 1.12, 1] }}
+                  transition={{ duration: 2, delay: 1.2 + i * 0.15, repeat: Infinity, repeatDelay: 3 }}
+                >
+                  {stat.value}
+                </motion.span>
                 <span className="text-xs font-semibold text-white/60 uppercase tracking-wide">{stat.label}</span>
-              </div>
+              </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
 
