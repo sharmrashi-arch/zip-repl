@@ -62,10 +62,10 @@ export default function Navigation() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav className="hidden md:flex items-center gap-0.5">
           {navLinks.map((link) => {
             const active = isActive(link.href)
-            const cls = `relative px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+            const cls = `relative px-2.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
               active ? "text-orange-600" : "text-gray-600 hover:text-orange-500"
             }`
             return link.page ? (
@@ -88,10 +88,10 @@ export default function Navigation() {
         </nav>
 
         {/* CTA */}
-        <div className="hidden lg:block">
+        <div className="hidden md:block">
           <a
-            href={isHome ? "#admissions" : "/#admissions"}
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-bold text-sm px-6 py-2.5 rounded-full shadow-md hover:shadow-orange-300 transition-all duration-300 hover:scale-105"
+            href="/admissions"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-bold text-xs px-4 py-2 rounded-full shadow-md hover:shadow-orange-300 transition-all duration-300 hover:scale-105"
           >
             Enroll Now
           </a>
@@ -99,7 +99,7 @@ export default function Navigation() {
 
         {/* Mobile Toggle */}
         <button
-          className="lg:hidden p-2 rounded-xl hover:bg-orange-50 text-gray-700 transition-colors"
+          className="md:hidden p-2 rounded-xl hover:bg-orange-50 text-gray-700 transition-colors"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -115,7 +115,7 @@ export default function Navigation() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="lg:hidden overflow-hidden bg-white border-t border-orange-100 shadow-xl"
+            className="md:hidden overflow-hidden bg-white border-t border-orange-100 shadow-xl"
           >
             <nav className="container mx-auto px-4 py-5 flex flex-col gap-1">
               {navLinks.map((link) => {
