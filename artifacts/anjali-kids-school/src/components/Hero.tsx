@@ -1,6 +1,18 @@
 import { motion } from "framer-motion"
 import heroImage from "@assets/generated_images/hero.jpg"
 
+const wordVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, delay: i * 0.1, ease: "easeOut" },
+  }),
+}
+
+const descWords = "Nurturing young minds with love, care, and world-class early childhood education in Pundri, Haryana. Giving every child the right start in life.".split(" ")
+const headingWords = ["Welcome", "to", "Anjali", "Kids", "Play", "School"]
+
 export default function Hero() {
   return (
     <section
@@ -34,48 +46,60 @@ export default function Hero() {
             Admissions Open for 2025–26
           </motion.div>
 
-          {/* Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-4xl sm:text-5xl xl:text-6xl font-extrabold leading-[1.1] tracking-tight text-white mb-6"
-          >
-            Welcome to{" "}
-            <span className="text-orange-400">Anjali Kids</span>{" "}
-            Play School
-          </motion.h1>
+          {/* Heading — word by word */}
+          <h1 className="text-4xl sm:text-5xl xl:text-6xl font-extrabold leading-[1.1] tracking-tight text-white mb-6 flex flex-wrap gap-x-3 gap-y-1 overflow-hidden">
+            {headingWords.map((word, i) => (
+              <motion.span
+                key={i}
+                custom={i}
+                variants={wordVariants}
+                initial="hidden"
+                animate="visible"
+                className={word === "Anjali" || word === "Kids" ? "text-orange-400" : ""}
+              >
+                {word}
+              </motion.span>
+            ))}
+          </h1>
 
-          {/* Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-lg text-white/80 font-medium leading-relaxed mb-10 max-w-xl"
-          >
-            Nurturing young minds with love, care, and world-class early childhood education in Pundri, Haryana. Giving every child the right start in life.
-          </motion.p>
+          {/* Description — word by word */}
+          <p className="text-lg text-white/80 font-medium leading-relaxed mb-10 max-w-xl flex flex-wrap gap-x-1.5">
+            {descWords.map((word, i) => (
+              <motion.span
+                key={i}
+                custom={i}
+                variants={wordVariants}
+                initial="hidden"
+                animate="visible"
+                style={{ transitionDelay: `${0.6 + i * 0.045}s` }}
+                transition={{ duration: 0.4, delay: 0.6 + i * 0.045, ease: "easeOut" }}
+              >
+                {word}
+              </motion.span>
+            ))}
+          </p>
 
           {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 mb-16"
-          >
-            <a
+          <div className="flex flex-col sm:flex-row gap-4 mb-16">
+            <motion.a
               href="#admissions"
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 1.6, type: "spring", stiffness: 220, damping: 16 }}
               className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold text-base px-8 py-4 rounded-lg shadow-lg transition-all duration-300 hover:-translate-y-0.5"
             >
               Enroll Your Child →
-            </a>
-            <a
+            </motion.a>
+            <motion.a
               href="#programs"
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 1.75, type: "spring", stiffness: 220, damping: 16 }}
               className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/40 text-white font-bold text-base px-8 py-4 rounded-lg transition-all duration-300 hover:-translate-y-0.5"
             >
               Explore Programs
-            </a>
-          </motion.div>
+            </motion.a>
+          </div>
 
           {/* Stats row */}
           <div className="flex flex-wrap gap-8">
