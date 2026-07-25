@@ -8,6 +8,7 @@ import Gallery from "@/components/Gallery"
 import Testimonials from "@/components/Testimonials"
 import Admissions from "@/components/Admissions"
 import Contact from "@/components/Contact"
+import MapSection from "@/components/MapSection"
 import Footer from "@/components/Footer"
 
 export default function Home() {
@@ -23,6 +24,7 @@ export default function Home() {
         <Gallery />
         <Testimonials />
         <Admissions />
+        <MapSection />
         <Contact />
       </main>
       <Footer />

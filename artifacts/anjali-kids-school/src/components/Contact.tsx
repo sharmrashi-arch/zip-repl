@@ -66,19 +66,26 @@ export default function Contact() {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="w-full h-[400px] bg-muted rounded-3xl overflow-hidden border border-border shadow-sm relative group"
+            className="w-full bg-muted rounded-3xl overflow-hidden border border-border shadow-sm flex flex-col"
           >
-            {/* Embedded map placeholder - using an iframe since it's a real place but I will use a stylized placeholder or simple map if iframe isn't strictly requested to work perfectly without API keys. Actually, a simple google maps iframe works if we just use the name and town */}
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d110196.4714151752!2d76.48002660270058!3d29.756184918454522!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390df1a3c6b24503%3A0xc3c54c30c33a25b3!2sPundri%2C%20Haryana%20136026!5e0!3m2!1sen!2sin!4v1709560000000!5m2!1sen!2sin" 
-              width="100%" 
-              height="100%" 
-              style={{ border: 0 }} 
-              allowFullScreen 
-              loading="lazy" 
+            <iframe
+              src="https://maps.google.com/maps?q=Anjali+Kids+Play+School,+Pundri,+Haryana+136026&output=embed"
+              width="100%"
+              height="360"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              className="grayscale-[0.2] contrast-[0.9] opacity-80 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500"
+              className="w-full"
             ></iframe>
+            <a
+              href="https://maps.app.goo.gl/7pGQJQk8Z6vxHa6L8"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm py-3 transition-colors duration-200"
+            >
+              <MapPin size={16} /> View on Google Maps
+            </a>
           </motion.div>
         </div>
       </div>
