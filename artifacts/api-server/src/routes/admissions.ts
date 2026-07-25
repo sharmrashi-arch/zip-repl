@@ -18,7 +18,7 @@ admissionsRouter.post("/admissions", async (req, res) => {
     return;
   }
 
-  const schoolEmail = "sharmaaaarashi@gamil.com";
+  const schoolEmail = "sharmaaaarashi@gmail.com";
 
   const htmlContent = `
     <h2 style="color:#f97316;">New Admission Application — Anjali Kids Play School</h2>
