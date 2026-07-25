@@ -3,7 +3,7 @@ import Navigation from "@/components/Navigation"
 import { motion } from "framer-motion"
 
 export default function AdmissionsPage() {
-  const [submitted, setSubmitted] = useState(false)
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
   const [form, setForm] = useState({
     childName: "",
     dob: "",
@@ -18,9 +18,23 @@ export default function AdmissionsPage() {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
+    setStatus("loading")
+    try {
+      const res = await fetch("/api/admissions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      })
+      if (res.ok) {
+        setStatus("success")
+      } else {
+        setStatus("error")
+      }
+    } catch {
+      setStatus("error")
+    }
   }
 
   return (
@@ -33,7 +47,7 @@ export default function AdmissionsPage() {
           transition={{ duration: 0.5 }}
           className="w-full max-w-lg bg-white rounded-3xl shadow-xl p-8 md:p-10"
         >
-          {submitted ? (
+          {status === "success" ? (
             <div className="text-center py-10">
               <div className="text-5xl mb-4">🎉</div>
               <h2 className="text-2xl font-extrabold text-gray-900 mb-2">Application Submitted!</h2>
@@ -45,6 +59,12 @@ export default function AdmissionsPage() {
                 <span className="text-xs font-bold text-orange-500 tracking-widest uppercase">Admissions</span>
                 <h1 className="text-3xl font-extrabold text-gray-900 mt-1">Apply Now</h1>
               </div>
+
+              {status === "error" && (
+                <div className="mb-4 px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm font-medium text-center">
+                  Kuch galat hua. Please dobara try karein ya school ko call karein.
+                </div>
+              )}
 
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div>
@@ -82,9 +102,9 @@ export default function AdmissionsPage() {
                     className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition bg-white"
                   >
                     <option value="">Select a program</option>
-                    <option value="playgroup">Playgroup (1.5 – 2.5 yrs)</option>
-                    <option value="nursery">Nursery (2.5 – 3.5 yrs)</option>
-                    <option value="lkg">LKG / Pre-KG (3.5 – 4.5 yrs)</option>
+                    <option value="Playgroup (1.5 – 2.5 yrs)">Playgroup (1.5 – 2.5 yrs)</option>
+                    <option value="Nursery (2.5 – 3.5 yrs)">Nursery (2.5 – 3.5 yrs)</option>
+                    <option value="LKG / Pre-KG (3.5 – 4.5 yrs)">LKG / Pre-KG (3.5 – 4.5 yrs)</option>
                   </select>
                 </div>
 
@@ -140,9 +160,10 @@ export default function AdmissionsPage() {
 
                 <button
                   type="submit"
-                  className="mt-2 w-full bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-bold text-base py-3 rounded-full shadow-md hover:shadow-orange-300 transition-all duration-300 hover:scale-105"
+                  disabled={status === "loading"}
+                  className="mt-2 w-full bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-bold text-base py-3 rounded-full shadow-md hover:shadow-orange-300 transition-all duration-300 hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
-                  Submit Application
+                  {status === "loading" ? "Submitting…" : "Submit Application"}
                 </button>
               </form>
             </>
