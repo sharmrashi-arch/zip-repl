@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { Resend } from "resend";
 import { logger } from "../lib/logger";
 
 const admissionsRouter = Router();
@@ -11,13 +12,14 @@ admissionsRouter.post("/admissions", async (req, res) => {
     return;
   }
 
-  const apiKey = process.env.BREVO_API_KEY;
+  const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
-    logger.error("BREVO_API_KEY not set");
+    logger.error("RESEND_API_KEY not set");
     res.status(500).json({ error: "Email service not configured" });
     return;
   }
 
+  const resend = new Resend(apiKey);
   const schoolEmail = "sharmaaaarashi@gmail.com";
 
   const htmlContent = `
@@ -35,24 +37,15 @@ admissionsRouter.post("/admissions", async (req, res) => {
   `;
 
   try {
-    const response = await fetch("https://api.brevo.com/v3/smtp/email", {
-      method: "POST",
-      headers: {
-        "accept": "application/json",
-        "api-key": apiKey,
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        sender: { name: "Anjali Kids Play School", email: schoolEmail },
-        to: [{ email: schoolEmail, name: "Anjali Kids Admin" }],
-        subject: `New Admission Application: ${childName}`,
-        htmlContent,
-      }),
+    const { error } = await resend.emails.send({
+      from: "Anjali Kids Play School <onboarding@resend.dev>",
+      to: [schoolEmail],
+      subject: `New Admission Application: ${childName}`,
+      html: htmlContent,
     });
 
-    if (!response.ok) {
-      const errBody = await response.text();
-      logger.error({ status: response.status, body: errBody }, "Brevo API error");
+    if (error) {
+      logger.error({ error }, "Resend API error");
       res.status(500).json({ error: "Failed to send email" });
       return;
     }
