@@ -1,5 +1,10 @@
-import { motion } from "framer-motion"
+import { useEffect, useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import heroImage from "@assets/generated_images/hero.jpg"
+import galleryImg1 from "@assets/1_image_1784612261212.jfif"
+import galleryImg2 from "@assets/7_image_1784612342920.jpg"
+
+const slides = [heroImage, galleryImg1, galleryImg2]
 
 const wordVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -14,17 +19,33 @@ const descWords = "Nurturing young minds with love, care, and world-class early 
 const headingWords = ["Welcome", "to", "Anjali", "Kids", "Play", "School"]
 
 export default function Hero() {
+  const [current, setCurrent] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % slides.length)
+    }, 4000)
+    return () => clearInterval(timer)
+  }, [])
+
   return (
     <section
       id="hero"
       className="relative w-full min-h-screen flex items-center overflow-hidden pt-16"
     >
-      {/* Full-bleed background image */}
-      <img
-        src={heroImage}
-        alt="Anjali Kids Play School"
-        className="absolute inset-0 w-full h-full object-cover object-center"
-      />
+      {/* Slideshow background */}
+      <AnimatePresence mode="sync">
+        <motion.img
+          key={current}
+          src={slides[current]}
+          alt="Anjali Kids Play School"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1 }}
+        />
+      </AnimatePresence>
 
       {/* Dark gradient overlay — strong on left, fades right */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/10" />
@@ -130,11 +151,16 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Slide dots (decorative, like ZedKing) */}
+      {/* Slide dots */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-        <span className="w-3 h-3 rounded-full bg-orange-500" />
-        <span className="w-8 h-3 rounded-full bg-white/40" />
-        <span className="w-3 h-3 rounded-full bg-white/40" />
+        {slides.map((_, i) => (
+          <span
+            key={i}
+            className={`h-3 rounded-full transition-all duration-500 ${
+              i === current ? "w-8 bg-orange-500" : "w-3 bg-white/40"
+            }`}
+          />
+        ))}
       </div>
     </section>
   )
