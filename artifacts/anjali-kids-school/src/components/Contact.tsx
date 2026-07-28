@@ -30,8 +30,8 @@ export default function Contact() {
                 <h4 className="text-xl font-bold text-foreground mb-2">Location</h4>
                 <p className="text-muted-foreground font-medium">
                   Anjali Kids Play School<br />
-                  Pundri, Haryana 136026<br />
-                  India
+                  Near Bus Stand, Pundri<br />
+                  Kaithal District, Haryana 136026
                 </p>
               </div>
             </div>
@@ -55,9 +55,21 @@ export default function Contact() {
               <div>
                 <h4 className="text-xl font-bold text-foreground mb-2">Hours</h4>
                 <p className="text-muted-foreground font-medium">
-                  Open all 7 days<br />
-                  6:30 AM – 11:00 PM
+                  Monday – Saturday<br />
+                  8:00 AM – 1:00 PM
                 </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-primary/20 text-primary rounded-full flex items-center justify-center shrink-0">
+                <Mail />
+              </div>
+              <div>
+                <h4 className="text-xl font-bold text-foreground mb-2">Email</h4>
+                <a href="mailto:sharmaaaarashi@gmail.com" className="text-muted-foreground font-medium hover:text-primary transition-colors">
+                  sharmaaaarashi@gmail.com
+                </a>
               </div>
             </div>
           </motion.div>
@@ -69,7 +81,7 @@ export default function Contact() {
             className="w-full bg-muted rounded-3xl overflow-hidden border border-border shadow-sm flex flex-col"
           >
             <iframe
-              src="https://maps.google.com/maps?q=Anjali+Kids+Play+School,+Pundri,+Haryana+136026&output=embed"
+              src="https://maps.google.com/maps?q=Anjali+Kids+Play+School+Pundri+Haryana+136026&t=m&z=17&output=embed"
               width="100%"
               height="360"
               style={{ border: 0 }}
@@ -79,7 +91,7 @@ export default function Contact() {
               className="w-full"
             ></iframe>
             <a
-              href="https://maps.app.goo.gl/7pGQJQk8Z6vxHa6L8"
+              href="https://share.google/VpWx8nmVRO1zjVBot"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm py-3 transition-colors duration-200"

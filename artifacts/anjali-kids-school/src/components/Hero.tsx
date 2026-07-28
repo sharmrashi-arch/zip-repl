@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import heroImage from "@assets/generated_images/hero.jpg"
-import galleryImg1 from "@assets/1_image_1784612261212.jfif"
-import galleryImg2 from "@assets/7_image_1784612342920.jpg"
+import galleryImg1 from "@assets/newwwwwwwwwwwwwwa_1785212976656.png"
+import galleryImg2 from "@assets/newwwwwwwwwwwwwwwb_1785212988225.png"
 
 const slides = [heroImage, galleryImg1, galleryImg2]
 

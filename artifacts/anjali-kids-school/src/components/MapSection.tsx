@@ -20,7 +20,7 @@ export default function MapSection() {
         <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-6 mb-8">
           {[
             { icon: MapPin, label: "Address", value: "Near Bus Stand, Pundri, Kaithal District, Haryana – 136026" },
-            { icon: Phone, label: "Contact", value: "+91 98765 43210" },
+            { icon: Phone, label: "Contact", value: "+91 97681 44444" },
             { icon: Clock, label: "School Hours", value: "Mon–Sat: 8:00 AM – 1:00 PM" },
           ].map(({ icon: Icon, label, value }) => (
             <motion.div
@@ -50,7 +50,7 @@ export default function MapSection() {
           className="max-w-5xl mx-auto rounded-3xl overflow-hidden shadow-xl border border-orange-100 flex flex-col"
         >
           <iframe
-            src="https://maps.google.com/maps?q=29.7628,76.5512&z=16&output=embed"
+            src="https://maps.google.com/maps?q=Anjali+Kids+Play+School+Pundri+Haryana+136026&t=m&z=17&output=embed"
             width="100%"
             height="420"
             style={{ border: 0 }}

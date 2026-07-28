@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight, GraduationCap, BookOpen, Heart, Star } from "lucide-react"
 import soniaImg from "@assets/generated_images/teacher-sonia.jpg"
@@ -59,6 +59,14 @@ const slideVariants = {
 export default function Teachers() {
   const [current, setCurrent] = useState(0)
   const [direction, setDirection] = useState(1)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setDirection(1)
+      setCurrent((prev) => (prev + 1) % teachers.length)
+    }, 10000)
+    return () => clearInterval(timer)
+  }, [])
 
   const go = (delta: number) => {
     setDirection(delta)
