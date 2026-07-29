@@ -81,7 +81,7 @@ export default function Contact() {
             className="w-full bg-muted rounded-3xl overflow-hidden border border-border shadow-sm flex flex-col"
           >
             <iframe
-              src="https://maps.google.com/maps?q=Anjali+Kids+Play+School+Pundri+Haryana+136026&t=m&z=17&output=embed"
+              src="https://maps.google.com/maps?q=Jashan+Complex+Pundri+Haryana+136026&t=m&z=18&output=embed"
               width="100%"
               height="360"
               style={{ border: 0 }}
