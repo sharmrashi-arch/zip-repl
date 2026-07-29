@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { motion } from "framer-motion"
 
 import img1 from "@assets/1_image_1784612261212.jfif"
@@ -34,43 +35,128 @@ const images = [
   { src: img15, title: "Outdoor Activity" },
 ]
 
-export default function GalleryFull() {
-  return (
-    <section className="py-20 bg-white min-h-screen">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-14 max-w-2xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h2 className="text-sm font-bold text-orange-500 tracking-widest uppercase mb-3">Our Moments</h2>
-            <h3 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-5">School Gallery</h3>
-            <p className="text-lg text-gray-500 font-medium">
-              A glimpse into the joyful world of Anjali Kids Play School, Pundri.
-            </p>
-          </motion.div>
-        </div>
+const row1 = images.slice(0, 8)
+const row2 = images.slice(7)
 
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
-          {images.map((img, i) => (
+type GalleryImage = { src: string; title: string }
+
+function MarqueeRow({
+  items,
+  direction,
+  onSelect,
+}: {
+  items: GalleryImage[]
+  direction: "left" | "right"
+  onSelect: (img: GalleryImage) => void
+}) {
+  const doubled = [...items, ...items]
+  const animClass = direction === "left" ? "marquee-left" : "marquee-right"
+
+  return (
+    <div className="overflow-hidden w-full">
+      <div className={`flex gap-4 w-max ${animClass}`}>
+        {doubled.map((img, i) => (
+          <div
+            key={i}
+            onClick={() => onSelect(img)}
+            className="relative flex-shrink-0 w-64 h-48 rounded-2xl overflow-hidden cursor-pointer group"
+          >
+            <img
+              src={img.src}
+              alt={img.title}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <span className="text-white font-bold text-sm translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                {img.title}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export default function GalleryFull() {
+  const [selected, setSelected] = useState<GalleryImage | null>(null)
+
+  return (
+    <>
+      <style>{`
+        @keyframes marquee-left {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes marquee-right {
+          0%   { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
+        }
+        .marquee-left  { animation: marquee-left  35s linear infinite; }
+        .marquee-right { animation: marquee-right 35s linear infinite; }
+        .marquee-left:hover,
+        .marquee-right:hover { animation-play-state: paused; }
+      `}</style>
+
+      <section className="py-20 bg-white min-h-screen">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center mb-14 max-w-2xl mx-auto">
             <motion.div
-              key={i}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.07, duration: 0.5 }}
-              className="relative overflow-hidden rounded-2xl group break-inside-avoid"
+              transition={{ duration: 0.6 }}
             >
-              <img
-                src={img.src}
-                alt={img.title}
-                className="w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
-                <span className="text-white font-bold text-base translate-y-3 group-hover:translate-y-0 transition-transform duration-300">
-                  {img.title}
-                </span>
-              </div>
+              <h2 className="text-sm font-bold text-orange-500 tracking-widest uppercase mb-3">Our Moments</h2>
+              <h3 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-5">School Gallery</h3>
+              <p className="text-lg text-gray-500 font-medium">
+                A glimpse into the joyful world of Anjali Kids Play School, Pundri.
+              </p>
             </motion.div>
-          ))}
+          </div>
         </div>
-      </div>
-    </section>
+
+        {/* Row 1 — scrolls left */}
+        <div className="mb-4 px-0">
+          <MarqueeRow items={row1} direction="left" onSelect={setSelected} />
+        </div>
+
+        {/* Row 2 — scrolls right */}
+        <div className="px-0">
+          <MarqueeRow items={row2} direction="right" onSelect={setSelected} />
+        </div>
+      </section>
+
+      {/* Lightbox */}
+      {selected && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+          onClick={() => setSelected(null)}
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.25 }}
+            className="relative max-w-4xl w-full flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={selected.src}
+              alt={selected.title}
+              className="max-h-[80vh] max-w-full object-contain rounded-2xl shadow-2xl"
+            />
+            <p className="mt-4 text-white font-semibold text-lg">{selected.title}</p>
+          </motion.div>
+
+          {/* Close button */}
+          <button
+            onClick={() => setSelected(null)}
+            className="absolute top-5 right-6 text-white text-4xl font-light hover:scale-110 transition-transform leading-none"
+            aria-label="Close"
+          >
+            ×
+          </button>
+        </div>
+      )}
+    </>
   )
 }
