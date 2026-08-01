@@ -1,4 +1,5 @@
-import "dotenv/config";
+import dotenv from "dotenv";
+dotenv.config({ path: new URL("../../.env.example", import.meta.url).pathname });
 import app from "./app";
 import { logger } from "./lib/logger";
 
