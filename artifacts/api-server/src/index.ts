@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import path from "path";
-dotenv.config({ path: path.resolve(process.cwd(), ".env.example"), override: true });
+dotenv.config({ path: path.resolve(process.cwd(), ".env"), override: true });
 import app from "./app";
 import { logger } from "./lib/logger";
 
