@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
-dotenv.config({ path: new URL("../../.env.example", import.meta.url).pathname });
+import path from "path";
+dotenv.config({ path: path.resolve(process.cwd(), ".env.example"), override: true });
 import app from "./app";
 import { logger } from "./lib/logger";
 
