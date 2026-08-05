@@ -48,6 +48,5 @@ Thumbs.db
 .cache/
 .local/
 
-# Environment secrets — never commit real keys
-.env
+# Environment secrets
 *.env.local
