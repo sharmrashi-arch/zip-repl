@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { MessageCircle, X, Send, Bot, User, Loader2 } from "lucide-react"
+import { MessageCircle, X, Send, Bot, User, Loader2, Mic, MicOff, Volume2, VolumeX } from "lucide-react"
 
 interface Message {
   role: "user" | "assistant"
@@ -14,19 +14,71 @@ const SUGGESTED = [
   "School timings kya hain?",
 ]
 
+// Browser SpeechRecognition types
+interface SpeechRecognitionEvent extends Event {
+  results: SpeechRecognitionResultList
+}
+interface SpeechRecognitionErrorEvent extends Event {
+  error: string
+}
+declare global {
+  interface Window {
+    SpeechRecognition: new () => SpeechRecognitionInstance
+    webkitSpeechRecognition: new () => SpeechRecognitionInstance
+  }
+}
+interface SpeechRecognitionInstance extends EventTarget {
+  lang: string
+  continuous: boolean
+  interimResults: boolean
+  start(): void
+  stop(): void
+  onresult: ((e: SpeechRecognitionEvent) => void) | null
+  onerror: ((e: SpeechRecognitionErrorEvent) => void) | null
+  onend: (() => void) | null
+}
+
+function getSpeechRecognition(): (new () => SpeechRecognitionInstance) | null {
+  if (typeof window === "undefined") return null
+  return window.SpeechRecognition ?? window.webkitSpeechRecognition ?? null
+}
+
+function speak(text: string) {
+  if (!window.speechSynthesis) return
+  window.speechSynthesis.cancel()
+  const utterance = new SpeechSynthesisUtterance(text)
+  // Pick a Hindi voice if available, else default
+  const voices = window.speechSynthesis.getVoices()
+  const hindiVoice = voices.find((v) => v.lang.startsWith("hi"))
+  if (hindiVoice) utterance.voice = hindiVoice
+  utterance.lang = "hi-IN"
+  utterance.rate = 0.95
+  utterance.pitch = 1
+  window.speechSynthesis.speak(utterance)
+}
+
 export default function Chatbot() {
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
       content:
-        "Namaste! 👋 Main Anjali Kids Play School ka assistant hoon. Aap school ke baare mein kuch bhi pooch sakte hain — programs, teachers, admissions, ya kuch aur!",
+        "Namaste! 👋 Main Anjali Kids Play School ka assistant hoon. Aap type karke ya mic button se bol kar kuch bhi pooch sakte hain!",
     },
   ])
   const [input, setInput] = useState("")
   const [loading, setLoading] = useState(false)
+  const [recording, setRecording] = useState(false)
+  const [voiceReply, setVoiceReply] = useState(true)
+  const [noSpeechSupport, setNoSpeechSupport] = useState(false)
+
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
+
+  useEffect(() => {
+    if (!getSpeechRecognition()) setNoSpeechSupport(true)
+  }, [])
 
   useEffect(() => {
     if (open) {
@@ -35,35 +87,83 @@ export default function Chatbot() {
     }
   }, [open, messages])
 
-  const send = async (text?: string) => {
-    const msg = (text ?? input).trim()
-    if (!msg || loading) return
-    setInput("")
+  // Stop speech when chat closes
+  useEffect(() => {
+    if (!open) window.speechSynthesis?.cancel()
+  }, [open])
 
-    const userMsg: Message = { role: "user", content: msg }
-    const history = [...messages, userMsg]
-    setMessages(history)
-    setLoading(true)
+  const send = useCallback(
+    async (text?: string) => {
+      const msg = (text ?? input).trim()
+      if (!msg || loading) return
+      setInput("")
 
-    try {
-      const res = await fetch(`${import.meta.env.BASE_URL}api/chat`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: msg,
-          history: messages.slice(-10).map((m) => ({ role: m.role, content: m.content })),
-        }),
-      })
-      const data = await res.json()
-      setMessages([...history, { role: "assistant", content: data.reply ?? "Sorry, kuch error hua." }])
-    } catch {
-      setMessages([
-        ...history,
-        { role: "assistant", content: "Network error. Please thodi der baad try karein." },
-      ])
-    } finally {
-      setLoading(false)
+      const userMsg: Message = { role: "user", content: msg }
+      const history = [...messages, userMsg]
+      setMessages(history)
+      setLoading(true)
+
+      try {
+        const res = await fetch(`${import.meta.env.BASE_URL}api/chat`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message: msg,
+            history: messages.slice(-10).map((m) => ({ role: m.role, content: m.content })),
+          }),
+        })
+        const data = await res.json()
+        const reply = data.reply ?? "Sorry, kuch error hua."
+        const newMessages: Message[] = [...history, { role: "assistant", content: reply }]
+        setMessages(newMessages)
+        if (voiceReply) speak(reply)
+      } catch {
+        const errMsg = "Network error. Please thodi der baad try karein."
+        setMessages([...history, { role: "assistant", content: errMsg }])
+        if (voiceReply) speak(errMsg)
+      } finally {
+        setLoading(false)
+      }
+    },
+    [input, loading, messages, voiceReply],
+  )
+
+  const startRecording = () => {
+    const SR = getSpeechRecognition()
+    if (!SR) return
+
+    window.speechSynthesis?.cancel()
+    const recognition = new SR()
+    recognition.lang = "hi-IN"
+    recognition.continuous = false
+    recognition.interimResults = false
+
+    recognition.onresult = (e: SpeechRecognitionEvent) => {
+      const transcript = e.results[0]?.[0]?.transcript ?? ""
+      if (transcript.trim()) {
+        setInput(transcript.trim())
+        setRecording(false)
+        // Auto-send after a short delay so input updates first
+        setTimeout(() => send(transcript.trim()), 100)
+      }
     }
+
+    recognition.onerror = () => setRecording(false)
+    recognition.onend = () => setRecording(false)
+
+    recognitionRef.current = recognition
+    recognition.start()
+    setRecording(true)
+  }
+
+  const stopRecording = () => {
+    recognitionRef.current?.stop()
+    setRecording(false)
+  }
+
+  const toggleRecording = () => {
+    if (recording) stopRecording()
+    else startRecording()
   }
 
   return (
@@ -107,12 +207,19 @@ export default function Chatbot() {
               </div>
               <div>
                 <p className="font-bold text-white text-sm leading-tight">Anjali Kids Assistant</p>
-                <p className="text-orange-100 text-xs">Hindi & English mein poochh sakte hain</p>
+                <p className="text-orange-100 text-xs">Hindi & English — Type ya Bol kar poochhen</p>
               </div>
-              <span className="ml-auto flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-green-300 animate-pulse" />
-                <span className="text-xs text-orange-100 font-medium">Online</span>
-              </span>
+              {/* Voice reply toggle */}
+              <button
+                onClick={() => {
+                  setVoiceReply((v) => !v)
+                  if (voiceReply) window.speechSynthesis?.cancel()
+                }}
+                title={voiceReply ? "Voice reply band karo" : "Voice reply chalu karo"}
+                className="ml-auto w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors"
+              >
+                {voiceReply ? <Volume2 size={16} className="text-white" /> : <VolumeX size={16} className="text-orange-200" />}
+              </button>
             </div>
 
             {/* Messages */}
@@ -169,21 +276,55 @@ export default function Chatbot() {
               </div>
             )}
 
+            {/* Recording indicator */}
+            <AnimatePresence>
+              {recording && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="bg-red-50 border-t border-red-100 px-4 py-2 flex items-center gap-2"
+                >
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
+                  <span className="text-xs text-red-600 font-medium">Sun raha hoon… bol dijiye</span>
+                  <span className="ml-auto text-xs text-red-400">Mic band karne ke liye dobara dabaiye</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* Input */}
             <div className="px-3 py-3 bg-white border-t border-orange-100 flex items-center gap-2">
+              {/* Mic button */}
+              {!noSpeechSupport && (
+                <button
+                  onClick={toggleRecording}
+                  disabled={loading}
+                  title={recording ? "Recording band karo" : "Bol kar poochhen"}
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all shrink-0 ${
+                    recording
+                      ? "bg-red-500 text-white shadow-md shadow-red-200 scale-105"
+                      : "bg-orange-50 border border-orange-200 text-orange-500 hover:bg-orange-100 disabled:opacity-40"
+                  }`}
+                >
+                  {recording ? <MicOff size={16} /> : <Mic size={16} />}
+                </button>
+              )}
+
               <input
                 ref={inputRef}
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && send()}
-                placeholder="Kuch bhi poochhen…"
-                className="flex-1 text-sm bg-orange-50 border border-orange-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-400 placeholder:text-gray-400 transition"
+                placeholder={recording ? "Sun raha hoon…" : "Kuch bhi poochhen ya Mic use karein…"}
+                disabled={recording}
+                className="flex-1 text-sm bg-orange-50 border border-orange-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-400 placeholder:text-gray-400 transition disabled:opacity-60"
               />
+
               <button
                 onClick={() => send()}
-                disabled={!input.trim() || loading}
-                className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white shadow disabled:opacity-40 disabled:cursor-not-allowed hover:shadow-orange-300 transition-all hover:scale-105 active:scale-95"
+                disabled={!input.trim() || loading || recording}
+                className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white shadow disabled:opacity-40 disabled:cursor-not-allowed hover:shadow-orange-300 transition-all hover:scale-105 active:scale-95 shrink-0"
               >
                 {loading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
               </button>
