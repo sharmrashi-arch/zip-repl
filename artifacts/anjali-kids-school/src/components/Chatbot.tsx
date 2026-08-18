@@ -43,18 +43,48 @@ function getSpeechRecognition(): (new () => SpeechRecognitionInstance) | null {
   return window.SpeechRecognition ?? window.webkitSpeechRecognition ?? null
 }
 
-function speak(text: string) {
+function isHindi(text: string): boolean {
+  const hindiChars = text.match(/[\u0900-\u097F]/g)
+  return hindiChars !== null && hindiChars.length > text.length * 0.3
+}
+
+function speak(text: string, onWordBoundary?: (charIndex: number, charLength: number) => void, onEnd?: () => void) {
   if (!window.speechSynthesis) return
   window.speechSynthesis.cancel()
   const utterance = new SpeechSynthesisUtterance(text)
-  // Pick a Hindi voice if available, else default
   const voices = window.speechSynthesis.getVoices()
-  const hindiVoice = voices.find((v) => v.lang.startsWith("hi"))
-  if (hindiVoice) utterance.voice = hindiVoice
-  utterance.lang = "hi-IN"
+  const hindi = isHindi(text)
+  if (hindi) {
+    const hindiVoice = voices.find((v) => v.lang.startsWith("hi"))
+    if (hindiVoice) utterance.voice = hindiVoice
+    utterance.lang = "hi-IN"
+  } else {
+    const englishVoice = voices.find((v) => v.lang.startsWith("en"))
+    if (englishVoice) utterance.voice = englishVoice
+    utterance.lang = "en-US"
+  }
   utterance.rate = 0.95
   utterance.pitch = 1
+  if (onWordBoundary) {
+    utterance.onboundary = (e: SpeechSynthesisEvent) => {
+      if (e.name === "word") onWordBoundary(e.charIndex, e.charLength)
+    }
+  }
+  if (onEnd) utterance.onend = onEnd
   window.speechSynthesis.speak(utterance)
+}
+
+function renderHighlightedText(text: string, charIndex: number, charLength: number) {
+  const before = text.slice(0, charIndex)
+  const highlight = text.slice(charIndex, charIndex + charLength)
+  const after = text.slice(charIndex + charLength)
+  return (
+    <>
+      {before}
+      <span className="bg-orange-400 text-white px-0.5 rounded font-semibold transition-all duration-100">{highlight}</span>
+      {after}
+    </>
+  )
 }
 
 export default function Chatbot() {
@@ -71,6 +101,9 @@ export default function Chatbot() {
   const [recording, setRecording] = useState(false)
   const [voiceReply, setVoiceReply] = useState(true)
   const [noSpeechSupport, setNoSpeechSupport] = useState(false)
+  const [speakingIndex, setSpeakingIndex] = useState(-1)
+  const [highlightCharIndex, setHighlightCharIndex] = useState(0)
+  const [highlightCharLength, setHighlightCharLength] = useState(0)
 
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -89,7 +122,12 @@ export default function Chatbot() {
 
   // Stop speech when chat closes
   useEffect(() => {
-    if (!open) window.speechSynthesis?.cancel()
+    if (!open) {
+      window.speechSynthesis?.cancel()
+      setSpeakingIndex(-1)
+      setHighlightCharIndex(0)
+      setHighlightCharLength(0)
+    }
   }, [open])
 
   const send = useCallback(
@@ -97,6 +135,10 @@ export default function Chatbot() {
       const msg = (text ?? input).trim()
       if (!msg || loading) return
       setInput("")
+      setSpeakingIndex(-1)
+      setHighlightCharIndex(0)
+      setHighlightCharLength(0)
+      window.speechSynthesis?.cancel()
 
       const userMsg: Message = { role: "user", content: msg }
       const history = [...messages, userMsg]
@@ -116,11 +158,46 @@ export default function Chatbot() {
         const reply = data.reply ?? "Sorry, kuch error hua."
         const newMessages: Message[] = [...history, { role: "assistant", content: reply }]
         setMessages(newMessages)
-        if (voiceReply) speak(reply)
+        if (voiceReply) {
+          const msgIdx = newMessages.length - 1
+          setSpeakingIndex(msgIdx)
+          setHighlightCharIndex(0)
+          setHighlightCharLength(0)
+          speak(
+            reply,
+            (charIndex, charLength) => {
+              setHighlightCharIndex(charIndex)
+              setHighlightCharLength(charLength)
+            },
+            () => {
+              setSpeakingIndex(-1)
+              setHighlightCharIndex(0)
+              setHighlightCharLength(0)
+            },
+          )
+        }
       } catch {
         const errMsg = "Network error. Please thodi der baad try karein."
-        setMessages([...history, { role: "assistant", content: errMsg }])
-        if (voiceReply) speak(errMsg)
+        const newErrMessages = [...history, { role: "assistant", content: errMsg }]
+        setMessages(newErrMessages)
+        if (voiceReply) {
+          const msgIdx = newErrMessages.length - 1
+          setSpeakingIndex(msgIdx)
+          setHighlightCharIndex(0)
+          setHighlightCharLength(0)
+          speak(
+            errMsg,
+            (charIndex, charLength) => {
+              setHighlightCharIndex(charIndex)
+              setHighlightCharLength(charLength)
+            },
+            () => {
+              setSpeakingIndex(-1)
+              setHighlightCharIndex(0)
+              setHighlightCharLength(0)
+            },
+          )
+        }
       } finally {
         setLoading(false)
       }
@@ -213,7 +290,12 @@ export default function Chatbot() {
               <button
                 onClick={() => {
                   setVoiceReply((v) => !v)
-                  if (voiceReply) window.speechSynthesis?.cancel()
+                  if (voiceReply) {
+                    window.speechSynthesis?.cancel()
+                    setSpeakingIndex(-1)
+                    setHighlightCharIndex(0)
+                    setHighlightCharLength(0)
+                  }
                 }}
                 title={voiceReply ? "Voice reply band karo" : "Voice reply chalu karo"}
                 className="ml-auto w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors"
@@ -240,7 +322,9 @@ export default function Chatbot() {
                         : "bg-white text-gray-700 shadow-sm border border-orange-100 rounded-bl-sm"
                     }`}
                   >
-                    {m.content}
+                    {i === speakingIndex && highlightCharLength > 0
+                      ? renderHighlightedText(m.content, highlightCharIndex, highlightCharLength)
+                      : m.content}
                   </div>
                 </div>
               ))}
