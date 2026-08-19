@@ -95,8 +95,8 @@ function speak(text: string, onWordBoundary?: (charIndex: number, charLength: nu
   const matchedVoice = voices.find((v) => langCodes.some((code) => v.lang.startsWith(code)))
   if (matchedVoice) utterance.voice = matchedVoice
   utterance.lang = langCodes[0]
-  utterance.rate = 0.95
-  utterance.pitch = 1
+  utterance.rate = 0.88
+  utterance.pitch = lang === "hi" ? 1.1 : 1
   if (onWordBoundary) {
     utterance.onboundary = (e: SpeechSynthesisEvent) => {
       if (e.name === "word") onWordBoundary(e.charIndex, e.charLength)
@@ -106,15 +106,14 @@ function speak(text: string, onWordBoundary?: (charIndex: number, charLength: nu
   window.speechSynthesis.speak(utterance)
 }
 
-function renderHighlightedText(text: string, charIndex: number, charLength: number) {
-  const before = text.slice(0, charIndex)
-  const highlight = text.slice(charIndex, charIndex + charLength)
-  const after = text.slice(charIndex + charLength)
+function renderHighlightedText(text: string, spokenCharEnd: number) {
+  if (spokenCharEnd <= 0) return <>{text}</>
+  const spoken = text.slice(0, spokenCharEnd)
+  const remaining = text.slice(spokenCharEnd)
   return (
     <>
-      {before}
-      <span className="bg-orange-400 text-white px-0.5 rounded font-semibold transition-all duration-100">{highlight}</span>
-      {after}
+      <span className="text-orange-500 font-bold transition-all duration-150">{spoken}</span>
+      {remaining && <span className="text-gray-400 transition-all duration-150">{remaining}</span>}
     </>
   )
 }
@@ -134,8 +133,7 @@ export default function Chatbot() {
   const [voiceReply, setVoiceReply] = useState(true)
   const [noSpeechSupport, setNoSpeechSupport] = useState(false)
   const [speakingIndex, setSpeakingIndex] = useState(-1)
-  const [highlightCharIndex, setHighlightCharIndex] = useState(0)
-  const [highlightCharLength, setHighlightCharLength] = useState(0)
+  const [spokenCharEnd, setSpokenCharEnd] = useState(0)
 
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -157,8 +155,7 @@ export default function Chatbot() {
     if (!open) {
       window.speechSynthesis?.cancel()
       setSpeakingIndex(-1)
-      setHighlightCharIndex(0)
-      setHighlightCharLength(0)
+      setSpokenCharEnd(0)
     }
   }, [open])
 
@@ -168,8 +165,7 @@ export default function Chatbot() {
       if (!msg || loading) return
       setInput("")
       setSpeakingIndex(-1)
-      setHighlightCharIndex(0)
-      setHighlightCharLength(0)
+      setSpokenCharEnd(0)
       window.speechSynthesis?.cancel()
 
       const userMsg: Message = { role: "user", content: msg }
@@ -193,18 +189,15 @@ export default function Chatbot() {
         if (voiceReply) {
           const msgIdx = newMessages.length - 1
           setSpeakingIndex(msgIdx)
-          setHighlightCharIndex(0)
-          setHighlightCharLength(0)
+          setSpokenCharEnd(0)
           speak(
             reply,
             (charIndex, charLength) => {
-              setHighlightCharIndex(charIndex)
-              setHighlightCharLength(charLength)
+              setSpokenCharEnd(charIndex + charLength)
             },
             () => {
               setSpeakingIndex(-1)
-              setHighlightCharIndex(0)
-              setHighlightCharLength(0)
+              setSpokenCharEnd(0)
             },
           )
         }
@@ -215,18 +208,15 @@ export default function Chatbot() {
         if (voiceReply) {
           const msgIdx = newErrMessages.length - 1
           setSpeakingIndex(msgIdx)
-          setHighlightCharIndex(0)
-          setHighlightCharLength(0)
+          setSpokenCharEnd(0)
           speak(
             errMsg,
             (charIndex, charLength) => {
-              setHighlightCharIndex(charIndex)
-              setHighlightCharLength(charLength)
+              setSpokenCharEnd(charIndex + charLength)
             },
             () => {
               setSpeakingIndex(-1)
-              setHighlightCharIndex(0)
-              setHighlightCharLength(0)
+              setSpokenCharEnd(0)
             },
           )
         }
@@ -325,8 +315,7 @@ export default function Chatbot() {
                   if (voiceReply) {
                     window.speechSynthesis?.cancel()
                     setSpeakingIndex(-1)
-                    setHighlightCharIndex(0)
-                    setHighlightCharLength(0)
+                    setSpokenCharEnd(0)
                   }
                 }}
                 title={voiceReply ? "Voice reply band karo" : "Voice reply chalu karo"}
@@ -354,8 +343,8 @@ export default function Chatbot() {
                         : "bg-white text-gray-700 shadow-sm border border-orange-100 rounded-bl-sm"
                     }`}
                   >
-                    {i === speakingIndex && highlightCharLength > 0
-                      ? renderHighlightedText(m.content, highlightCharIndex, highlightCharLength)
+                    {i === speakingIndex && spokenCharEnd > 0
+                      ? renderHighlightedText(m.content, spokenCharEnd)
                       : m.content}
                   </div>
                 </div>
