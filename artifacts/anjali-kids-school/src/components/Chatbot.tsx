@@ -45,7 +45,31 @@ function getSpeechRecognition(): (new () => SpeechRecognitionInstance) | null {
 
 function isHindi(text: string): boolean {
   const hindiChars = text.match(/[\u0900-\u097F]/g)
-  return hindiChars !== null && hindiChars.length > text.length * 0.3
+  if (hindiChars && hindiChars.length > 0) return true
+  const hinglish = text.toLowerCase()
+  const hinglishWords = ["kya", "hai", "hain", "kaise", "kaun", "kab", "kahan", "mujhe", "hamein", "aap", "tum", "ye", "wo", "mera", "tera", "uska", "iska", "bhi", "se", "ko", "ka", "ki", "ke", "mein", "par", "nahi", "haan", "ji", "sir", "madam", "bolo", "batao", "bataiye", "chahiye", "ho", "hoon", "hooga", "karo", "kijiye", "bhi", "bahut", "thoda", "abhi", "kal", "aaj", "school", "bachche", "baccha", "teacher"]
+  const words = hinglish.split(/\s+/)
+  const matchCount = words.filter((w) => hinglishWords.includes(w)).length
+  return matchCount >= 2 || matchCount / words.length > 0.2
+}
+
+function detectLang(text: string): string {
+  if (/[\u0900-\u097F]/.test(text)) return "hi"
+  const lower = text.toLowerCase()
+  const hinglishWords = ["kya", "hai", "hain", "kaise", "kaun", "kab", "kahan", "mujhe", "aap", "tum", "ye", "wo", "bolo", "batao", "bataiye", "school", "teacher", "admission", "timing", "program", "baccha", "bachche", "bhi", "nahi", "haan", "ji"]
+  const words = lower.split(/\s+/)
+  const matchCount = words.filter((w) => hinglishWords.includes(w)).length
+  if (matchCount >= 2 || (words.length > 0 && matchCount / words.length > 0.2)) return "hi"
+  if (/[\u0600-\u06FF]/.test(text)) return "ar"
+  if (/[\u0E00-\u0E7F]/.test(text)) return "th"
+  if (/[\u3040-\u309F\u30A0-\u30FF]/.test(text)) return "ja"
+  if (/[\uAC00-\uD7AF]/.test(text)) return "ko"
+  if (/[\u4E00-\u9FFF]/.test(text)) return "zh"
+  if (/[\u0980-\u09FF]/.test(text)) return "bn"
+  if (/[\u0B80-\u0BFF]/.test(text)) return "ta"
+  if (/[\u0C00-\u0C7F]/.test(text)) return "te"
+  if (/[\u0A00-\u0A7F]/.test(text)) return "pa"
+  return "en"
 }
 
 function speak(text: string, onWordBoundary?: (charIndex: number, charLength: number) => void, onEnd?: () => void) {
@@ -53,16 +77,24 @@ function speak(text: string, onWordBoundary?: (charIndex: number, charLength: nu
   window.speechSynthesis.cancel()
   const utterance = new SpeechSynthesisUtterance(text)
   const voices = window.speechSynthesis.getVoices()
-  const hindi = isHindi(text)
-  if (hindi) {
-    const hindiVoice = voices.find((v) => v.lang.startsWith("hi"))
-    if (hindiVoice) utterance.voice = hindiVoice
-    utterance.lang = "hi-IN"
-  } else {
-    const englishVoice = voices.find((v) => v.lang.startsWith("en"))
-    if (englishVoice) utterance.voice = englishVoice
-    utterance.lang = "en-US"
+  const lang = detectLang(text)
+  const langMap: Record<string, string[]> = {
+    hi: ["hi-IN", "hi"],
+    en: ["en-US", "en-GB", "en"],
+    ar: ["ar-SA", "ar"],
+    th: ["th-TH", "th"],
+    ja: ["ja-JP", "ja"],
+    ko: ["ko-KR", "ko"],
+    zh: ["zh-CN", "zh-TW", "zh"],
+    bn: ["bn-IN", "bn"],
+    ta: ["ta-IN", "ta"],
+    te: ["te-IN", "te"],
+    pa: ["pa-IN", "pa"],
   }
+  const langCodes = langMap[lang] ?? ["en-US", "en"]
+  const matchedVoice = voices.find((v) => langCodes.some((code) => v.lang.startsWith(code)))
+  if (matchedVoice) utterance.voice = matchedVoice
+  utterance.lang = langCodes[0]
   utterance.rate = 0.95
   utterance.pitch = 1
   if (onWordBoundary) {
@@ -212,8 +244,8 @@ export default function Chatbot() {
     window.speechSynthesis?.cancel()
     const recognition = new SR()
     recognition.lang = "hi-IN"
-    recognition.continuous = false
-    recognition.interimResults = false
+    recognition.continuous = true
+    recognition.interimResults = true
 
     recognition.onresult = (e: SpeechRecognitionEvent) => {
       const transcript = e.results[0]?.[0]?.transcript ?? ""
@@ -284,7 +316,7 @@ export default function Chatbot() {
               </div>
               <div>
                 <p className="font-bold text-white text-sm leading-tight">Anjali Kids Assistant</p>
-                <p className="text-orange-100 text-xs">Hindi & English — Type ya Bol kar poochhen</p>
+                <p className="text-orange-100 text-xs">Kisi bhi bhasha mein type ya Mic se poochhen</p>
               </div>
               {/* Voice reply toggle */}
               <button
@@ -383,14 +415,14 @@ export default function Chatbot() {
                 <button
                   onClick={toggleRecording}
                   disabled={loading}
-                  title={recording ? "Recording band karo" : "Bol kar poochhen"}
-                  className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all shrink-0 ${
+                  title={recording ? "Recording band karo" : "Bol kar poochhen — WhatsApp jaisa voice message"}
+                  className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all shrink-0 ${
                     recording
-                      ? "bg-red-500 text-white shadow-md shadow-red-200 scale-105"
-                      : "bg-orange-50 border border-orange-200 text-orange-500 hover:bg-orange-100 disabled:opacity-40"
+                      ? "bg-red-500 text-white shadow-md shadow-red-200 scale-105 animate-pulse"
+                      : "bg-orange-500 text-white border border-orange-600 hover:bg-orange-600 shadow shadow-orange-200 disabled:opacity-40"
                   }`}
                 >
-                  {recording ? <MicOff size={16} /> : <Mic size={16} />}
+                  {recording ? <MicOff size={18} /> : <Mic size={18} />}
                 </button>
               )}
 
