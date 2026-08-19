@@ -14,7 +14,6 @@ const SUGGESTED = [
   "School timings kya hain?",
 ]
 
-// Browser SpeechRecognition types
 interface SpeechRecognitionEvent extends Event {
   results: SpeechRecognitionResultList
 }
@@ -43,16 +42,6 @@ function getSpeechRecognition(): (new () => SpeechRecognitionInstance) | null {
   return window.SpeechRecognition ?? window.webkitSpeechRecognition ?? null
 }
 
-function isHindi(text: string): boolean {
-  const hindiChars = text.match(/[\u0900-\u097F]/g)
-  if (hindiChars && hindiChars.length > 0) return true
-  const hinglish = text.toLowerCase()
-  const hinglishWords = ["kya", "hai", "hain", "kaise", "kaun", "kab", "kahan", "mujhe", "hamein", "aap", "tum", "ye", "wo", "mera", "tera", "uska", "iska", "bhi", "se", "ko", "ka", "ki", "ke", "mein", "par", "nahi", "haan", "ji", "sir", "madam", "bolo", "batao", "bataiye", "chahiye", "ho", "hoon", "hooga", "karo", "kijiye", "bhi", "bahut", "thoda", "abhi", "kal", "aaj", "school", "bachche", "baccha", "teacher"]
-  const words = hinglish.split(/\s+/)
-  const matchCount = words.filter((w) => hinglishWords.includes(w)).length
-  return matchCount >= 2 || matchCount / words.length > 0.2
-}
-
 function detectLang(text: string): string {
   if (/[\u0900-\u097F]/.test(text)) return "hi"
   const lower = text.toLowerCase()
@@ -72,7 +61,7 @@ function detectLang(text: string): string {
   return "en"
 }
 
-function speak(text: string, onWordBoundary?: (charIndex: number, charLength: number) => void, onEnd?: () => void) {
+function speak(text: string, onEnd?: () => void) {
   if (!window.speechSynthesis) return
   window.speechSynthesis.cancel()
   const utterance = new SpeechSynthesisUtterance(text)
@@ -97,23 +86,41 @@ function speak(text: string, onWordBoundary?: (charIndex: number, charLength: nu
   utterance.lang = langCodes[0]
   utterance.rate = 0.88
   utterance.pitch = lang === "hi" ? 1.1 : 1
-  if (onWordBoundary) {
-    utterance.onboundary = (e: SpeechSynthesisEvent) => {
-      if (e.name === "word") onWordBoundary(e.charIndex, e.charLength)
-    }
-  }
   if (onEnd) utterance.onend = onEnd
   window.speechSynthesis.speak(utterance)
 }
 
-function renderHighlightedText(text: string, spokenCharEnd: number) {
-  if (spokenCharEnd <= 0) return <>{text}</>
-  const spoken = text.slice(0, spokenCharEnd)
-  const remaining = text.slice(spokenCharEnd)
+function getWordCount(text: string): number {
+  return text.split(/\s+/).filter(Boolean).length
+}
+
+function renderWordHighlight(text: string, highlightWordIndex: number) {
+  const words = text.split(/(\s+)/)
+  let wordIdx = 0
   return (
     <>
-      <span className="text-orange-500 font-bold transition-all duration-150">{spoken}</span>
-      {remaining && <span className="text-gray-400 transition-all duration-150">{remaining}</span>}
+      {words.map((segment, i) => {
+        if (/^\s+$/.test(segment)) {
+          return <span key={i}>{segment}</span>
+        }
+        const isHighlighted = wordIdx <= highlightWordIndex
+        const isCurrent = wordIdx === highlightWordIndex
+        wordIdx++
+        return (
+          <span
+            key={i}
+            className={
+              isHighlighted
+                ? isCurrent
+                  ? "text-orange-500 font-bold bg-orange-100 px-0.5 rounded transition-all duration-100"
+                  : "text-orange-500 font-semibold transition-all duration-100"
+                : "text-gray-500 transition-all duration-100"
+            }
+          >
+            {segment}
+          </span>
+        )
+      })}
     </>
   )
 }
@@ -133,11 +140,12 @@ export default function Chatbot() {
   const [voiceReply, setVoiceReply] = useState(true)
   const [noSpeechSupport, setNoSpeechSupport] = useState(false)
   const [speakingIndex, setSpeakingIndex] = useState(-1)
-  const [spokenCharEnd, setSpokenCharEnd] = useState(0)
+  const [highlightWord, setHighlightWord] = useState(-1)
 
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
+  const highlightTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   useEffect(() => {
     if (!getSpeechRecognition()) setNoSpeechSupport(true)
@@ -150,22 +158,56 @@ export default function Chatbot() {
     }
   }, [open, messages])
 
-  // Stop speech when chat closes
+  const clearHighlightTimer = useCallback(() => {
+    if (highlightTimerRef.current) {
+      clearInterval(highlightTimerRef.current)
+      highlightTimerRef.current = null
+    }
+  }, [])
+
   useEffect(() => {
     if (!open) {
       window.speechSynthesis?.cancel()
+      clearHighlightTimer()
       setSpeakingIndex(-1)
-      setSpokenCharEnd(0)
+      setHighlightWord(-1)
     }
-  }, [open])
+    return () => clearHighlightTimer()
+  }, [open, clearHighlightTimer])
+
+  const startHighlightTimer = useCallback(
+    (text: string, msgIdx: number, onDone: () => void) => {
+      clearHighlightTimer()
+      const words = text.split(/\s+/).filter(Boolean)
+      const totalWords = words.length
+      if (totalWords === 0) { onDone(); return }
+      let currentWord = 0
+      const msPerWord = 220
+      setHighlightWord(0)
+      highlightTimerRef.current = setInterval(() => {
+        currentWord++
+        if (currentWord >= totalWords) {
+          setHighlightWord(totalWords - 1)
+          setTimeout(() => {
+            clearHighlightTimer()
+            onDone()
+          }, 600)
+        } else {
+          setHighlightWord(currentWord)
+        }
+      }, msPerWord)
+    },
+    [clearHighlightTimer],
+  )
 
   const send = useCallback(
     async (text?: string) => {
       const msg = (text ?? input).trim()
       if (!msg || loading) return
       setInput("")
+      clearHighlightTimer()
       setSpeakingIndex(-1)
-      setSpokenCharEnd(0)
+      setHighlightWord(-1)
       window.speechSynthesis?.cancel()
 
       const userMsg: Message = { role: "user", content: msg }
@@ -189,17 +231,15 @@ export default function Chatbot() {
         if (voiceReply) {
           const msgIdx = newMessages.length - 1
           setSpeakingIndex(msgIdx)
-          setSpokenCharEnd(0)
-          speak(
-            reply,
-            (charIndex, charLength) => {
-              setSpokenCharEnd(charIndex + charLength)
-            },
-            () => {
-              setSpeakingIndex(-1)
-              setSpokenCharEnd(0)
-            },
-          )
+          startHighlightTimer(reply, msgIdx, () => {
+            setSpeakingIndex(-1)
+            setHighlightWord(-1)
+          })
+          speak(reply, () => {
+            clearHighlightTimer()
+            setSpeakingIndex(-1)
+            setHighlightWord(-1)
+          })
         }
       } catch {
         const errMsg = "Network error. Please thodi der baad try karein."
@@ -208,23 +248,21 @@ export default function Chatbot() {
         if (voiceReply) {
           const msgIdx = newErrMessages.length - 1
           setSpeakingIndex(msgIdx)
-          setSpokenCharEnd(0)
-          speak(
-            errMsg,
-            (charIndex, charLength) => {
-              setSpokenCharEnd(charIndex + charLength)
-            },
-            () => {
-              setSpeakingIndex(-1)
-              setSpokenCharEnd(0)
-            },
-          )
+          startHighlightTimer(errMsg, msgIdx, () => {
+            setSpeakingIndex(-1)
+            setHighlightWord(-1)
+          })
+          speak(errMsg, () => {
+            clearHighlightTimer()
+            setSpeakingIndex(-1)
+            setHighlightWord(-1)
+          })
         }
       } finally {
         setLoading(false)
       }
     },
-    [input, loading, messages, voiceReply],
+    [input, loading, messages, voiceReply, clearHighlightTimer, startHighlightTimer],
   )
 
   const startRecording = () => {
@@ -242,7 +280,6 @@ export default function Chatbot() {
       if (transcript.trim()) {
         setInput(transcript.trim())
         setRecording(false)
-        // Auto-send after a short delay so input updates first
         setTimeout(() => send(transcript.trim()), 100)
       }
     }
@@ -267,7 +304,6 @@ export default function Chatbot() {
 
   return (
     <>
-      {/* Floating button */}
       <motion.button
         onClick={() => setOpen((o) => !o)}
         whileHover={{ scale: 1.08 }}
@@ -288,7 +324,6 @@ export default function Chatbot() {
         </AnimatePresence>
       </motion.button>
 
-      {/* Chat window */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -308,14 +343,14 @@ export default function Chatbot() {
                 <p className="font-bold text-white text-sm leading-tight">Anjali Kids Assistant</p>
                 <p className="text-orange-100 text-xs">Kisi bhi bhasha mein type ya Mic se poochhen</p>
               </div>
-              {/* Voice reply toggle */}
               <button
                 onClick={() => {
                   setVoiceReply((v) => !v)
                   if (voiceReply) {
                     window.speechSynthesis?.cancel()
+                    clearHighlightTimer()
                     setSpeakingIndex(-1)
-                    setSpokenCharEnd(0)
+                    setHighlightWord(-1)
                   }
                 }}
                 title={voiceReply ? "Voice reply band karo" : "Voice reply chalu karo"}
@@ -343,8 +378,8 @@ export default function Chatbot() {
                         : "bg-white text-gray-700 shadow-sm border border-orange-100 rounded-bl-sm"
                     }`}
                   >
-                    {i === speakingIndex && spokenCharEnd > 0
-                      ? renderHighlightedText(m.content, spokenCharEnd)
+                    {i === speakingIndex && highlightWord >= 0
+                      ? renderWordHighlight(m.content, highlightWord)
                       : m.content}
                   </div>
                 </div>
@@ -366,7 +401,6 @@ export default function Chatbot() {
               <div ref={bottomRef} />
             </div>
 
-            {/* Suggested questions (only at start) */}
             {messages.length === 1 && (
               <div className="px-4 pb-2 pt-1 flex flex-wrap gap-2 bg-white border-t border-orange-50">
                 {SUGGESTED.map((q) => (
@@ -381,7 +415,6 @@ export default function Chatbot() {
               </div>
             )}
 
-            {/* Recording indicator */}
             <AnimatePresence>
               {recording && (
                 <motion.div
@@ -397,9 +430,7 @@ export default function Chatbot() {
               )}
             </AnimatePresence>
 
-            {/* Input */}
             <div className="px-3 py-3 bg-white border-t border-orange-100 flex items-center gap-2">
-              {/* Mic button */}
               {!noSpeechSupport && (
                 <button
                   onClick={toggleRecording}
