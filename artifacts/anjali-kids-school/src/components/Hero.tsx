@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence, type Variants } from "framer-motion"
 import heroImage from "@assets/generated_images/hero.jpg"
 import galleryImg1 from "@assets/newwwwwwwwwwwwwwa_1785212976656.png"
 import galleryImg2 from "@assets/newwwwwwwwwwwwwwwb_1785212988225.png"
 
 const slides = [heroImage, galleryImg1, galleryImg2]
 
-const wordVariants = {
+const wordVariants: Variants = {
   hidden: { opacity: 0, y: 40 },
   visible: (i: number) => ({
     opacity: 1,
