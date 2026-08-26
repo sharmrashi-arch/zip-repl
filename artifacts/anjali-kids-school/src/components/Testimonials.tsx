@@ -36,7 +36,7 @@ export default function Testimonials() {
   const trackRef = useRef<HTMLDivElement>(null)
 
   return (
-    <section className="py-24 bg-primary/5 relative overflow-hidden">
+    <section id="testimonials" className="py-24 bg-primary/5 relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16 max-w-2xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>

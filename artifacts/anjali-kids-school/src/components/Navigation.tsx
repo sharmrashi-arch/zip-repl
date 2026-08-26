@@ -15,7 +15,6 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Close mobile menu on route change
   useEffect(() => {
     setIsMobileMenuOpen(false)
   }, [location])
@@ -88,7 +87,7 @@ export default function Navigation() {
         </nav>
 
         {/* CTA */}
-        <div className="hidden md:block">
+        <div className="hidden md:flex items-center gap-2">
           <a
             href="/admissions"
             className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-bold text-xs px-4 py-2 rounded-full shadow-md hover:shadow-orange-300 transition-all duration-300 hover:scale-105"
@@ -133,6 +132,7 @@ export default function Navigation() {
                   </a>
                 )
               })}
+
               <div className="pt-3">
                 <a
                   href={isHome ? "#admissions" : "/#admissions"}
