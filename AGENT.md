@@ -238,6 +238,7 @@ Production (Replit deploy) mein router `/api` path ko API service par map karta 
 | 12 | Resend API key update (`re_63WQ3epP_...`) + `.env` updated | ✅ Done | High | Admission form email ab sharmaaaarashi@gmail.com par jayega | 2026-08-25 |
 | 13 | Chatbot fallback replies — API fail hone par local smart response system kaam karta hai | ✅ Done | Medium | Agar Groq API down hai toh bhi chatbot basic questions ka jawab dega | 2026-08-25 |
 | 14 | Floating voice-tour agent chatbot ke paas add karna | ✅ Done | Medium | Custom avatar ke saath home page ke sabhi sections par Hindi voice tour aur smooth scroll | 2026-08-26 |
+| 15 | Voice guide ko provided robot image ke saath animated redesign karna | ✅ Done | Medium | User ke Downloads wale exact `website agent voice.webp` robot ko large floating guide ke roop mein use kiya | 2026-08-26 |
 | 2 | `zipFile.zip` (111MB) + `artifaapi keys` junk files delete karna aur `.gitignore` mein `*.zip` add karna | 🔲 Pending | Medium | Repo size bloat | — |
 | 3 | README.md update — model name `openai/gpt-oss-20b` karna, ports sahi karna | 🔲 Pending | Low | Section #9 item 2 | — |
 | 4 | OpenAPI spec mein `/chat` + `/admissions` endpoints add karna aur codegen dobara chalana | 🔲 Pending | Medium | Tab hooks generate honge | — |

@@ -77,12 +77,12 @@ export default function VoiceTourAgent() {
   useEffect(() => () => { window.speechSynthesis?.cancel() }, [])
 
   return (
-    <div className="fixed bottom-6 right-24 z-50 flex flex-col items-center gap-2">
+    <div className="fixed bottom-3 right-20 z-50 flex w-36 flex-col items-center sm:bottom-5 sm:right-24 sm:w-40">
       {running && (
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-36 rounded-xl bg-white px-3 py-2 text-center text-xs font-bold text-orange-600 shadow-lg ring-1 ring-orange-100"
+          className="mb-1 w-40 rounded-2xl bg-white px-3 py-2 text-center text-xs font-bold text-orange-600 shadow-xl ring-1 ring-orange-100"
           aria-live="polite"
         >
           <span className="block text-[10px] uppercase tracking-wide text-orange-400">Tour in progress</span>
@@ -90,22 +90,23 @@ export default function VoiceTourAgent() {
         </motion.div>
       )}
 
-      <motion.button
+      <motion.img
+        src="/voice-agent.webp"
+        alt="Anjali Kids voice tour robot"
+        animate={running ? { y: [0, -10, 0], rotate: [0, -2, 2, 0] } : { y: [0, -7, 0] }}
+        transition={{ duration: running ? 1.05 : 2.5, repeat: Infinity, ease: "easeInOut" }}
+        className="h-44 w-44 object-contain drop-shadow-2xl sm:h-52 sm:w-52"
+      />
+
+      <button
         type="button"
         onClick={running ? stopTour : startTour}
-        whileHover={{ scale: 1.08 }}
-        whileTap={{ scale: 0.94 }}
         aria-label={running ? "Stop website tour" : "Start website voice tour"}
-        title={running ? "Tour rokें" : "Voice tour shuru karein"}
-        className={`relative h-14 w-14 overflow-hidden rounded-full border-2 bg-white shadow-lg transition-colors ${running ? "border-red-400 ring-4 ring-red-100" : "border-orange-300 ring-4 ring-orange-100"}`}
+        className={`relative -mt-1 flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-extrabold text-white shadow-lg transition-transform hover:scale-105 active:scale-95 ${running ? "bg-red-500" : "bg-gradient-to-r from-orange-400 to-orange-600"}`}
       >
-        <img src="/voice-agent.webp" alt="Voice tour guide" className="h-full w-full object-cover" />
-        <span className={`absolute inset-0 flex items-center justify-center ${running ? "bg-red-500/80" : "bg-orange-500/20"}`}>
-          {running ? <Square size={17} fill="white" className="text-white" /> : <Volume2 size={19} className="text-white drop-shadow" />}
-        </span>
-        {!running && <span className="absolute bottom-0 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-green-400 ring-2 ring-white" />}
-      </motion.button>
-      <span className="whitespace-nowrap text-[10px] font-extrabold text-orange-600 drop-shadow-sm">Voice Tour</span>
+        {running ? <Square size={13} fill="white" /> : <Volume2 size={15} />}
+        {running ? "Stop Tour" : "Start Tour"}
+      </button>
     </div>
   )
 }
