@@ -1,6 +1,10 @@
 import dotenv from "dotenv";
 import path from "path";
-dotenv.config({ path: path.resolve(process.cwd(), ".env"), override: true });
+import fs from "fs";
+
+const envLocal = path.resolve(process.cwd(), ".env");
+const envRoot = path.resolve(process.cwd(), "../../.env");
+dotenv.config({ path: fs.existsSync(envLocal) ? envLocal : envRoot, override: true });
 import app from "./app";
 import { logger } from "./lib/logger";
 

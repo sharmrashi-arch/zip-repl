@@ -145,6 +145,7 @@ SESSION_SECRET=...    ← abhi kahin use nahi ho raha
 - **🎤 Mic button** — speech recognition, language `hi-IN` hardcoded
 - **🔊 Voice reply** — browser `SpeechSynthesis` se bot bolta hai (default ON)
 - **🟠 Karaoke word-highlight** — jaise-jaise bot bole, har word orange light up hota hai (~220ms per word timer se)
+- **📝 Live captions box** — Voice tour agent ke saath white box (`VoiceTourAgent.tsx`) jo bot jo bhi bole wo text Hindi mein word-by-word dikhata hai (`onboundary` se sync)
 - **Language matching** — user Hindi mein poochhe toh reply+voice Hindi mein
 - 4 suggested questions (quick chips)
 - WhatsApp-style message bubbles
@@ -237,6 +238,8 @@ Production (Replit deploy) mein router `/api` path ko API service par map karta 
 | 13 | Chatbot fallback replies — API fail hone par local smart response system kaam karta hai | ✅ Done | Medium | Agar Groq API down hai toh bhi chatbot basic questions ka jawab dega | 2026-08-25 |
 | 14 | Floating voice-tour agent chatbot ke paas add karna | ✅ Done | Medium | Custom avatar ke saath home page ke sabhi sections par Hindi voice tour aur smooth scroll | 2026-08-26 |
 | 15 | Voice guide ko provided robot image ke saath animated redesign karna | ✅ Done | Medium | User ke Downloads wale exact `website agent voice.webp` robot ko large floating guide ke roop mein use kiya | 2026-08-26 |
+| 17 | Voice tour — teachers deep Hindi details + live caption box | ✅ Done | Medium | Section #6 mein updated | 2026-08-29 |
+| 18 | Production deployment ready — Render (backend) + Vercel (frontend) | ✅ Done | High | `render.yaml` (root) aur `vercel.json` (frontend) add; `Chatbot.tsx` + `AdmissionsPage.tsx` ab `VITE_API_BASE_URL` use karte hain (production mein browser Render URL ko call karega). Deploy setup section #12 dekho | 2026-08-29 |
 | 16 | Hero Framer Motion TypeScript error fix karna | ✅ Done | High | `wordVariants` ko Framer Motion `Variants` type diya; project typecheck pass | 2026-08-26 |
 | 2 | `zipFile.zip` (111MB) + `artifaapi keys` junk files delete karna aur `.gitignore` mein `*.zip` add karna | 🔲 Pending | Medium | Repo size bloat | — |
 | 3 | README.md update — model name `openai/gpt-oss-20b` karna, ports sahi karna | 🔲 Pending | Low | Section #9 item 2 | — |
@@ -248,8 +251,32 @@ Production (Replit deploy) mein router `/api` path ko API service par map karta 
 | 9 | Unused dependencies hatao (brevo, cookie-parser, drizzle-orm frontend wale etc.) | 🔲 Pending | Low | Cleanup | — |
 | 10 | `.env` ko git se hatana + keys rotate karna (security) | 🔲 Pending | High | Owner se poochhna padega kyunki Replit auto-import ispe depend karta hai | — |
 | 11 | ✅ **Done** — api-server `dev` script se Unix-only `export NODE_ENV=development` hataya (Windows par crash ho raha tha) | ✅ Done | High | NODE_ENV default bhi dev hi hota hai, koi loss nahi | 2026-08-22 |
+| 17 | Voice tour agent — teachers ke baare mein deep Hindi details + live caption box | ✅ Done | Medium | Har teacher (naam, graduation, experience, specialties) Hindi mein bolta hai; agent ke saath white "Live captions" box mein spoken text word-by-word orange highlight hota hai (`VoiceTourAgent.tsx`) | 2026-08-29 |
 
 *(Naye tasks yahan neeche add karte jaao)*
+
+---
+
+## 12. Production Deployment (Render + Vercel)
+
+**Frontend (Vercel):** `artifacts/anjali-kids-school/` — root directory, `vercel.json` exist (output `dist/public`)
+**Backend (Render):** `render.yaml` blueprint root par — sirf `@workspace/api-server` deploy karta hai
+
+**Key point (production API):** Dev mein Vite proxy `/api` → 8080. Production mein proxy nahi hota, isliye `Chatbot.tsx` aur `AdmissionsPage.tsx` ab `VITE_API_BASE_URL` env use karte hain. Yeh build-time variable hai:
+- Vercel → Settings → Env: `VITE_API_BASE_URL` = `https://<your-render>.onrender.com`
+- Dev mein undefined hota hai → fallback relative URL (proxy) use hota hai
+
+**Render env vars:** `PORT` (auto), `GROQ_API_KEY`, `RESEND_API_KEY`, `SESSION_SECRET`, `NODE_ENV=production`
+**Vercel env vars:** `VITE_API_BASE_URL` (Vite ki `VITE_` prefix zaroori hai)
+
+**Render gotchas:**
+- Root directory khali rakho (poora monorepo required, kyunki workspace deps `lib/` mein hain)
+- Start: `pnpm --filter @workspace/api-server run start` (dist/index.mjs bundle — DATABASE_URL ki zaroorat nahi, sirf api-zod import hota hai, db import nahi hota)
+- Free tier par cold start 30-60s (sleep hone ke baad)
+
+**Vercel gotchas:**
+- `render.yaml` backend ke liye, `vercel.json` frontend ke liye — alag platforms
+- Dono linux-x64 chalate hain, pnpm-workspace overrides linux versions keep karti hain (thik hai)
 
 ---
 

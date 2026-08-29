@@ -11,6 +11,7 @@ const port = Number(rawPort);
 
 // BASE_PATH defaults to '/' which is correct for production
 const basePath = process.env.BASE_PATH ?? '/';
+const apiPort = process.env.VITE_API_PORT ?? '8080';
 
 export default defineConfig({
   base: basePath,
@@ -56,7 +57,7 @@ export default defineConfig({
     allowedHosts: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: `http://localhost:${apiPort}`,
         changeOrigin: true,
       },
     },

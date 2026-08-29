@@ -1,0 +1,31 @@
+# Render Blueprint — Anjali Kids Play School Backend (api-server)
+# Deploy: render.com par "New > Blueprint" -> yeh repo connect karo.
+# Yeh poore monorepo ko clone karta hai, pnpm se saare workspaces install karta hai,
+# aur sirf backend package (@workspace/api-server) ko start karta hai.
+
+services:
+  - type: web
+    name: anjali-kids-api
+    runtime: node
+    plan: free
+    # Root directory empty raho -> poora monorepo clone hota hai (zaroori, kyunki
+    # workspace dependencies lib/ folder mein hain jo api-server ke parent hai).
+    # NOTE: "npm install -g pnpm" Render pe EROFS error deta hai (usr/lib read-only).
+    # Isliye Node.js ke built-in Corepack se pnpm enable karte hain, bina global install ke.
+    buildCommand: >-
+      corepack enable &&
+      corepack prepare pnpm@latest --activate &&
+      pnpm install &&
+      pnpm --filter @workspace/api-server run build
+    startCommand: pnpm --filter @workspace/api-server run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # GROQ_API_KEY aur RESEND_API_KEY yeh env mein manual set karo:
+      # Render Dashboard -> apne service -> Environment.
+      - key: GROQ_API_KEY
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: SESSION_SECRET
+        sync: false

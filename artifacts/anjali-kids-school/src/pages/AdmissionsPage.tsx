@@ -22,7 +22,8 @@ export default function AdmissionsPage() {
     e.preventDefault()
     setStatus("loading")
     try {
-      const res = await fetch("/api/admissions", {
+      const apiBase = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.replace(/\/$/, "") ?? ""
+      const res = await fetch(`${apiBase}/api/admissions`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -30,6 +31,8 @@ export default function AdmissionsPage() {
       if (res.ok) {
         setStatus("success")
       } else {
+        const data = await res.json().catch(() => ({}))
+        console.error("Admission submission failed:", data.error ?? res.statusText)
         setStatus("error")
       }
     } catch {

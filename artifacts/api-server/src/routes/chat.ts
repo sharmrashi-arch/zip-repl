@@ -3,6 +3,36 @@ import { logger } from "../lib/logger";
 
 const chatRouter = Router();
 
+function fallbackReply(message: string): string {
+  const text = message.toLowerCase();
+  const hindi = /[\u0900-\u097f]/.test(message) || /\b(kya|hai|hain|kaise|mujhe|batao|school|admission|teacher|timing)\b/i.test(message);
+  const prefix = hindi ? "Anjali Kids Play School, Pundri mein " : "At Anjali Kids Play School, Pundri, ";
+
+  if (/teacher|staff|शिक्षक|टीचर/.test(text)) {
+    return hindi
+      ? `${prefix}Sonia Gupta, Ansul Aggarwal aur Manisha Solanki teachers hain. Aap Teachers page par unki details dekh sakte hain.`
+      : `${prefix}our teachers are Sonia Gupta, Ansul Aggarwal and Manisha Solanki. You can view their details on the Teachers page.`;
+  }
+  if (/program|class|playgroup|nursery|lkg|program|प्रोग्राम|कक्षा/.test(text)) {
+    return hindi
+      ? `${prefix}Playgroup (1.5–2.5 saal), Nursery (2.5–3.5 saal) aur LKG/Pre-KG (3.5–4.5 saal) programs available hain.`
+      : `${prefix}we offer Playgroup (1.5–2.5 years), Nursery (2.5–3.5 years) and LKG/Pre-KG (3.5–4.5 years).`;
+  }
+  if (/admission|प्रवेश|दाखिला|apply/.test(text)) {
+    return hindi
+      ? `${prefix}admission ke liye website ka Admissions form bhariye ya sharmaaaarashi@gmail.com par contact kijiye.`
+      : `${prefix}please use the Admissions form on the website or contact sharmaaaarashi@gmail.com.`;
+  }
+  if (/time|timing|hours|समय|कब/.test(text)) {
+    return hindi
+      ? `${prefix}school timing roz subah 8:00 baje se 11:30 baje tak hai.`
+      : `${prefix}school hours are 8:00 AM to 11:30 AM every day.`;
+  }
+  return hindi
+    ? `${prefix}Playgroup, Nursery aur LKG/Pre-KG programs, teachers, timings ya admissions ke baare mein main bata sakta hoon.`
+    : `${prefix}I can help with programs, teachers, timings and admissions.`;
+}
+
 const SYSTEM_PROMPT = `LANGUAGE RULE (MOST IMPORTANT — NEVER BREAK THIS):
 Detect the language of the user's message. Reply in EXACTLY that same language. 
 If the user writes in Hindi (whether Devanagari script OR romanized like "mujhe janna hai"), you MUST reply in Hindi using simple casual WhatsApp-style Hindi.
@@ -50,7 +80,7 @@ chatRouter.post("/chat", async (req, res) => {
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
     logger.error("GROQ_API_KEY not set");
-    res.status(500).json({ error: "Chatbot not configured" });
+    res.json({ reply: fallbackReply(message), fallback: true });
     return;
   }
 
@@ -78,7 +108,7 @@ chatRouter.post("/chat", async (req, res) => {
     if (!response.ok) {
       const err = await response.text();
       logger.error({ status: response.status, err }, "Groq API error");
-      res.status(500).json({ error: "Chatbot error" });
+      res.json({ reply: fallbackReply(message), fallback: true });
       return;
     }
 
@@ -90,7 +120,7 @@ chatRouter.post("/chat", async (req, res) => {
     res.json({ reply });
   } catch (err) {
     logger.error({ err }, "Chat fetch error");
-    res.status(500).json({ error: "Chatbot error" });
+    res.json({ reply: fallbackReply(message), fallback: true });
   }
 });
 
