@@ -10,14 +10,13 @@ services:
     plan: free
     # Root directory empty raho -> poora monorepo clone hota hai (zaroori, kyunki
     # workspace dependencies lib/ folder mein hain jo api-server ke parent hai).
-    # NOTE: "npm install -g pnpm" Render pe EROFS error deta hai (usr/lib read-only).
-    # Isliye Node.js ke built-in Corepack se pnpm enable karte hain, bina global install ke.
+    # Corepack / global pnpm ko use NAHI karte (Node 24 ke pnpm symlink /usr/bin
+    # read-only hota hai -> EROFS error). Isliye "npx pnpm" use karte hain, jo
+    # pnpm ko temporarily download karta hai bina global install/symlink modify kiye.
     buildCommand: >-
-      corepack enable &&
-      corepack prepare pnpm@latest --activate &&
-      pnpm install &&
-      pnpm --filter @workspace/api-server run build
-    startCommand: pnpm --filter @workspace/api-server run start
+      npx pnpm install &&
+      npx pnpm --filter @workspace/api-server run build
+    startCommand: npx pnpm --filter @workspace/api-server run start
     envVars:
       - key: NODE_ENV
         value: production
