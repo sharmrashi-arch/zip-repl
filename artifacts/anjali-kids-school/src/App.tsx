@@ -3,6 +3,7 @@ import NotFound from '@/pages/not-found';
 import { Route, Switch, Router as WouterRouter } from 'wouter';
 import Home from '@/pages/Home';
 import Chatbot from '@/components/Chatbot';
+import ScrollToTop from '@/components/ScrollToTop';
 import VoiceTourAgent from '@/components/VoiceTourAgent';
 import AboutPage from '@/pages/AboutPage';
 import TeachersPage from '@/pages/TeachersPage';
@@ -32,6 +33,7 @@ function App() {
 <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
         <Router />
         <VoiceTourAgent />
+        <ScrollToTop />
         <Chatbot />
       </WouterRouter>
     </QueryClientProvider>

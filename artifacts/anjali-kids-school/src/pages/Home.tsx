@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async"
 import Navigation from "@/components/Navigation"
 import Hero from "@/components/Hero"
 import About from "@/components/About"
@@ -14,6 +15,9 @@ import Footer from "@/components/Footer"
 export default function Home() {
   return (
     <div className="w-full">
+      <Helmet>
+        <title>Anjali Kids Play School | Best Early Education in Pundri</title>
+      </Helmet>
       <Navigation />
       <main>
         <Hero />

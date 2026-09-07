@@ -4,10 +4,10 @@ import {
   Leaf, Music, Palette, Activity
 } from "lucide-react"
 
-import img1 from "@assets/4_image_1784612296095.jpg"
-import img2 from "@assets/5_image_1784612309341.jfif"
-import img3 from "@assets/7_image_1784612342920.jpg"
-import img4 from "@assets/8_image_1784612353936.jpg"
+import img1 from "@assets/gallery-art-craft.jpg"
+import img2 from "@assets/gallery-baisakhi-celebration.jfif"
+import img3 from "@assets/gallery-classroom-activity.jpg"
+import img4 from "@assets/gallery-fun-learning.jpg"
 
 const stats = [
   { value: "2018", label: "Established", icon: Award },
@@ -70,7 +70,7 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-16 max-w-5xl mx-auto"
+          className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-16 max-w-5xl mx-auto"
         >
           {[img1, img2, img3, img4].map((src, i) => (
             <div key={i} className="overflow-hidden rounded-2xl shadow-md aspect-square group">
@@ -114,7 +114,7 @@ export default function About() {
             <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900">Our Curriculum & Activities</h3>
             <p className="text-gray-500 mt-3 max-w-xl mx-auto">A holistic programme designed for children aged 1.5 to 4.5 years, blending structured learning with joyful play.</p>
           </motion.div>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {curriculum.map(({ icon: Icon, title, desc }, i) => (
               <motion.div
                 key={title}
@@ -146,7 +146,7 @@ export default function About() {
             <h4 className="text-sm font-bold text-orange-500 tracking-widest uppercase mb-2">Infrastructure</h4>
             <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900">Our Facilities</h3>
           </motion.div>
-          <div className="grid sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {facilities.map(({ title, desc }, i) => (
               <motion.div
                 key={title}
@@ -229,7 +229,7 @@ export default function About() {
             <h4 className="text-sm font-bold uppercase tracking-widest mb-2 text-orange-100">Why Parents Choose Us</h4>
             <h3 className="text-3xl font-extrabold">What Makes Anjali Kids Special</h3>
           </div>
-          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             {whyUs.map((point, i) => (
               <motion.div
                 key={i}

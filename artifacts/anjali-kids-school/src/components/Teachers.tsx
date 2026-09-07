@@ -101,7 +101,7 @@ export default function Teachers() {
               animate="center"
               exit="exit"
               transition={{ duration: 0.45, ease: "easeInOut" }}
-              className="grid md:grid-cols-2 gap-0 rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+              className="grid grid-cols-1 md:grid-cols-2 gap-0 rounded-3xl overflow-hidden shadow-xl border border-gray-100"
             >
               {/* Left — Photo */}
               <div className={`relative bg-gradient-to-br ${teacher.color} flex flex-col items-center justify-end p-8 min-h-80`}>

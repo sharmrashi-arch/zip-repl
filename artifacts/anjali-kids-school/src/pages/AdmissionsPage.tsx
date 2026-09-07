@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Helmet } from "react-helmet-async"
 import Navigation from "@/components/Navigation"
 import { motion } from "framer-motion"
 
@@ -42,6 +43,9 @@ export default function AdmissionsPage() {
 
   return (
     <div className="min-h-screen bg-orange-50">
+      <Helmet>
+        <title>Admissions Open | Anjali Kids Play School 2025-26</title>
+      </Helmet>
       <Navigation />
       <div className="pt-28 pb-20 flex items-center justify-center px-4">
         <motion.div

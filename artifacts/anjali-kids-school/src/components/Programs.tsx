@@ -1,8 +1,8 @@
 import { motion } from "framer-motion"
 import { Palette, BookOpen, Music, Trees, Smile, Compass, Library, Star, Calendar, CheckCircle, Clock, Users, Lightbulb, Heart } from "lucide-react"
-import progImg1 from "@assets/21_1784699060075.jpg"
-import progImg2 from "@assets/11_image_1784699138864.jfif"
-import progImg3 from "@assets/10_image_1784699150805.jpeg"
+import progImg1 from "@assets/programs-school-activities.jpg"
+import progImg2 from "@assets/programs-hands-on-learning.jfif"
+import progImg3 from "@assets/programs-creative-sessions.jpeg"
 
 const corePrograms = [
   {

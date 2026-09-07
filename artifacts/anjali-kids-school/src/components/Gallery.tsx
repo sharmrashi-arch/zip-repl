@@ -1,4 +1,6 @@
+import { useState } from "react"
 import { motion } from "framer-motion"
+import { ImageIcon } from "lucide-react"
 
 // I'll import the 6 generated images
 import artsImg from "@assets/generated_images/gallery-arts.jpg"
@@ -33,28 +35,43 @@ export default function Gallery() {
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[250px]">
           {images.map((img, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-              className={`relative overflow-hidden rounded-2xl group ${img.className}`}
-            >
-              <img 
-                src={img.src} 
-                alt={img.title} 
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                <h4 className="text-white font-bold text-xl translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                  {img.title}
-                </h4>
-              </div>
-            </motion.div>
+            <GalleryGridItem key={i} img={img} index={i} />
           ))}
         </div>
       </div>
     </section>
+  )
+}
+
+function GalleryGridItem({ img, index }: { img: { src: string; title: string; className: string }; index: number }) {
+  const [loaded, setLoaded] = useState(false)
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1, duration: 0.5 }}
+      className={`relative overflow-hidden rounded-2xl group bg-orange-50 ${img.className}`}
+    >
+      {!loaded && (
+        <div className="absolute inset-0 flex items-center justify-center gap-2 bg-orange-50 text-orange-500 flex-col px-4 text-center">
+          <ImageIcon size={24} className="animate-pulse" />
+          <span className="font-semibold text-sm">{img.title}</span>
+        </div>
+      )}
+      <img
+        src={img.src}
+        alt={img.title}
+        loading="lazy"
+        onLoad={() => setLoaded(true)}
+        className={`w-full h-full object-cover transition-opacity duration-700 ${loaded ? "opacity-100" : "opacity-0"} group-hover:scale-110`}
+      />
+      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+        <h4 className="text-white font-bold text-xl translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+          {img.title}
+        </h4>
+      </div>
+    </motion.div>
   )
 }

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useLocation, Link } from "wouter"
-import logoImg from "@assets/anjali_kids_logo_1784698197427.png"
+import logoImg from "@assets/school-logo.png"
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -57,6 +57,7 @@ export default function Navigation() {
           <div className="flex flex-col leading-none">
             <span className="font-extrabold text-[1.15rem] text-gray-900 tracking-tight">Anjali Kids</span>
             <span className="text-[0.65rem] font-bold text-orange-500 uppercase tracking-[0.15em]">Play School</span>
+            <p className="text-[0.5rem] text-gray-500 mt-1">This is not the original website - just a project</p>
           </div>
         </Link>
 

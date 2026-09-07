@@ -8,14 +8,14 @@ export default function Contact() {
         <div className="text-center mb-16 max-w-2xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <h2 className="text-sm font-bold text-secondary tracking-widest uppercase mb-3">Get in Touch</h2>
-            <h3 className="text-4xl md:text-5xl font-extrabold text-foreground mb-6">Visit Our School</h3>
+            <h3 className="text-[clamp(1.5rem,4vw,2rem)] md:text-5xl font-extrabold text-foreground mb-6">Visit Our School</h3>
             <p className="text-lg text-muted-foreground font-medium">
               We would love to show you around. We are open all week to welcome you and your little ones.
             </p>
           </motion.div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}

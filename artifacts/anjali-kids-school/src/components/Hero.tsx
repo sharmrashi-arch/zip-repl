@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence, type Variants } from "framer-motion"
 import heroImage from "@assets/generated_images/hero.jpg"
-import galleryImg1 from "@assets/newwwwwwwwwwwwwwa_1785212976656.png"
-import galleryImg2 from "@assets/newwwwwwwwwwwwwwwb_1785212988225.png"
+import galleryImg1 from "@assets/hero-slide-2.png"
+import galleryImg2 from "@assets/hero-slide-3.png"
 
 const slides = [heroImage, galleryImg1, galleryImg2]
 
@@ -31,7 +31,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative w-full min-h-screen flex items-center overflow-hidden pt-16"
+      className="relative w-full min-h-screen max-h-[700px] md:max-h-[500px] lg:max-h-[400px] flex items-center overflow-hidden pt-16 md:pt-24"
     >
       {/* Slideshow background */}
       <AnimatePresence mode="sync">
@@ -39,7 +39,7 @@ export default function Hero() {
           key={current}
           src={slides[current]}
           alt="Anjali Kids Play School"
-          className="absolute inset-0 w-full h-full object-cover object-center"
+          className="absolute inset-0 w-full h-full object-cover object-center blur-[0.5px]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -68,7 +68,7 @@ export default function Hero() {
           </motion.div>
 
           {/* Heading — word by word */}
-          <h1 className="text-4xl sm:text-5xl xl:text-6xl font-extrabold leading-[1.1] tracking-tight text-white mb-6 flex flex-wrap gap-x-3 gap-y-1 overflow-hidden">
+          <h1 className="text-[clamp(1.5rem,5vw,2.5rem)] font-extrabold leading-[1.1] tracking-tight text-white mb-6 flex flex-wrap gap-x-3 gap-y-1 overflow-hidden">
             {headingWords.map((word, i) => (
               <motion.span
                 key={i}
@@ -84,7 +84,7 @@ export default function Hero() {
           </h1>
 
           {/* Description — word by word */}
-          <p className="text-lg text-white/80 font-medium leading-relaxed mb-10 max-w-xl flex flex-wrap gap-x-1.5">
+          <p className="text-lg md:text-xl text-white/80 font-medium leading-relaxed mb-10 max-w-xl flex flex-wrap gap-x-1.5">
             {descWords.map((word, i) => (
               <motion.span
                 key={i}
@@ -144,7 +144,7 @@ export default function Hero() {
                 >
                   {stat.value}
                 </motion.span>
-                <span className="text-xs font-semibold text-white/60 uppercase tracking-wide">{stat.label}</span>
+                <small className="text-xs font-semibold text-white/60 uppercase tracking-wide">{stat.label}</small>
               </motion.div>
             ))}
           </div>

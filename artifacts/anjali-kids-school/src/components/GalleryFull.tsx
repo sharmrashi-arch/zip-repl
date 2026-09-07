@@ -1,21 +1,22 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
+import { ImageIcon } from "lucide-react"
 
-import img1 from "@assets/1_image_1784612261212.jfif"
-import img2 from "@assets/image_2_1784612271636.jfif"
-import img3 from "@assets/4_image_1784612296095.jpg"
-import img4 from "@assets/5_image_1784612309341.jfif"
-import img5 from "@assets/6_image_1784612319071.jfif"
-import img6 from "@assets/6_image_1784612333214.jfif"
-import img7 from "@assets/7_image_1784612342920.jpg"
-import img8 from "@assets/8_image_1784612353936.jpg"
-import img9 from "@assets/d9dace56-5901-4bb0-8871-4fa19b3cb26f_1784612375496.jpg"
-import img10 from "@assets/9_image_1784612386393.jfif"
-import img11 from "@assets/10_image_1784612396798.jpeg"
-import img12 from "@assets/21_1784699753720.jpg"
-import img13 from "@assets/22_1784699765142.jfif"
-import img14 from "@assets/23_1784699775148.webp"
-import img15 from "@assets/24_1784699788478.jpg"
+import img1 from "@assets/gallery-cooking-activity.jfif"
+import img2 from "@assets/gallery-play-area.jfif"
+import img3 from "@assets/gallery-art-craft.jpg"
+import img4 from "@assets/gallery-baisakhi-celebration.jfif"
+import img5 from "@assets/gallery-master-chef-1.jfif"
+import img6 from "@assets/gallery-master-chef-2.jfif"
+import img7 from "@assets/gallery-classroom-activity.jpg"
+import img8 from "@assets/gallery-fun-learning.jpg"
+import img9 from "@assets/gallery-school-activity.jpg"
+import img10 from "@assets/gallery-creative-time.jfif"
+import img11 from "@assets/gallery-school-moments.jpeg"
+import img12 from "@assets/gallery-mini-theatre.jpg"
+import img13 from "@assets/gallery-play-room.jfif"
+import img14 from "@assets/gallery-classroom.webp"
+import img15 from "@assets/gallery-outdoor-activity.jpg"
 
 const images = [
   { src: img1,  title: "Free Cooking Activity" },
@@ -40,6 +41,42 @@ const row2 = images.slice(7)
 
 type GalleryImage = { src: string; title: string }
 
+function GalleryImageCard({
+  img,
+  onClick,
+}: {
+  img: GalleryImage
+  onClick: (img: GalleryImage) => void
+}) {
+  const [loaded, setLoaded] = useState(false)
+
+  return (
+    <div
+      onClick={() => onClick(img)}
+      className="relative flex-shrink-0 w-full sm:w-64 sm:h-48 rounded-2xl overflow-hidden cursor-pointer group bg-orange-50"
+    >
+      {!loaded && (
+        <div className="absolute inset-0 flex items-center justify-center gap-2 bg-orange-50 text-orange-500">
+          <ImageIcon size={18} className="animate-pulse" />
+          <span className="text-sm font-semibold text-orange-500 text-center px-3">
+            {img.title}
+          </span>
+        </div>
+      )}
+      <img
+        src={img.src}
+        alt={img.title}
+        loading="lazy"
+        onLoad={() => setLoaded(true)}
+        className={`w-full h-full object-cover transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"} group-hover:scale-110`}
+      />
+      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+        <span className="text-white font-bold text-sm">{img.title}</span>
+      </div>
+    </div>
+  )
+}
+
 function MarqueeRow({
   items,
   direction,
@@ -56,22 +93,7 @@ function MarqueeRow({
     <div className="overflow-hidden w-full">
       <div className={`flex gap-4 w-max ${animClass}`}>
         {doubled.map((img, i) => (
-          <div
-            key={i}
-            onClick={() => onSelect(img)}
-            className="relative flex-shrink-0 w-64 h-48 rounded-2xl overflow-hidden cursor-pointer group"
-          >
-            <img
-              src={img.src}
-              alt={img.title}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-              <span className="text-white font-bold text-sm translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                {img.title}
-              </span>
-            </div>
-          </div>
+          <GalleryImageCard key={i} img={img} onClick={onSelect} />
         ))}
       </div>
     </div>
@@ -80,6 +102,7 @@ function MarqueeRow({
 
 export default function GalleryFull() {
   const [selected, setSelected] = useState<GalleryImage | null>(null)
+  const [lightboxLoaded, setLightboxLoaded] = useState(false)
 
   return (
     <>
@@ -139,11 +162,20 @@ export default function GalleryFull() {
             className="relative max-w-4xl w-full flex flex-col items-center"
             onClick={(e) => e.stopPropagation()}
           >
-            <img
-              src={selected.src}
-              alt={selected.title}
-              className="max-h-[80vh] max-w-full object-contain rounded-2xl shadow-2xl"
-            />
+            <div className="relative w-full flex items-center justify-center overflow-hidden rounded-2xl">
+              {!lightboxLoaded && (
+                <div className="absolute inset-0 flex items-center justify-center gap-2 bg-gray-800 text-orange-400">
+                  <ImageIcon size={24} className="animate-pulse" />
+                  <span className="font-semibold text-lg text-center">{selected.title}</span>
+                </div>
+              )}
+              <img
+                src={selected.src}
+                alt={selected.title}
+                onLoad={() => setLightboxLoaded(true)}
+                className={`max-h-[80vh] max-w-full object-contain rounded-2xl shadow-2xl transition-opacity duration-500 ${lightboxLoaded ? "opacity-100" : "opacity-0"}`}
+              />
+            </div>
             <p className="mt-4 text-white font-semibold text-lg">{selected.title}</p>
           </motion.div>
 
