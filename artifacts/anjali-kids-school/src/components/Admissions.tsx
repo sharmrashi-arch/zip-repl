@@ -31,9 +31,9 @@ const steps = [
 
 export default function Admissions() {
   return (
-    <section id="admissions" className="py-24 bg-white">
+    <section id="admissions" className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="max-w-5xl mx-auto bg-primary/10 rounded-[3rem] p-8 md:p-16 relative overflow-hidden">
+        <div className="max-w-5xl mx-auto bg-primary/10 rounded-[2rem] md:rounded-[3rem] p-6 sm:p-8 md:p-16 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
           

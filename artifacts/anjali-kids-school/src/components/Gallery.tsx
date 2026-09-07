@@ -21,7 +21,7 @@ const images = [
 
 export default function Gallery() {
   return (
-    <section id="gallery" className="py-24 bg-white">
+    <section id="gallery" className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16 max-w-2xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
@@ -33,7 +33,7 @@ export default function Gallery() {
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[250px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 auto-rows-[180px] sm:auto-rows-[220px] md:auto-rows-[250px]">
           {images.map((img, i) => (
             <GalleryGridItem key={i} img={img} index={i} />
           ))}

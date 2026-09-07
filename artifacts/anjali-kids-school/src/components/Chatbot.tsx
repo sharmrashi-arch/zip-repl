@@ -387,6 +387,7 @@ export default function Chatbot() {
         whileTap={{ scale: 0.95 }}
         aria-label="Open chatbot"
         className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 shadow-lg shadow-orange-300/50 flex items-center justify-center text-white"
+        style={{ bottom: "calc(1.5rem + env(safe-area-inset-bottom))", right: "calc(1.5rem + env(safe-area-inset-right))" }}
       >
         <AnimatePresence mode="wait">
           {open ? (
@@ -409,7 +410,7 @@ export default function Chatbot() {
             exit={{ opacity: 0, y: 24, scale: 0.95 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
             className="fixed bottom-24 right-6 z-50 w-[360px] max-w-[calc(100vw-1.5rem)] bg-white rounded-3xl shadow-2xl shadow-orange-100/60 border border-orange-100 flex flex-col overflow-hidden"
-            style={{ maxHeight: "75vh" }}
+            style={{ maxHeight: "75vh", bottom: "calc(6rem + env(safe-area-inset-bottom) + 2rem)", right: "calc(1.5rem + env(safe-area-inset-right))" }}
           >
             <div className="bg-gradient-to-r from-orange-400 to-orange-600 px-5 py-4 flex items-center gap-3">
               <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center shrink-0">

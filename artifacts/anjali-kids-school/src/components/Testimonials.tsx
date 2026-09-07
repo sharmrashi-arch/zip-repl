@@ -36,7 +36,7 @@ export default function Testimonials() {
   const trackRef = useRef<HTMLDivElement>(null)
 
   return (
-    <section id="testimonials" className="py-24 bg-primary/5 relative overflow-hidden">
+    <section id="testimonials" className="py-16 md:py-24 bg-primary/5 relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16 max-w-2xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
@@ -60,7 +60,7 @@ export default function Testimonials() {
           {looped.map((test, i) => (
             <div
               key={i}
-              className="w-72 flex-shrink-0 bg-white p-8 rounded-3xl border border-border shadow-sm flex flex-col relative"
+              className="w-72 max-w-[80vw] flex-shrink-0 bg-white p-6 sm:p-8 rounded-3xl border border-border shadow-sm flex flex-col relative"
             >
               <Quote className="text-primary/20 absolute top-6 right-6 w-10 h-10" />
               <div className="flex text-amber-400 mb-4 relative z-10">

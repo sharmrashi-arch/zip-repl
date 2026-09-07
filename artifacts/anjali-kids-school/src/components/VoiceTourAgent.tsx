@@ -196,8 +196,7 @@ export default function VoiceTourAgent() {
   const captionWordsArray = splitWords(captionText)
 
   return (
-    <div className="fixed bottom-3 right-20 z-50 flex flex-col items-end sm:bottom-5 sm:right-24">
-      {/* White caption box (Live subtitles) */}
+    <div className="fixed bottom-3 right-20 z-50 flex flex-col items-end sm:bottom-5 sm:right-24" style={{ bottom: "calc(0.75rem + env(safe-area-inset-bottom))" }}>      {/* White caption box (Live subtitles) */}
       <AnimatePresence>
         {running && captionText && (
           <motion.div
@@ -290,7 +289,7 @@ export default function VoiceTourAgent() {
         onClick={handleRobotClick}
         animate={running ? { y: [0, -10, 0], rotate: [0, -2, 2, 0] } : { y: [0, -7, 0] }}
         transition={{ duration: running ? 1.05 : 2.5, repeat: Infinity, ease: "easeInOut" }}
-        className="h-44 w-44 object-contain drop-shadow-2xl sm:h-52 sm:w-52 cursor-pointer"
+        className="h-32 w-32 object-contain drop-shadow-2xl sm:h-44 sm:w-44 md:h-52 md:w-52 cursor-pointer"
       />
 
       {running && (

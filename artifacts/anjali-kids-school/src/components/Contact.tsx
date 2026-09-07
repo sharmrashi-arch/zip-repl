@@ -3,7 +3,7 @@ import { MapPin, Phone, Clock, Mail } from "lucide-react"
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-24 bg-background border-t border-border">
+    <section id="contact" className="py-16 md:py-24 bg-background border-t border-border">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16 max-w-2xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>

@@ -152,3 +152,16 @@ html {
 .blob-shape-2 {
   border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
 }
+
+/* Container max-width for large/TV screens so content doesn't stretch too wide */
+@layer components {
+  .container {
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 640px) { .container { max-width: 42rem; } }
+  @media (min-width: 768px) { .container { max-width: 48rem; } }
+  @media (min-width: 1024px) { .container { max-width: 64rem; } }
+  @media (min-width: 1280px) { .container { max-width: 72rem; } }
+  @media (min-width: 1536px) { .container { max-width: 80rem; } }
+}

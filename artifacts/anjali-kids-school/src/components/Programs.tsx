@@ -76,7 +76,7 @@ export default function Programs() {
   }
 
   return (
-    <section id="programs" className="py-24 bg-background relative overflow-hidden">
+    <section id="programs" className="py-16 md:py-24 bg-background relative overflow-hidden">
       <div className="absolute top-40 -left-20 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
       <div className="absolute bottom-20 -right-20 w-80 h-80 bg-primary/10 rounded-full blur-3xl" />
 

@@ -76,7 +76,7 @@ export default function Teachers() {
   const teacher = teachers[current]
 
   return (
-    <section id="teachers" className="py-24 bg-white relative">
+    <section id="teachers" className="py-16 md:py-24 bg-white relative">
       <div className="container mx-auto px-4 md:px-6">
 
         {/* Heading */}
@@ -104,11 +104,11 @@ export default function Teachers() {
               className="grid grid-cols-1 md:grid-cols-2 gap-0 rounded-3xl overflow-hidden shadow-xl border border-gray-100"
             >
               {/* Left — Photo */}
-              <div className={`relative bg-gradient-to-br ${teacher.color} flex flex-col items-center justify-end p-8 min-h-80`}>
+              <div className={`relative bg-gradient-to-br ${teacher.color} flex flex-col items-center justify-end p-6 sm:p-8 min-h-60 sm:min-h-80`}>
                 <img
                   src={teacher.image}
                   alt={teacher.name}
-                  className="w-52 h-52 object-cover rounded-full border-4 border-white shadow-2xl mb-6"
+                  className="w-40 h-40 sm:w-52 sm:h-52 object-cover rounded-full border-4 border-white shadow-2xl mb-4 sm:mb-6"
                 />
                 <div className="text-center">
                   <h4 className="text-2xl font-extrabold text-white">{teacher.name}</h4>
@@ -120,7 +120,7 @@ export default function Teachers() {
               </div>
 
               {/* Right — Details */}
-              <div className={`${teacher.bgLight} p-8 flex flex-col justify-center gap-5`}>
+              <div className={`${teacher.bgLight} p-5 sm:p-8 flex flex-col justify-center gap-4 sm:gap-5`}>
 
                 {/* Experience & Qualification */}
                 <div className="flex flex-wrap gap-3">
@@ -163,12 +163,12 @@ export default function Teachers() {
           </AnimatePresence>
 
           {/* Navigation */}
-          <div className="flex items-center justify-center gap-6 mt-8">
+                      <div className="flex items-center justify-center gap-4 sm:gap-6 mt-6 sm:mt-8">
             <button
               onClick={() => go(-1)}
-              className="w-12 h-12 rounded-full bg-white border border-gray-200 shadow-sm hover:bg-orange-50 hover:border-orange-300 flex items-center justify-center transition-all duration-200"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white border border-gray-200 shadow-sm hover:bg-orange-50 hover:border-orange-300 flex items-center justify-center transition-all duration-200"
             >
-              <ChevronLeft size={22} className="text-gray-600" />
+              <ChevronLeft size={20} className="text-gray-600" />
             </button>
 
             {/* Dots */}
@@ -184,9 +184,9 @@ export default function Teachers() {
 
             <button
               onClick={() => go(1)}
-              className="w-12 h-12 rounded-full bg-white border border-gray-200 shadow-sm hover:bg-orange-50 hover:border-orange-300 flex items-center justify-center transition-all duration-200"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white border border-gray-200 shadow-sm hover:bg-orange-50 hover:border-orange-300 flex items-center justify-center transition-all duration-200"
             >
-              <ChevronRight size={22} className="text-gray-600" />
+              <ChevronRight size={20} className="text-gray-600" />
             </button>
           </div>
 

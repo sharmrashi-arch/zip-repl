@@ -31,7 +31,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative w-full min-h-screen max-h-[700px] md:max-h-[500px] lg:max-h-[400px] flex items-center overflow-hidden pt-16 md:pt-24"
+      className="relative w-full min-h-[70vh] max-h-[500px] sm:max-h-[550px] md:max-h-[650px] lg:max-h-[750px] xl:max-h-[850px] flex items-center overflow-hidden pt-16 md:pt-24"
     >
       {/* Slideshow background */}
       <AnimatePresence mode="sync">
@@ -53,8 +53,8 @@ export default function Hero() {
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/40 to-transparent" />
 
       {/* Content */}
-      <div className="relative z-10 w-full container mx-auto px-6 md:px-12 py-24">
-        <div className="max-w-2xl">
+      <div className="relative z-10 w-full container mx-auto px-6 md:px-12 lg:px-16 xl:px-20 py-16 sm:py-20 md:py-24">
+        <div className="max-w-2xl xl:max-w-3xl">
 
           {/* Badge */}
           <motion.div
@@ -68,7 +68,7 @@ export default function Hero() {
           </motion.div>
 
           {/* Heading — word by word */}
-          <h1 className="text-[clamp(1.5rem,5vw,2.5rem)] font-extrabold leading-[1.1] tracking-tight text-white mb-6 flex flex-wrap gap-x-3 gap-y-1 overflow-hidden">
+          <h1 className="text-[clamp(1.25rem,4vw,2.5rem)] sm:text-[clamp(1.5rem,4.5vw,2.75rem)] lg:text-[clamp(1.75rem,4vw,3rem)] font-extrabold leading-[1.1] tracking-tight text-white mb-5 sm:mb-6 flex flex-wrap gap-x-2 sm:gap-x-3 gap-y-1 overflow-hidden">
             {headingWords.map((word, i) => (
               <motion.span
                 key={i}
@@ -84,7 +84,7 @@ export default function Hero() {
           </h1>
 
           {/* Description — word by word */}
-          <p className="text-lg md:text-xl text-white/80 font-medium leading-relaxed mb-10 max-w-xl flex flex-wrap gap-x-1.5">
+          <p className="text-base sm:text-lg md:text-xl text-white/80 font-medium leading-relaxed mb-8 sm:mb-10 max-w-xl flex flex-wrap gap-x-1.5">
             {descWords.map((word, i) => (
               <motion.span
                 key={i}
@@ -123,7 +123,7 @@ export default function Hero() {
           </div>
 
           {/* Stats row */}
-          <div className="flex flex-wrap gap-8">
+          <div className="flex flex-wrap gap-6 sm:gap-8">
             {[
               { value: "5★", label: "Google Rating" },
               { value: "2.5–4.5", label: "Years Age Group" },

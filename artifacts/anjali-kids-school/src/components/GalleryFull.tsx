@@ -53,7 +53,7 @@ function GalleryImageCard({
   return (
     <div
       onClick={() => onClick(img)}
-      className="relative flex-shrink-0 w-full sm:w-64 sm:h-48 rounded-2xl overflow-hidden cursor-pointer group bg-orange-50"
+      className="relative flex-shrink-0 w-[70vw] h-44 sm:w-64 sm:h-48 rounded-2xl overflow-hidden cursor-pointer group bg-orange-50"
     >
       {!loaded && (
         <div className="absolute inset-0 flex items-center justify-center gap-2 bg-orange-50 text-orange-500">
