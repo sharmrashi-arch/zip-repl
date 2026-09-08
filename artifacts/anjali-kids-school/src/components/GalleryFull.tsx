@@ -65,7 +65,7 @@ function GalleryImageCard({
       )}
       <img
         src={img.src}
-        alt={img.title}
+        alt={`${img.title} at Anjali Kids Play School, Pundri`}
         loading="lazy"
         onLoad={() => setLoaded(true)}
         className={`w-full h-full object-cover transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"} group-hover:scale-110`}
@@ -171,7 +171,7 @@ export default function GalleryFull() {
               )}
               <img
                 src={selected.src}
-                alt={selected.title}
+                alt={`${selected.title} at Anjali Kids Play School, Pundri`}
                 onLoad={() => setLightboxLoaded(true)}
                 className={`max-h-[80vh] max-w-full object-contain rounded-2xl shadow-2xl transition-opacity duration-500 ${lightboxLoaded ? "opacity-100" : "opacity-0"}`}
               />

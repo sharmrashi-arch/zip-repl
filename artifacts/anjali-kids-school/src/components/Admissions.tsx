@@ -54,7 +54,7 @@ export default function Admissions() {
                   <a href="tel:+919768144444">Call +91 97681 44444</a>
                 </Button>
                 <Button asChild size="lg" variant="outline" className="text-lg px-8 py-6 bg-white border-2">
-                  <a href="#contact">Find on Map</a>
+                  <a href="/contact">Find on Map</a>
                 </Button>
               </div>
             </motion.div>

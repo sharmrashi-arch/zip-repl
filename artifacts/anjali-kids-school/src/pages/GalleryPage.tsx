@@ -7,7 +7,11 @@ export default function GalleryPage() {
   return (
     <div className="w-full">
       <Helmet>
-        <title>Gallery | Anjali Kids Play School | Photo Gallery</title>
+        <title>School Gallery in Pundri | Anjali Kids Play School</title>
+        <meta
+          name="description"
+          content="See photos and moments from Anjali Kids Play School, Pundri — arts, crafts, outdoor play, festivals, and classroom fun. Explore our school gallery today."
+        />
       </Helmet>
       <Navigation />
       <main className="pt-24">

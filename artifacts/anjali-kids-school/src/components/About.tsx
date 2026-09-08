@@ -72,11 +72,16 @@ export default function About() {
           transition={{ duration: 0.7 }}
           className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-16 max-w-5xl mx-auto"
         >
-          {[img1, img2, img3, img4].map((src, i) => (
+          {[
+            { src: img1, alt: "children doing art and craft activity at Anjali Kids Play School, Pundri" },
+            { src: img2, alt: "kids celebrating Baisakhi festival at Anjali Kids Play School, Pundri" },
+            { src: img3, alt: "classroom activity for toddlers at Anjali Kids Play School, Pundri" },
+            { src: img4, alt: "kids enjoying fun learning activity at Anjali Kids Play School, Pundri" },
+          ].map(({ src, alt }, i) => (
             <div key={i} className="overflow-hidden rounded-2xl shadow-md aspect-square group">
               <img
                 src={src}
-                alt={`School activity ${i + 1}`}
+                alt={alt}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
             </div>
@@ -176,7 +181,7 @@ export default function About() {
             className="rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
           >
             <div className="relative h-52 overflow-hidden">
-              <img src={img2} alt="Our Vision" className="w-full h-full object-cover" />
+              <img src={img2} alt="our vision of joyful learning - kids playing at Anjali Kids Play School, Pundri" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute bottom-4 left-6 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
@@ -200,7 +205,7 @@ export default function About() {
             className="rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
           >
             <div className="relative h-52 overflow-hidden">
-              <img src={img3} alt="Our Mission" className="w-full h-full object-cover" />
+              <img src={img3} alt="our mission - teacher guiding children in classroom at Anjali Kids Play School, Pundri" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute bottom-4 left-6 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">

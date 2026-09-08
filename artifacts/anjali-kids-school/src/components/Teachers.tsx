@@ -107,7 +107,7 @@ export default function Teachers() {
               <div className={`relative bg-gradient-to-br ${teacher.color} flex flex-col items-center justify-end p-6 sm:p-8 min-h-60 sm:min-h-80`}>
                 <img
                   src={teacher.image}
-                  alt={teacher.name}
+                  alt={`photo of teacher ${teacher.name} at Anjali Kids Play School, Pundri`}
                   className="w-40 h-40 sm:w-52 sm:h-52 object-cover rounded-full border-4 border-white shadow-2xl mb-4 sm:mb-6"
                 />
                 <div className="text-center">

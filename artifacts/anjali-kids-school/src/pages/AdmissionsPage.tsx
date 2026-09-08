@@ -44,7 +44,11 @@ export default function AdmissionsPage() {
   return (
     <div className="min-h-screen bg-orange-50">
       <Helmet>
-        <title>Admissions Open | Anjali Kids Play School 2025-26</title>
+        <title>Preschool Admission in Pundri 2026 | Anjali Kids Play School</title>
+        <meta
+          name="description"
+          content="Admissions open at Anjali Kids Play School, Pundri. Simple process, affordable fees, and quality early education. Apply now for the 2026 session."
+        />
       </Helmet>
       <Navigation />
       <div className="pt-28 pb-20 flex items-center justify-center px-4">

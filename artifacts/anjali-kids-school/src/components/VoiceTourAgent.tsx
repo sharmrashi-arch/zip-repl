@@ -285,7 +285,7 @@ export default function VoiceTourAgent() {
 
       <motion.img
         src="/voice-agent.webp"
-        alt="Anjali Kids voice tour robot"
+        alt="Anjali Kids Play School voice tour robot guide"
         onClick={handleRobotClick}
         animate={running ? { y: [0, -10, 0], rotate: [0, -2, 2, 0] } : { y: [0, -7, 0] }}
         transition={{ duration: running ? 1.05 : 2.5, repeat: Infinity, ease: "easeInOut" }}

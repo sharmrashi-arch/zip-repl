@@ -38,7 +38,7 @@ export default function Hero() {
         <motion.img
           key={current}
           src={slides[current]}
-          alt="Anjali Kids Play School"
+          alt="children playing at Anjali Kids Play School in Pundri"
           className="absolute inset-0 w-full h-full object-cover object-center blur-[0.5px]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

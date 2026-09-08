@@ -28,7 +28,7 @@ export default function Navigation() {
     { name: "Teachers",   href: "/teachers",     page: true },
     { name: "Gallery",    href: "/gallery",      page: true },
     { name: "Admissions", href: "/admissions",  page: true },
-    { name: "Contact",    href: isHome ? "#contact"    : "/#contact",    page: false },
+    { name: "Contact",    href: "/contact",    page: true },
   ]
 
   const isActive = (href: string) => {
@@ -50,7 +50,7 @@ export default function Navigation() {
           <div className="w-11 h-11 rounded-full overflow-hidden flex-shrink-0 shadow-md group-hover:scale-105 transition-transform duration-300">
             <img
               src={logoImg}
-              alt="Anjali Kids Play School Logo"
+              alt="Anjali Kids Play School logo"
               className="w-full h-full object-cover"
             />
           </div>

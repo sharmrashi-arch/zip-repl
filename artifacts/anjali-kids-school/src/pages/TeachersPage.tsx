@@ -7,7 +7,11 @@ export default function TeachersPage() {
   return (
     <div className="w-full">
       <Helmet>
-        <title>Teachers | Anjali Kids Play School | Our Educators</title>
+        <title>Expert Teachers in Pundri | Anjali Kids Play School</title>
+        <meta
+          name="description"
+          content="Meet the experienced and caring teachers at Anjali Kids Play School, Pundri who nurture every child with love, patience, and proven expertise."
+        />
       </Helmet>
       <Navigation />
       <main className="pt-24">

@@ -139,12 +139,12 @@ export default function Programs() {
           className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-20 max-w-5xl mx-auto"
         >
           {[
-            { src: progImg1, label: "School Activities" },
-            { src: progImg2, label: "Hands-on Learning" },
-            { src: progImg3, label: "Creative Sessions" },
+            { src: progImg1, label: "School Activities", alt: "school activities at Anjali Kids Play School, Pundri" },
+            { src: progImg2, label: "Hands-on Learning", alt: "toddlers doing hands-on learning at Anjali Kids Play School, Pundri" },
+            { src: progImg3, label: "Creative Sessions", alt: "children in creative art sessions at Anjali Kids Play School, Pundri" },
           ].map((img, i) => (
             <div key={i} className="relative overflow-hidden rounded-2xl shadow-md group aspect-[4/3]">
-              <img src={img.src} alt={img.label} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+              <img src={img.src} alt={img.alt} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
               <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                 <span className="text-white font-bold text-sm">{img.label}</span>
               </div>

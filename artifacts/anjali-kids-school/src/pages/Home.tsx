@@ -16,7 +16,11 @@ export default function Home() {
   return (
     <div className="w-full">
       <Helmet>
-        <title>Anjali Kids Play School | Best Early Education in Pundri</title>
+        <title>Best Preschool in Pundri | Anjali Kids Play School</title>
+        <meta
+          name="description"
+          content="Anjali Kids Play School offers safe, nurturing, and play-based early education in Pundri. Enroll your child today for a joyful learning journey."
+        />
       </Helmet>
       <Navigation />
       <main>

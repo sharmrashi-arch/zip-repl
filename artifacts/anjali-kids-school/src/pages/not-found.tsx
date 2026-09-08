@@ -6,7 +6,11 @@ export default function NotFound() {
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gray-50">
       <Helmet>
-        <title>404 | Page Not Found | Anjali Kids Play School</title>
+        <title>Page Not Found | Anjali Kids Play School</title>
+        <meta
+          name="description"
+          content="Page not found on Anjali Kids Play School website. Visit our homepage to explore programs, admissions, and contact details."
+        />
       </Helmet>
       <Card className="w-full max-w-md mx-4">
         <CardContent className="pt-6">

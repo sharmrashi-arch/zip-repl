@@ -10,6 +10,7 @@ import TeachersPage from '@/pages/TeachersPage';
 import GalleryPage from '@/pages/GalleryPage';
 import ProgramsPage from '@/pages/ProgramsPage';
 import AdmissionsPage from '@/pages/AdmissionsPage';
+import ContactPage from '@/pages/ContactPage';
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/teachers" component={TeachersPage} />
       <Route path="/gallery" component={GalleryPage} />
       <Route path="/admissions" component={AdmissionsPage} />
+      <Route path="/contact" component={ContactPage} />
       <Route component={NotFound} />
     </Switch>
   );

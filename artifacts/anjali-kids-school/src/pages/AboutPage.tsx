@@ -7,7 +7,11 @@ export default function AboutPage() {
   return (
     <div className="w-full">
       <Helmet>
-        <title>About Anjali Kids Play School | Pundri, Haryana</title>
+        <title>Trusted Preschool in Pundri | Anjali Kids Play School</title>
+        <meta
+          name="description"
+          content="Learn about Anjali Kids Play School's mission, experienced teachers, and child-friendly environment designed for holistic development in Pundri."
+        />
       </Helmet>
       <Navigation />
       <main className="pt-24">

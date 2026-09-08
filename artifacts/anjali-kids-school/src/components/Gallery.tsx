@@ -62,7 +62,7 @@ function GalleryGridItem({ img, index }: { img: { src: string; title: string; cl
       )}
       <img
         src={img.src}
-        alt={img.title}
+        alt={`${img.title} at Anjali Kids Play School, Pundri`}
         loading="lazy"
         onLoad={() => setLoaded(true)}
         className={`w-full h-full object-cover transition-opacity duration-700 ${loaded ? "opacity-100" : "opacity-0"} group-hover:scale-110`}
