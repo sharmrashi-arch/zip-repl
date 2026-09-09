@@ -79,12 +79,15 @@ zip-repl/ (root)
 | File | URL | Kya hai |
 |------|-----|---------|
 | `Home.tsx` | `/` | Hero, Programs, Teachers, Gallery, Testimonials |
-| `AboutPage.tsx` | `/about` | School ke baare mein |
-| `ProgramsPage.tsx` | `/programs` | Playgroup, Nursery, LKG |
+| `AboutPage.tsx` | `/about-us` | School ke baare mein (h1 + CTA ke saath) |
+| `ProgramsPage.tsx` | `/programs` | Playgroup, Nursery, LKG (+ "Ready to Enroll?" CTA) |
 | `TeachersPage.tsx` | `/teachers` | Teachers list |
 | `GalleryPage.tsx` | `/gallery` | Photo gallery |
-| `AdmissionsPage.tsx` | `/admissions` | Admission form (raw fetch se `/api/admissions` ko POST karta hai) |
+| `AdmissionsPage.tsx` | `/admission` | Admission form (raw fetch se `/api/admissions` ko POST karta hai) |
+| `ContactPage.tsx` | `/contact` | Address, map, phone, email + enquiry links |
 | `not-found.tsx` | `*` | 404 page |
+
+> ⚠️ **Clean URLs + redirects:** Purane URLs `/about` aur `/admissions` ab 301 redirect hote hain (client-side wouter `<Redirect>` in `App.tsx` + server-side `public/_redirects`) → naye `/about-us`, `/admission` par.
 
 ### Components (`src/components/`)
 - `Navigation.tsx`, `Hero.tsx`, `Programs.tsx`, `Teachers.tsx`, `Gallery.tsx`, `GalleryFull.tsx`
@@ -220,6 +223,9 @@ Production (Replit deploy) mein router `/api` path ko API service par map karta 
 13. **post-merge.sh bug:** `pnpm --filter db push` likha hai lekin package ka naam `@workspace/db` hai
 14. **No tests, no linter** (sirf prettier), no CI
 15. **replit.md** abhi bhi khali template hai — uski jagah **AGENT.md (yeh file)** hi source of truth hai
+16. **Performance:** Gallery/teacher images abhi bhi 190–280KB hain (lazy load hoti hain, par aur compress ho sakti hain); bundle JS ~490KB (Vite chunk warning) — code-splitting future mein
+17. **Git push credentials:** Local cached creds (`paramkaur7821-dotcom`) ko write access NAHI hai — push ke liye PAT wale URL se karna padta hai (token-in-URL). PAT pasted in chat ho chuka hai → rotate karna hain.
+18. **`@assets` alias** = `attached_assets/` folder (vite.config.ts mein `@assets: .../attached_assets`)
 
 ---
 
@@ -252,6 +258,16 @@ Production (Replit deploy) mein router `/api` path ko API service par map karta 
 | 10 | `.env` ko git se hatana + keys rotate karna (security) | 🔲 Pending | High | Owner se poochhna padega kyunki Replit auto-import ispe depend karta hai | — |
 | 11 | ✅ **Done** — api-server `dev` script se Unix-only `export NODE_ENV=development` hataya (Windows par crash ho raha tha) | ✅ Done | High | NODE_ENV default bhi dev hi hota hai, koi loss nahi | 2026-08-22 |
 | 17 | Voice tour agent — teachers ke baare mein deep Hindi details + live caption box | ✅ Done | Medium | Har teacher (naam, graduation, experience, specialties) Hindi mein bolta hai; agent ke saath white "Live captions" box mein spoken text word-by-word orange highlight hota hai (`VoiceTourAgent.tsx`) | 2026-08-29 |
+| 19 | SEO title tags har page (react-helmet-async) | ✅ Done | High | `main.tsx` mein `HelmetProvider`; har page ka unique title (50-60 chars, "Pundri" keyword-first) | 2026-09-04 |
+| 20 | SEO meta descriptions har page | ✅ Done | High | 140-156 chars, location + CTA; Home 142 chars ho gya (perfect) | 2026-09-04 |
+| 21 | Dedicated Contact page (`/contact`) | ✅ Done | High | `ContactPage.tsx` naya; route + Navigation/Footer/Admissions "Find on Map" links update | 2026-09-04 |
+| 22 | Descriptive alt text saari images | ✅ Done | High | 15 images / 8 files — realistic descriptions (friends, classes, outdoor activities) | 2026-09-04 |
+| 23 | Clean URLs + 301 redirects | ✅ Done | Medium | `/about`→`/about-us`, `/admissions`→`/admission`; wouter `<Redirect>` + `public/_redirects` | 2026-09-09 |
+| 24 | Semantic HTML (div → article/section/main) | ✅ Done | Medium | Cards → `<article>` (Testimonials, Programs, Gallery×2, Teachers, About, Admissions); "Why Choose Us" → `<section>`; AdmissionsPage ko missing `<main>` mila | 2026-09-09 |
+| 25 | Internal linking (contextual CTAs) | ✅ Done | Medium | Hero "Enroll Your Child" → /admission; Programs "View All" → /programs; About "Learn More" → /about-us; pages ke CTA sections cross-link | 2026-09-09 |
+| 26 | JSON-LD structured data (Home) | ✅ Done | High | EducationalOrganization + WebSite — real school details, url/logo = `https://zip-repl-anjali-kids-school.vercel.app` | 2026-09-09 |
+| 27 | Heading hierarchy — har page exactly 1 h1 | ✅ Done | Medium | h1 added: About "About Anjali Kids Play School", Programs "Our Programs", Contact "Contact Us", Gallery "Our Gallery", Teachers "Our Teachers" | 2026-09-09 |
+| 28 | Loading speed — image optimization | ✅ Done | High | hero-slide PNG 4.7MB → JPEG ~650KB (1600px q78), nav logo 1.3MB → 88KB, logo.png → 341KB, favicon → 91KB | 2026-09-09 |
 
 *(Naye tasks yahan neeche add karte jaao)*
 
@@ -269,6 +285,8 @@ Production (Replit deploy) mein router `/api` path ko API service par map karta 
 **Render env vars:** `PORT` (auto), `GROQ_API_KEY`, `RESEND_API_KEY`, `SESSION_SECRET`, `NODE_ENV=production`
 **Vercel env vars:** `VITE_API_BASE_URL` (Vite ki `VITE_` prefix zaroori hai)
 
+**Vercel URL (production):** `https://zip-repl-anjali-kids-school.vercel.app` — JSON-LD schema aur logo URL yahi use karte hain.
+
 **Render gotchas:**
 - Root directory khali rakho (poora monorepo required, kyunki workspace deps `lib/` mein hain)
 - Start: `pnpm --filter @workspace/api-server run start` (dist/index.mjs bundle — DATABASE_URL ki zaroorat nahi, sirf api-zod import hota hai, db import nahi hota)
@@ -277,6 +295,24 @@ Production (Replit deploy) mein router `/api` path ko API service par map karta 
 **Vercel gotchas:**
 - `render.yaml` backend ke liye, `vercel.json` frontend ke liye — alag platforms
 - Dono linux-x64 chalate hain, pnpm-workspace overrides linux versions keep karti hain (thik hai)
+
+---
+
+## 13. SEO & Performance Work (Hua Hua Kaam) 🎯
+
+Pehle 3 sessions mein poori website ka SEO + performance pass kiya (09-04 se 09-09). Yehi brief logic hai — aage koi SEO kaam kare toh isko base main rakho:
+
+- **Titles:** Har page ka unique title — format `Page Keyword — Anjali Kids Play School, Pundri`, 50-60 chars, keyword pehle (react-helmet-async, `<Helmet>`)
+- **Meta descriptions:** 140-156 chars, location keyword + CTA (`Apply Now`, `Call Us`, `Contact`). main.tsx mein `HelmetProvider`
+- **JSON-LD:** Sirf `Home.tsx` par (EducationalOrganization + WebSite) — `url` aur `logo` = Vercel domain, `logo = /logo.png` (public mein copy kiya). SPA hai isliye script client-side inject hoti hai (static HTML mein nahi dikhegi — expected)
+- **Clean URLs:** `/about-us`, `/admission`, `/contact`, `/programs`, `/teachers`, `/gallery`. Purane paths 301 (client `<Redirect>` + `public/_redirects`)
+- **Semantic HTML:** `<header>/<nav>/<main>/<footer>/<section>/<article>` — page main content `<main>` mein, card lists `<article>` mein
+- **Heading hierarchy:** Har page EXACTLY 1 h1 (page type wala), phir h2 sections → h3 subsections → h4/h5 cards. Koi skip nahi
+- **Internal linking:** Main CTA hamesha `<Link>` (wouter) — Hero→/admission, About→/about-us & /programs, Programs→/admission, Admissions→/contact
+- **Alt text:** Saari images ke realistic descriptive alt — school context (friends, classes, outdoor)
+- **Performance:** Hero slides RESIZED (1600px, q78 JPEG) — `hero-slide-2.jpg` + `hero-slide-3.jpg` in `attached_assets` (purana PNG unoptimized hain, use mat karo). Nav logo → `school-logo-sm.png` (256px). Hero payload ~7× kam hua (4.8MB → ~650KB)
+
+**Git push method:** PAT wale URL se push karo — `git push "https://sharmrashi-arch:<TOKEN>@github.com/sharmrashi-arch/zip-repl.git" main` (local cached creds ke paas write access nahi).
 
 ---
 
@@ -293,4 +329,4 @@ Production (Replit deploy) mein router `/api` path ko API service par map karta 
 
 ---
 
-*Last updated: 2026-08-25 — Port fix, Resend key update, chatbot fallback added*
+*Last updated: 2026-09-09 — SEO pass complete (titles, meta, JSON-LD, clean URLs, semantic HTML, headings, internal links, image optimization); contact page added; AGENT.md updated*
