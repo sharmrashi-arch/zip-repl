@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence, type Variants } from "framer-motion"
+import { Link } from "wouter"
 import heroImage from "@assets/generated_images/hero.jpg"
-import galleryImg1 from "@assets/hero-slide-2.png"
-import galleryImg2 from "@assets/hero-slide-3.png"
+import galleryImg1 from "@assets/hero-slide-2.jpg"
+import galleryImg2 from "@assets/hero-slide-3.jpg"
 
 const slides = [heroImage, galleryImg1, galleryImg2]
 
@@ -102,15 +103,18 @@ export default function Hero() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mb-16">
-            <motion.a
-              href="#admissions"
+            <motion.div
               initial={{ opacity: 0, scale: 0.85 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 1.6, type: "spring", stiffness: 220, damping: 16 }}
-              className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold text-base px-8 py-4 rounded-lg shadow-lg transition-all duration-300 hover:-translate-y-0.5"
             >
-              Enroll Your Child →
-            </motion.a>
+              <Link
+                to="/admission"
+                className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold text-base px-8 py-4 rounded-lg shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+              >
+                Enroll Your Child →
+              </Link>
+            </motion.div>
             <motion.a
               href="#programs"
               initial={{ opacity: 0, scale: 0.85 }}

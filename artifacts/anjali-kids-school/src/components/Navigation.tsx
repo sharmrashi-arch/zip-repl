@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useLocation, Link } from "wouter"
-import logoImg from "@assets/school-logo.png"
+import logoImg from "@assets/school-logo-sm.png"
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -23,11 +23,11 @@ export default function Navigation() {
 
   const navLinks = [
     { name: "Home",       href: "/",            page: true },
-    { name: "About",      href: "/about",        page: true },
+    { name: "About",      href: "/about-us",     page: true },
     { name: "Programs",   href: "/programs",     page: true },
     { name: "Teachers",   href: "/teachers",     page: true },
     { name: "Gallery",    href: "/gallery",      page: true },
-    { name: "Admissions", href: "/admissions",  page: true },
+    { name: "Admissions", href: "/admission",   page: true },
     { name: "Contact",    href: "/contact",    page: true },
   ]
 
@@ -90,7 +90,7 @@ export default function Navigation() {
         {/* CTA */}
         <div className="hidden md:flex items-center gap-2">
           <a
-            href="/admissions"
+            href="/admission"
             className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-bold text-xs px-4 py-2 rounded-full shadow-md hover:shadow-orange-300 transition-all duration-300 hover:scale-105"
           >
             Enroll Now

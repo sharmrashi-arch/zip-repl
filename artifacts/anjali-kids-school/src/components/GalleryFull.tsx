@@ -51,7 +51,7 @@ function GalleryImageCard({
   const [loaded, setLoaded] = useState(false)
 
   return (
-    <div
+    <article
       onClick={() => onClick(img)}
       className="relative flex-shrink-0 w-[70vw] h-44 sm:w-64 sm:h-48 rounded-2xl overflow-hidden cursor-pointer group bg-orange-50"
     >
@@ -73,7 +73,7 @@ function GalleryImageCard({
       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
         <span className="text-white font-bold text-sm">{img.title}</span>
       </div>
-    </div>
+    </article>
   )
 }
 

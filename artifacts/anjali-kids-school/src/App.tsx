@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import NotFound from '@/pages/not-found';
-import { Route, Switch, Router as WouterRouter } from 'wouter';
+import { Route, Switch, Router as WouterRouter, Redirect } from 'wouter';
 import Home from '@/pages/Home';
 import Chatbot from '@/components/Chatbot';
 import ScrollToTop from '@/components/ScrollToTop';
@@ -18,12 +18,14 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
-      <Route path="/about" component={AboutPage} />
+      <Route path="/about-us" component={AboutPage} />
       <Route path="/programs" component={ProgramsPage} />
       <Route path="/teachers" component={TeachersPage} />
       <Route path="/gallery" component={GalleryPage} />
-      <Route path="/admissions" component={AdmissionsPage} />
+      <Route path="/admission" component={AdmissionsPage} />
       <Route path="/contact" component={ContactPage} />
+      <Route path="/about" component={() => <Redirect to="/about-us" replace />} />
+      <Route path="/admissions" component={() => <Redirect to="/admission" replace />} />
       <Route component={NotFound} />
     </Switch>
   );

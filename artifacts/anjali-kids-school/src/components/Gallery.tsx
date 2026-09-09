@@ -47,7 +47,7 @@ function GalleryGridItem({ img, index }: { img: { src: string; title: string; cl
   const [loaded, setLoaded] = useState(false)
 
   return (
-    <motion.div
+    <motion.article
       initial={{ opacity: 0, scale: 0.95 }}
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
@@ -72,6 +72,6 @@ function GalleryGridItem({ img, index }: { img: { src: string; title: string; cl
           {img.title}
         </h4>
       </div>
-    </motion.div>
+    </motion.article>
   )
 }

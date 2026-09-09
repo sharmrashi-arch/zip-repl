@@ -16,6 +16,12 @@ export default function ContactPage() {
       </Helmet>
       <Navigation />
       <main className="pt-24">
+        <section className="pt-10 pb-2 text-center">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900">Contact Us</h1>
+          <p className="text-lg text-gray-500 font-medium mt-3 max-w-2xl mx-auto">
+            Visit us, call, or send an enquiry — we'd love to hear from you.
+          </p>
+        </section>
         <Contact />
         <MapSection />
       </main>

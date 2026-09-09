@@ -15,6 +15,12 @@ export default function GalleryPage() {
       </Helmet>
       <Navigation />
       <main className="pt-24">
+        <section className="pt-10 pb-2 text-center">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900">Our Gallery</h1>
+          <p className="text-lg text-gray-500 font-medium mt-3 max-w-2xl mx-auto">
+            A glimpse into the joyful world of Anjali Kids Play School, Pundri.
+          </p>
+        </section>
         <GalleryFull />
       </main>
       <Footer />

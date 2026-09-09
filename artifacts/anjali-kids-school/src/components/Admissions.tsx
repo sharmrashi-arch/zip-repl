@@ -66,13 +66,13 @@ export default function Admissions() {
               className="grid sm:grid-cols-2 gap-4"
             >
               {steps.map((step, i) => (
-                <div key={i} className="bg-white p-6 rounded-2xl border border-border shadow-sm">
+                <article key={i} className="bg-white p-6 rounded-2xl border border-border shadow-sm">
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${step.color}`}>
                     <step.icon size={24} />
                   </div>
                   <h4 className="font-bold text-foreground mb-2">{step.title}</h4>
                   <p className="text-sm text-muted-foreground font-medium">{step.desc}</p>
-                </div>
+                </article>
               ))}
             </motion.div>
           </div>

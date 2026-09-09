@@ -12,6 +12,26 @@ import Contact from "@/components/Contact"
 import MapSection from "@/components/MapSection"
 import Footer from "@/components/Footer"
 
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  name: "Anjali Kids Play School",
+  description:
+    "A nurturing, play-based preschool and daycare offering early childhood education in Pundri.",
+  url: "https://zip-repl-anjali-kids-school.vercel.app",
+  logo: "https://zip-repl-anjali-kids-school.vercel.app/logo.png",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Near Bus Stand, Pundri",
+    addressLocality: "Pundri",
+    addressRegion: "Haryana",
+    postalCode: "136026",
+    addressCountry: "IN",
+  },
+  telephone: "+91 97681 44444",
+  openingHours: "Mo-Sa 08:00-13:00",
+}
+
 export default function Home() {
   return (
     <div className="w-full">
@@ -21,6 +41,7 @@ export default function Home() {
           name="description"
           content="Anjali Kids Play School offers safe, nurturing, and play-based early education in Pundri. Enroll your child today for a joyful learning journey."
         />
+        <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
       </Helmet>
       <Navigation />
       <main>

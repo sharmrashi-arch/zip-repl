@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Helmet } from "react-helmet-async"
+import { Link } from "wouter"
 import Navigation from "@/components/Navigation"
 import { motion } from "framer-motion"
 
@@ -51,7 +52,7 @@ export default function AdmissionsPage() {
         />
       </Helmet>
       <Navigation />
-      <div className="pt-28 pb-20 flex items-center justify-center px-4">
+      <main className="pt-28 pb-20 flex items-center justify-center px-4">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -180,7 +181,13 @@ export default function AdmissionsPage() {
             </>
           )}
         </motion.div>
-      </div>
+        <p className="text-center text-gray-500 font-medium mt-8">
+          Have questions about the admission process?{" "}
+          <Link to="/contact" className="text-orange-600 font-bold underline hover:text-orange-700 transition-colors">
+            Contact Us
+          </Link>
+        </p>
+      </main>
     </div>
   )
 }

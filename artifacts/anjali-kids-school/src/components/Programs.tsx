@@ -1,4 +1,5 @@
 import { motion } from "framer-motion"
+import { Link } from "wouter"
 import { Palette, BookOpen, Music, Trees, Smile, Compass, Library, Star, Calendar, CheckCircle, Clock, Users, Lightbulb, Heart } from "lucide-react"
 import progImg1 from "@assets/programs-school-activities.jpg"
 import progImg2 from "@assets/programs-hands-on-learning.jfif"
@@ -102,7 +103,7 @@ export default function Programs() {
           className="grid md:grid-cols-3 gap-8 mb-20"
         >
           {corePrograms.map((prog, i) => (
-            <motion.div key={i} variants={itemVariants} className={`bg-white rounded-3xl border ${prog.border} shadow-sm hover:-translate-y-2 transition-transform duration-300 overflow-hidden`}>
+            <motion.article key={i} variants={itemVariants} className={`bg-white rounded-3xl border ${prog.border} shadow-sm hover:-translate-y-2 transition-transform duration-300 overflow-hidden`}>
               <div className="p-8 pb-6">
                 <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-5 ${prog.color}`}>
                   <prog.icon size={32} />
@@ -126,7 +127,7 @@ export default function Programs() {
                   ))}
                 </ul>
               </div>
-            </motion.div>
+            </motion.article>
           ))}
         </motion.div>
 
@@ -208,6 +209,15 @@ export default function Programs() {
               </motion.div>
             ))}
           </motion.div>
+        </div>
+
+        <div className="text-center mt-16">
+          <Link
+            to="/programs"
+            className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold text-base px-8 py-4 rounded-lg shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+          >
+            View All Programs
+          </Link>
         </div>
 
       </div>

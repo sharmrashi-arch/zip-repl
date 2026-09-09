@@ -58,7 +58,7 @@ export default function Testimonials() {
           transition={{ duration: 18, ease: "linear", repeat: Infinity }}
         >
           {looped.map((test, i) => (
-            <div
+            <article
               key={i}
               className="w-72 max-w-[80vw] flex-shrink-0 bg-white p-6 sm:p-8 rounded-3xl border border-border shadow-sm flex flex-col relative"
             >
@@ -78,7 +78,7 @@ export default function Testimonials() {
                   <p className="text-xs text-muted-foreground">Parent</p>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </motion.div>
       </div>

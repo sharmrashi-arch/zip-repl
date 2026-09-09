@@ -1,4 +1,5 @@
 import { motion } from "framer-motion"
+import { Link } from "wouter"
 import {
   Target, Sparkles, BookOpen, Heart, Users, Award, CheckCircle, Star,
   Leaf, Music, Palette, Activity
@@ -121,7 +122,7 @@ export default function About() {
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {curriculum.map(({ icon: Icon, title, desc }, i) => (
-              <motion.div
+              <motion.article
                 key={title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -134,7 +135,7 @@ export default function About() {
                 </div>
                 <h5 className="font-bold text-gray-900 text-base mb-2">{title}</h5>
                 <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
-              </motion.div>
+              </motion.article>
             ))}
           </div>
         </div>
@@ -153,7 +154,7 @@ export default function About() {
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {facilities.map(({ title, desc }, i) => (
-              <motion.div
+              <motion.article
                 key={title}
                 initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -166,14 +167,14 @@ export default function About() {
                   <h5 className="font-bold text-gray-900 mb-1">{title}</h5>
                   <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
                 </div>
-              </motion.div>
+              </motion.article>
             ))}
           </div>
         </div>
 
         {/* Vision & Mission */}
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-20">
-          <motion.div
+          <motion.article
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -195,9 +196,9 @@ export default function About() {
                 To be the most trusted early childhood education centre in Pundri and Kaithal District — a beacon of excellence that empowers young children to explore, learn, and grow into confident, curious, and compassionate individuals ready for the world.
               </p>
             </div>
-          </motion.div>
+          </motion.article>
 
-          <motion.div
+          <motion.article
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -219,11 +220,11 @@ export default function About() {
                 To provide every child between the ages of 1.5 and 4.5 years a nurturing, stimulating, and inclusive learning environment that fosters holistic development — cognitive, physical, social, emotional, and creative — through globally accepted best teaching practices.
               </p>
             </div>
-          </motion.div>
+          </motion.article>
         </div>
 
         {/* Why Choose Us */}
-        <motion.div
+        <motion.section
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -249,7 +250,16 @@ export default function About() {
               </motion.div>
             ))}
           </div>
-        </motion.div>
+        </motion.section>
+
+        <div className="text-center mt-16">
+          <Link
+            to="/about-us"
+            className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold text-base px-8 py-4 rounded-lg shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+          >
+            Learn More About Us
+          </Link>
+        </div>
 
       </div>
     </section>

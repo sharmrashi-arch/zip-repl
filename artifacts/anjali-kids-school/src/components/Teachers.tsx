@@ -93,7 +93,7 @@ export default function Teachers() {
         {/* Carousel */}
         <div className="max-w-5xl mx-auto relative">
           <AnimatePresence mode="wait" custom={direction}>
-            <motion.div
+            <motion.article
               key={current}
               custom={direction}
               variants={slideVariants}
@@ -159,7 +159,7 @@ export default function Teachers() {
                   {teacher.philosophy}
                 </blockquote>
               </div>
-            </motion.div>
+            </motion.article>
           </AnimatePresence>
 
           {/* Navigation */}

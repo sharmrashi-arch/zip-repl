@@ -15,6 +15,12 @@ export default function TeachersPage() {
       </Helmet>
       <Navigation />
       <main className="pt-24">
+        <section className="pt-10 pb-2 text-center">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900">Our Teachers</h1>
+          <p className="text-lg text-gray-500 font-medium mt-3 max-w-2xl mx-auto">
+            Meet the experienced and caring educators of Anjali Kids Play School.
+          </p>
+        </section>
         <Teachers />
       </main>
       <Footer />
