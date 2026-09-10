@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight, GraduationCap, BookOpen, Heart, Star } from "lucide-react"
-import soniaImg from "@assets/generated_images/teacher-sonia.jpg"
-import ansulImg from "@assets/generated_images/teacher-ansul.jpg"
-import manishaImg from "@assets/generated_images/teacher-manisha.jpg"
+import soniaImg from "@assets/generated_images/teacher-sonia.webp"
+import ansulImg from "@assets/generated_images/teacher-ansul.webp"
+import manishaImg from "@assets/generated_images/teacher-manisha.webp"
 
 const teachers = [
   {

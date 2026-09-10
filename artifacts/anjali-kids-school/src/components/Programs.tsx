@@ -1,9 +1,9 @@
 import { motion } from "framer-motion"
 import { Link } from "wouter"
 import { Palette, BookOpen, Music, Trees, Smile, Compass, Library, Star, Calendar, CheckCircle, Clock, Users, Lightbulb, Heart } from "lucide-react"
-import progImg1 from "@assets/programs-school-activities.jpg"
-import progImg2 from "@assets/programs-hands-on-learning.jfif"
-import progImg3 from "@assets/programs-creative-sessions.jpeg"
+import progImg1 from "@assets/programs-school-activities.webp"
+import progImg2 from "@assets/programs-hands-on-learning.webp"
+import progImg3 from "@assets/programs-creative-sessions.webp"
 
 const corePrograms = [
   {

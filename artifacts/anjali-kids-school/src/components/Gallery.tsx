@@ -3,12 +3,12 @@ import { motion } from "framer-motion"
 import { ImageIcon } from "lucide-react"
 
 // I'll import the 6 generated images
-import artsImg from "@assets/generated_images/gallery-arts.jpg"
-import readingImg from "@assets/generated_images/gallery-reading.jpg"
-import outdoorImg from "@assets/generated_images/gallery-outdoor.jpg"
-import musicImg from "@assets/generated_images/gallery-music.jpg"
-import yogaImg from "@assets/generated_images/gallery-yoga.jpg"
-import learningImg from "@assets/generated_images/gallery-learning.jpg"
+import artsImg from "@assets/generated_images/gallery-arts.webp"
+import readingImg from "@assets/generated_images/gallery-reading.webp"
+import outdoorImg from "@assets/generated_images/gallery-outdoor.webp"
+import musicImg from "@assets/generated_images/gallery-music.webp"
+import yogaImg from "@assets/generated_images/gallery-yoga.webp"
+import learningImg from "@assets/generated_images/gallery-learning.webp"
 
 const images = [
   { src: artsImg, title: "Arts & Crafts", className: "md:col-span-2 md:row-span-2" },

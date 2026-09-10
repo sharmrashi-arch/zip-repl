@@ -5,10 +5,10 @@ import {
   Leaf, Music, Palette, Activity
 } from "lucide-react"
 
-import img1 from "@assets/gallery-art-craft.jpg"
-import img2 from "@assets/gallery-baisakhi-celebration.jfif"
-import img3 from "@assets/gallery-classroom-activity.jpg"
-import img4 from "@assets/gallery-fun-learning.jpg"
+import img1 from "@assets/gallery-art-craft.webp"
+import img2 from "@assets/gallery-baisakhi-celebration.webp"
+import img3 from "@assets/gallery-classroom-activity.webp"
+import img4 from "@assets/gallery-fun-learning.webp"
 
 const stats = [
   { value: "2018", label: "Established", icon: Award },

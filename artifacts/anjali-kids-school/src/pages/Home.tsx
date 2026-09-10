@@ -19,7 +19,7 @@ const schemaData = {
   description:
     "A nurturing, play-based preschool and daycare offering early childhood education in Pundri.",
   url: "https://zip-repl-anjali-kids-school.vercel.app",
-  logo: "https://zip-repl-anjali-kids-school.vercel.app/logo.png",
+  logo: "https://zip-repl-anjali-kids-school.vercel.app/logo.webp",
   address: {
     "@type": "PostalAddress",
     streetAddress: "Near Bus Stand, Pundri",

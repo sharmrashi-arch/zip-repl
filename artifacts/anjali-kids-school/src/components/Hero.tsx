@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence, type Variants } from "framer-motion"
 import { Link } from "wouter"
-import heroImage from "@assets/generated_images/hero.jpg"
-import galleryImg1 from "@assets/hero-slide-2.jpg"
-import galleryImg2 from "@assets/hero-slide-3.jpg"
+import heroImage from "@assets/generated_images/hero-banner-preschool.webp"
+import galleryImg1 from "@assets/hero-slide-kids-playground.webp"
+import galleryImg2 from "@assets/hero-slide-kids-classroom.webp"
 
 const slides = [heroImage, galleryImg1, galleryImg2]
 
