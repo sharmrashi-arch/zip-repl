@@ -62,7 +62,7 @@ export default function AdmissionsPage() {
         <meta name="twitter:image" content="https://zip-repl-anjali-kids-school.vercel.app/og-image.webp" />
       </Helmet>
       <Navigation />
-      <main className="pt-28 pb-20 flex items-center justify-center px-4">
+      <main className="pt-28 pb-20 flex flex-col items-center justify-center gap-8 px-4">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -191,7 +191,7 @@ export default function AdmissionsPage() {
             </>
           )}
         </motion.div>
-        <p className="text-center text-gray-500 font-medium mt-8">
+        <p className="text-center text-gray-500 font-medium">
           Have questions about the admission process?{" "}
           <Link to="/contact" className="text-orange-600 font-bold underline hover:text-orange-700 transition-colors">
             Contact Us
