@@ -270,6 +270,7 @@ Production (Replit deploy) mein router `/api` path ko API service par map karta 
 | 28 | Loading speed — image optimization | ✅ Done | High | hero-slide PNG 4.7MB → JPEG ~650KB (1600px q78), nav logo 1.3MB → 88KB, logo.png → 341KB, favicon → 91KB | 2026-09-09 |
 | 29 | Saari images → .webp (SEO names) + sitemap.xml | ✅ Done | High | 32 imgs webp q80 (logo 341→37KB, favicon 91→15KB), 50 purani / 17 unused garbage files delete; submit sitemap via GSC | 2026-09-09 |
 | 30 | Bundle code-splitting + cleanups (speed) | ✅ Done | High | React.lazy routes/chatbot/voice agent, Suspense fallback, react-query + api-client-react hata diya, Inter font removed, fonts async (media=print onload), manualChunks vendor; main bundle 492KB → ~292KB | 2026-09-10 |
+| 31 | Canonical tags + per-page OG/Twitter + theme-color | ✅ Done | High | Har page par self-referencing canonical + og:title/description/image/url/type + twitter:card; `public/og-image.webp` (1200x630, 69KB); theme-color `#FF9F1C` in index.html; index.html generic og bhi fixed | 2026-09-10 |
 
 *(Naye tasks yahan neeche add karte jaao)*
 

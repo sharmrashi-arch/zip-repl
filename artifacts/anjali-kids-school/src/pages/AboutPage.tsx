@@ -13,6 +13,16 @@ export default function AboutPage() {
           name="description"
           content="Learn about Anjali Kids Play School's mission, experienced teachers, and child-friendly environment designed for holistic development in Pundri."
         />
+        <link rel="canonical" href="https://zip-repl-anjali-kids-school.vercel.app/about-us" />
+        <meta property="og:title" content="Trusted Preschool in Pundri | Anjali Kids Play School" />
+        <meta property="og:description" content="Learn about Anjali Kids Play School's mission, experienced teachers, and child-friendly environment designed for holistic development in Pundri." />
+        <meta property="og:image" content="https://zip-repl-anjali-kids-school.vercel.app/og-image.webp" />
+        <meta property="og:url" content="https://zip-repl-anjali-kids-school.vercel.app/about-us" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Trusted Preschool in Pundri | Anjali Kids Play School" />
+        <meta name="twitter:description" content="Learn about Anjali Kids Play School's mission, experienced teachers, and child-friendly environment designed for holistic development in Pundri." />
+        <meta name="twitter:image" content="https://zip-repl-anjali-kids-school.vercel.app/og-image.webp" />
       </Helmet>
       <Navigation />
       <main className="pt-24">

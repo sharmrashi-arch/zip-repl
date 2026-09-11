@@ -13,6 +13,16 @@ export default function ProgramsPage() {
           name="description"
           content="Explore play-based learning programs at Anjali Kids Play School, Pundri, designed to nurture curiosity, creativity, and confidence in toddlers."
         />
+        <link rel="canonical" href="https://zip-repl-anjali-kids-school.vercel.app/programs" />
+        <meta property="og:title" content="Play-Based Learning Programs | Anjali Kids Play School" />
+        <meta property="og:description" content="Explore play-based learning programs at Anjali Kids Play School, Pundri, designed to nurture curiosity, creativity, and confidence in toddlers." />
+        <meta property="og:image" content="https://zip-repl-anjali-kids-school.vercel.app/og-image.webp" />
+        <meta property="og:url" content="https://zip-repl-anjali-kids-school.vercel.app/programs" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Play-Based Learning Programs | Anjali Kids Play School" />
+        <meta name="twitter:description" content="Explore play-based learning programs at Anjali Kids Play School, Pundri, designed to nurture curiosity, creativity, and confidence in toddlers." />
+        <meta name="twitter:image" content="https://zip-repl-anjali-kids-school.vercel.app/og-image.webp" />
       </Helmet>
       <Navigation />
       <main className="pt-24">

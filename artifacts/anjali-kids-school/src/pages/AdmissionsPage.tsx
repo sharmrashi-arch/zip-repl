@@ -50,6 +50,16 @@ export default function AdmissionsPage() {
           name="description"
           content="Admissions open at Anjali Kids Play School, Pundri. Simple process, affordable fees, and quality early education. Apply now for the 2026 session."
         />
+        <link rel="canonical" href="https://zip-repl-anjali-kids-school.vercel.app/admission" />
+        <meta property="og:title" content="Preschool Admission in Pundri 2026 | Anjali Kids Play School" />
+        <meta property="og:description" content="Admissions open at Anjali Kids Play School, Pundri. Simple process, affordable fees, and quality early education. Apply now for the 2026 session." />
+        <meta property="og:image" content="https://zip-repl-anjali-kids-school.vercel.app/og-image.webp" />
+        <meta property="og:url" content="https://zip-repl-anjali-kids-school.vercel.app/admission" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Preschool Admission in Pundri 2026 | Anjali Kids Play School" />
+        <meta name="twitter:description" content="Admissions open at Anjali Kids Play School, Pundri. Simple process, affordable fees, and quality early education. Apply now for the 2026 session." />
+        <meta name="twitter:image" content="https://zip-repl-anjali-kids-school.vercel.app/og-image.webp" />
       </Helmet>
       <Navigation />
       <main className="pt-28 pb-20 flex items-center justify-center px-4">

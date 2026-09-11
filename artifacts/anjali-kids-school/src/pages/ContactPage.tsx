@@ -13,6 +13,16 @@ export default function ContactPage() {
           name="description"
           content="Get in touch with Anjali Kids Play School, Pundri. Visit us, call, or fill our enquiry form for admission and fee details."
         />
+        <link rel="canonical" href="https://zip-repl-anjali-kids-school.vercel.app/contact" />
+        <meta property="og:title" content="Contact Anjali Kids Play School | Playschool in Pundri" />
+        <meta property="og:description" content="Get in touch with Anjali Kids Play School, Pundri. Visit us, call, or fill our enquiry form for admission and fee details." />
+        <meta property="og:image" content="https://zip-repl-anjali-kids-school.vercel.app/og-image.webp" />
+        <meta property="og:url" content="https://zip-repl-anjali-kids-school.vercel.app/contact" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Contact Anjali Kids Play School | Playschool in Pundri" />
+        <meta name="twitter:description" content="Get in touch with Anjali Kids Play School, Pundri. Visit us, call, or fill our enquiry form for admission and fee details." />
+        <meta name="twitter:image" content="https://zip-repl-anjali-kids-school.vercel.app/og-image.webp" />
       </Helmet>
       <Navigation />
       <main className="pt-24">

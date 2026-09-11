@@ -41,6 +41,16 @@ export default function Home() {
           name="description"
           content="Anjali Kids Play School offers safe, nurturing, and play-based early education in Pundri. Enroll your child today for a joyful learning journey."
         />
+        <link rel="canonical" href="https://zip-repl-anjali-kids-school.vercel.app/" />
+        <meta property="og:title" content="Best Preschool in Pundri | Anjali Kids Play School" />
+        <meta property="og:description" content="Anjali Kids Play School offers safe, nurturing, and play-based early education in Pundri. Enroll your child today for a joyful learning journey." />
+        <meta property="og:image" content="https://zip-repl-anjali-kids-school.vercel.app/og-image.webp" />
+        <meta property="og:url" content="https://zip-repl-anjali-kids-school.vercel.app/" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Best Preschool in Pundri | Anjali Kids Play School" />
+        <meta name="twitter:description" content="Anjali Kids Play School offers safe, nurturing, and play-based early education in Pundri. Enroll your child today for a joyful learning journey." />
+        <meta name="twitter:image" content="https://zip-repl-anjali-kids-school.vercel.app/og-image.webp" />
         <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
       </Helmet>
       <Navigation />

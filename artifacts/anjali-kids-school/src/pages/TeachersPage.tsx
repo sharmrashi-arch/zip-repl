@@ -12,6 +12,16 @@ export default function TeachersPage() {
           name="description"
           content="Meet the experienced and caring teachers at Anjali Kids Play School, Pundri who nurture every child with love, patience, and proven expertise."
         />
+        <link rel="canonical" href="https://zip-repl-anjali-kids-school.vercel.app/teachers" />
+        <meta property="og:title" content="Expert Teachers in Pundri | Anjali Kids Play School" />
+        <meta property="og:description" content="Meet the experienced and caring teachers at Anjali Kids Play School, Pundri who nurture every child with love, patience, and proven expertise." />
+        <meta property="og:image" content="https://zip-repl-anjali-kids-school.vercel.app/og-image.webp" />
+        <meta property="og:url" content="https://zip-repl-anjali-kids-school.vercel.app/teachers" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Expert Teachers in Pundri | Anjali Kids Play School" />
+        <meta name="twitter:description" content="Meet the experienced and caring teachers at Anjali Kids Play School, Pundri who nurture every child with love, patience, and proven expertise." />
+        <meta name="twitter:image" content="https://zip-repl-anjali-kids-school.vercel.app/og-image.webp" />
       </Helmet>
       <Navigation />
       <main className="pt-24">
