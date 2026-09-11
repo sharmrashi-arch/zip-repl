@@ -268,6 +268,8 @@ Production (Replit deploy) mein router `/api` path ko API service par map karta 
 | 26 | JSON-LD structured data (Home) | ✅ Done | High | EducationalOrganization + WebSite — real school details, url/logo = `https://zip-repl-anjali-kids-school.vercel.app` | 2026-09-09 |
 | 27 | Heading hierarchy — har page exactly 1 h1 | ✅ Done | Medium | h1 added: About "About Anjali Kids Play School", Programs "Our Programs", Contact "Contact Us", Gallery "Our Gallery", Teachers "Our Teachers" | 2026-09-09 |
 | 28 | Loading speed — image optimization | ✅ Done | High | hero-slide PNG 4.7MB → JPEG ~650KB (1600px q78), nav logo 1.3MB → 88KB, logo.png → 341KB, favicon → 91KB | 2026-09-09 |
+| 29 | Saari images → .webp (SEO names) + sitemap.xml | ✅ Done | High | 32 imgs webp q80 (logo 341→37KB, favicon 91→15KB), 50 purani / 17 unused garbage files delete; submit sitemap via GSC | 2026-09-09 |
+| 30 | Bundle code-splitting + cleanups (speed) | ✅ Done | High | React.lazy routes/chatbot/voice agent, Suspense fallback, react-query + api-client-react hata diya, Inter font removed, fonts async (media=print onload), manualChunks vendor; main bundle 492KB → ~292KB | 2026-09-10 |
 
 *(Naye tasks yahan neeche add karte jaao)*
 
@@ -329,4 +331,4 @@ Pehle 3 sessions mein poori website ka SEO + performance pass kiya (09-04 se 09-
 
 ---
 
-*Last updated: 2026-09-09 — SEO pass complete (titles, meta, JSON-LD, clean URLs, semantic HTML, headings, internal links, image optimization); contact page added; AGENT.md updated*
+*Last updated: 2026-09-10 — bundle code-splitting + react-query/api-client-react removal, webp conversion, sitemap; SEO pass complete*

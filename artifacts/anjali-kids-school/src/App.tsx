@@ -1,18 +1,26 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import NotFound from '@/pages/not-found';
+import { lazy, Suspense } from 'react';
 import { Route, Switch, Router as WouterRouter, Redirect } from 'wouter';
-import Home from '@/pages/Home';
-import Chatbot from '@/components/Chatbot';
-import ScrollToTop from '@/components/ScrollToTop';
-import VoiceTourAgent from '@/components/VoiceTourAgent';
-import AboutPage from '@/pages/AboutPage';
-import TeachersPage from '@/pages/TeachersPage';
-import GalleryPage from '@/pages/GalleryPage';
-import ProgramsPage from '@/pages/ProgramsPage';
-import AdmissionsPage from '@/pages/AdmissionsPage';
-import ContactPage from '@/pages/ContactPage';
 
-const queryClient = new QueryClient();
+import Home from '@/pages/Home';
+import ScrollToTop from '@/components/ScrollToTop';
+
+const AboutPage = lazy(() => import('@/pages/AboutPage'));
+const ProgramsPage = lazy(() => import('@/pages/ProgramsPage'));
+const TeachersPage = lazy(() => import('@/pages/TeachersPage'));
+const GalleryPage = lazy(() => import('@/pages/GalleryPage'));
+const AdmissionsPage = lazy(() => import('@/pages/AdmissionsPage'));
+const ContactPage = lazy(() => import('@/pages/ContactPage'));
+const NotFound = lazy(() => import('@/pages/not-found'));
+const Chatbot = lazy(() => import('@/components/Chatbot'));
+const VoiceTourAgent = lazy(() => import('@/components/VoiceTourAgent'));
+
+function LoadingFallback() {
+  return (
+    <div className="flex min-h-[40vh] items-center justify-center">
+      <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" aria-label="Loading" />
+    </div>
+  );
+}
 
 function Router() {
   return (
@@ -33,14 +41,14 @@ function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-<WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+    <Suspense fallback={<LoadingFallback />}>
+      <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
         <Router />
         <VoiceTourAgent />
         <ScrollToTop />
         <Chatbot />
       </WouterRouter>
-    </QueryClientProvider>
+    </Suspense>
   );
 }
 
