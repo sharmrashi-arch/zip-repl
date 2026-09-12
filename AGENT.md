@@ -271,6 +271,9 @@ Production (Replit deploy) mein router `/api` path ko API service par map karta 
 | 29 | Saari images → .webp (SEO names) + sitemap.xml | ✅ Done | High | 32 imgs webp q80 (logo 341→37KB, favicon 91→15KB), 50 purani / 17 unused garbage files delete; submit sitemap via GSC | 2026-09-09 |
 | 30 | Bundle code-splitting + cleanups (speed) | ✅ Done | High | React.lazy routes/chatbot/voice agent, Suspense fallback, react-query + api-client-react hata diya, Inter font removed, fonts async (media=print onload), manualChunks vendor; main bundle 492KB → ~292KB | 2026-09-10 |
 | 31 | Canonical tags + per-page OG/Twitter + theme-color | ✅ Done | High | Har page par self-referencing canonical + og:title/description/image/url/type + twitter:card; `public/og-image.webp` (1200x630, 69KB); theme-color `#FF9F1C` in index.html; index.html generic og bhi fixed | 2026-09-10 |
+| 32 | Real-time speed fixes (is user ka repeat complaint) | ✅ Done | High | Hero image (`public/hero-banner-preschool.webp`) ab preload + fetchpriority high; baaki images lazy (About/Programs/Teachers/Gallery/GalleryFull). Asset sizes measured live: index.js 293KB, framer-motion 132KB, CSS 120KB | 2026-09-10 |
+| 33 | Scroll to top on every route navigation | ✅ Done | High | Naya tiny component `ScrollToTopOnNav` in App.tsx — har path change par `window.scrollTo(0,0)`. `ScrollToTop.tsx` sirf floating upar-jane-wala button hai (confusing name). In-page `#anchor` links unaffected. Ab navbar click par page TOP se khulta hai | 2026-09-11 |
+| 34 | Floating WhatsApp + Instagram buttons (LEFT side) | ✅ Done | Medium | `SocialButtons.tsx` — bottom-left fixed stack. WhatsApp → `wa.me/919768144444`, Instagram → `instagram.com/anjalikidsplayschool` (⚠️ PLACEHOLDER username, school ka handle aane par update karna). Right side pehle se crowded hai (voice agent+chatbot+scroll) isliye left side par rakhe | 2026-09-11 |
 
 *(Naye tasks yahan neeche add karte jaao)*
 
@@ -332,4 +335,4 @@ Pehle 3 sessions mein poori website ka SEO + performance pass kiya (09-04 se 09-
 
 ---
 
-*Last updated: 2026-09-10 — bundle code-splitting + react-query/api-client-react removal, webp conversion, sitemap; SEO pass complete*
+*Last updated: 2026-09-11 — WhatsApp/Instagram buttons, scroll-to-top fix, speed fixes, og/canonical*

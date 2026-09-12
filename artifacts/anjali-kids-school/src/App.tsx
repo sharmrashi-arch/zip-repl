@@ -13,6 +13,7 @@ const ContactPage = lazy(() => import('@/pages/ContactPage'));
 const NotFound = lazy(() => import('@/pages/not-found'));
 const Chatbot = lazy(() => import('@/components/Chatbot'));
 const VoiceTourAgent = lazy(() => import('@/components/VoiceTourAgent'));
+const SocialButtons = lazy(() => import('@/components/SocialButtons'));
 
 function LoadingFallback() {
   return (
@@ -61,6 +62,7 @@ function App() {
         <Router />
         <VoiceTourAgent />
         <ScrollToTop />
+        <SocialButtons />
         <Chatbot />
       </WouterRouter>
     </Suspense>
