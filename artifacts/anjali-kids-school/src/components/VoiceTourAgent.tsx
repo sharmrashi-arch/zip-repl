@@ -289,7 +289,7 @@ export default function VoiceTourAgent() {
         onClick={handleRobotClick}
         animate={running ? { y: [0, -10, 0], rotate: [0, -2, 2, 0] } : { y: [0, -7, 0] }}
         transition={{ duration: running ? 1.05 : 2.5, repeat: Infinity, ease: "easeInOut" }}
-        className="h-32 w-32 object-contain drop-shadow-2xl sm:h-44 sm:w-44 md:h-52 md:w-52 cursor-pointer"
+        className="h-28 w-28 object-contain drop-shadow-2xl sm:h-40 sm:w-40 md:h-48 md:w-48 cursor-pointer"
       />
 
       {running && (
