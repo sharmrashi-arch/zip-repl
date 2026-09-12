@@ -1,5 +1,5 @@
-import { lazy, Suspense } from 'react';
-import { Route, Switch, Router as WouterRouter, Redirect } from 'wouter';
+import { lazy, Suspense, useEffect, useRef } from 'react';
+import { Route, Switch, Router as WouterRouter, Redirect, useLocation } from 'wouter';
 
 import Home from '@/pages/Home';
 import ScrollToTop from '@/components/ScrollToTop';
@@ -39,10 +39,25 @@ function Router() {
   );
 }
 
+function ScrollToTopOnNav() {
+  const [location] = useLocation()
+  const prevPath = useRef(location)
+
+  useEffect(() => {
+    if (prevPath.current !== location) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+      prevPath.current = location
+    }
+  }, [location])
+
+  return null
+}
+
 function App() {
   return (
     <Suspense fallback={<LoadingFallback />}>
       <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+        <ScrollToTopOnNav />
         <Router />
         <VoiceTourAgent />
         <ScrollToTop />
