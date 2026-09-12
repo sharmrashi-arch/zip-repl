@@ -108,6 +108,7 @@ export default function Teachers() {
                 <img
                   src={teacher.image}
                   alt={`photo of teacher ${teacher.name} at Anjali Kids Play School, Pundri`}
+                  loading="lazy"
                   className="w-40 h-40 sm:w-52 sm:h-52 object-cover rounded-full border-4 border-white shadow-2xl mb-4 sm:mb-6"
                 />
                 <div className="text-center">

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence, type Variants } from "framer-motion"
 import { Link } from "wouter"
-import heroImage from "@assets/generated_images/hero-banner-preschool.webp"
+const heroImage = "/hero-banner-preschool.webp"
 import galleryImg1 from "@assets/hero-slide-kids-playground.webp"
 import galleryImg2 from "@assets/hero-slide-kids-classroom.webp"
 
@@ -40,6 +40,8 @@ export default function Hero() {
           key={current}
           src={slides[current]}
           alt="children playing at Anjali Kids Play School in Pundri"
+          loading={current === 0 ? "eager" : "lazy"}
+          fetchPriority={current === 0 ? "high" : "auto"}
           className="absolute inset-0 w-full h-full object-cover object-center blur-[0.5px]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

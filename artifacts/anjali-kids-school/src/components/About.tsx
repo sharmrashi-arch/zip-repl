@@ -80,10 +80,11 @@ export default function About() {
             { src: img4, alt: "kids enjoying fun learning activity at Anjali Kids Play School, Pundri" },
           ].map(({ src, alt }, i) => (
             <div key={i} className="overflow-hidden rounded-2xl shadow-md aspect-square group">
-              <img
-                src={src}
-                alt={alt}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+<img
+                  src={src}
+                  alt={alt}
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
             </div>
           ))}
@@ -182,7 +183,7 @@ export default function About() {
             className="rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
           >
             <div className="relative h-52 overflow-hidden">
-              <img src={img2} alt="our vision of joyful learning - kids playing at Anjali Kids Play School, Pundri" className="w-full h-full object-cover" />
+              <img src={img2} alt="our vision of joyful learning - kids playing at Anjali Kids Play School, Pundri" loading="lazy" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute bottom-4 left-6 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
@@ -206,7 +207,7 @@ export default function About() {
             className="rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
           >
             <div className="relative h-52 overflow-hidden">
-              <img src={img3} alt="our mission - teacher guiding children in classroom at Anjali Kids Play School, Pundri" className="w-full h-full object-cover" />
+              <img src={img3} alt="our mission - teacher guiding children in classroom at Anjali Kids Play School, Pundri" loading="lazy" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute bottom-4 left-6 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
