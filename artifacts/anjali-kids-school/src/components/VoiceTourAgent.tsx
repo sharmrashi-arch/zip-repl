@@ -178,6 +178,11 @@ export default function VoiceTourAgent() {
   useEffect(() => () => { window.speechSynthesis?.cancel() }, [])
 
   useEffect(() => {
+    const timer = window.setTimeout(() => setShowPopup(true), 1200)
+    return () => window.clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
     if (!showPopup) return
     const handleClickOutside = (e: MouseEvent) => {
       if (popupRef.current && !popupRef.current.contains(e.target as Node)) {

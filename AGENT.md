@@ -275,6 +275,7 @@ Production (Replit deploy) mein router `/api` path ko API service par map karta 
 | 33 | Scroll to top on every route navigation | ✅ Done | High | Naya tiny component `ScrollToTopOnNav` in App.tsx — har path change par `window.scrollTo(0,0)`. `ScrollToTop.tsx` sirf floating upar-jane-wala button hai (confusing name). In-page `#anchor` links unaffected. Ab navbar click par page TOP se khulta hai | 2026-09-11 |
 | 34 | Floating WhatsApp + Instagram buttons (LEFT side) | ✅ Done | Medium | `SocialButtons.tsx` — bottom-left fixed stack. WhatsApp → `wa.me/919768144444`, Instagram → `instagram.com/anjalikidsplayschool` (⚠️ PLACEHOLDER username, school ka handle aane par update karna). Right side pehle se crowded hai (voice agent+chatbot+scroll) isliye left side par rakhe | 2026-09-11 |
 | 35 | Robot popup → Chatbot access + cross buttons | ✅ Done | High | VoiceTourAgent popup: "No, thanks" hata kar uski jagah `Chatbot — Kuch Bhi Poochiye` (orange, MessageCircle) button jo `window.dispatchEvent(new Event("open-chatbot"))` fire karta hai; Chatbot.tsx us event ko sun kar `setOpen(true)` karta hai (custom event = dono alag components ka medium). Popup ke upar X, aur robot par (jab popup khula ho) red X badge. Chatbot panel header mein ab X close button bhi. Tour band: pehle se "Stop Tour" button hai | 2026-09-11 |
+| 36 | Remove standalone orange chatbot button + assistant auto-open | ✅ Done | High | Standalone orange launcher button Chatbot.tsx se hata diya (ab se chatbot sirf robot popup ke `Chatbot — Kuch Bhi Poochiye` button se khulta hai). VoiceTourAgent ab page load ke ~1.2s baad auto `showPopup(true)` karta hai — website khulte hi assistant khud khul kar "tour karwau ya kuch poochiye" puchta hai. Panel header X se chatbot band hota hai | 2026-09-11 |
 
 *(Naye tasks yahan neeche add karte jaao)*
 
@@ -336,4 +337,4 @@ Pehle 3 sessions mein poori website ka SEO + performance pass kiya (09-04 se 09-
 
 ---
 
-*Last updated: 2026-09-11 — robot popup se chatbot open + cross buttons, WhatsApp/Instagram buttons, scroll-to-top fix*
+*Last updated: 2026-09-11 — orange chatbot button removed, assistant auto-open on load, robot popup se chatbot*
