@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Play, Volume2, Square } from "lucide-react"
+import { Play, Volume2, Square, X, MessageCircle } from "lucide-react"
 import { useLocation } from "wouter"
 
 const TEACHER_DETAILS = [
@@ -193,6 +193,11 @@ export default function VoiceTourAgent() {
     setShowPopup((prev) => !prev)
   }, [running])
 
+  const openChatbot = useCallback(() => {
+    setShowPopup(false)
+    window.dispatchEvent(new Event("open-chatbot"))
+  }, [])
+
   const captionWordsArray = splitWords(captionText)
 
   return (
@@ -239,30 +244,40 @@ export default function VoiceTourAgent() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.9 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="mb-3 w-72 bg-white rounded-2xl shadow-2xl shadow-orange-200/60 border border-orange-100 overflow-hidden"
+            className="mb-3 w-72 relative bg-white rounded-2xl shadow-2xl shadow-orange-200/60 border border-orange-100 overflow-hidden"
           >
+            <button
+              type="button"
+              onClick={() => setShowPopup(false)}
+              aria-label="Robot assistant band karo"
+              className="absolute top-3 right-3 w-7 h-7 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center transition-colors hover:bg-gray-200"
+            >
+              <X size={15} />
+            </button>
+
             <div className="px-4 pt-4 pb-2">
               <p className="text-sm font-semibold text-gray-800 leading-snug">
                 Welcome to Anjali Kids Play School!
               </p>
               <p className="mt-1.5 text-xs text-gray-500 leading-relaxed">
-                Aap kaise hain? Main aapka virtual assistant hoon. Kya aap chahte hain ki main aapko humari website ka complete tour karwau?
+                Aap kaise hain? Main aapka virtual assistant hoon. Kya aap chahte hain ki main aapko humari website ka complete tour karwau, ya koi sawaal poochna hai?
               </p>
             </div>
 
-            <div className="px-4 pb-4 pt-2 flex gap-2">
-              <button
-                onClick={() => setShowPopup(false)}
-                className="flex-1 py-2 px-3 text-xs font-semibold text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
-              >
-                No, thanks
-              </button>
+            <div className="px-4 pb-4 pt-2 flex flex-col gap-2.5">
               <button
                 onClick={startTour}
-                className="flex-1 py-2 px-3 text-xs font-semibold text-white bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all flex items-center justify-center gap-1.5 shadow-md shadow-blue-200/50"
+                className="w-full py-2.5 px-3 text-xs font-bold text-white bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all flex items-center justify-center gap-1.5 shadow-md shadow-blue-200/50"
               >
-                <Play size={12} fill="white" />
-                Start Tour
+                <Play size={13} fill="white" />
+                Website Tour Shuru Karein
+              </button>
+              <button
+                onClick={openChatbot}
+                className="w-full py-2.5 px-3 text-xs font-bold text-white bg-gradient-to-r from-orange-400 to-orange-600 rounded-xl hover:from-orange-500 hover:to-orange-700 transition-all flex items-center justify-center gap-1.5 shadow-md shadow-orange-200/50"
+              >
+                <MessageCircle size={13} />
+                Chatbot — Kuch Bhi Poochiye
               </button>
             </div>
 
@@ -283,14 +298,31 @@ export default function VoiceTourAgent() {
         </motion.div>
       )}
 
-      <motion.img
-        src="/voice-agent.webp"
-        alt="Anjali Kids Play School voice tour robot guide"
-        onClick={handleRobotClick}
-        animate={running ? { y: [0, -10, 0], rotate: [0, -2, 2, 0] } : { y: [0, -7, 0] }}
-        transition={{ duration: running ? 1.05 : 2.5, repeat: Infinity, ease: "easeInOut" }}
-        className="h-28 w-28 object-contain drop-shadow-2xl sm:h-40 sm:w-40 md:h-48 md:w-48 cursor-pointer"
-      />
+      <div className="relative">
+        <motion.img
+          src="/voice-agent.webp"
+          alt="Anjali Kids Play School voice tour robot guide"
+          onClick={handleRobotClick}
+          animate={running ? { y: [0, -10, 0], rotate: [0, -2, 2, 0] } : { y: [0, -7, 0] }}
+          transition={{ duration: running ? 1.05 : 2.5, repeat: Infinity, ease: "easeInOut" }}
+          className="h-28 w-28 object-contain drop-shadow-2xl sm:h-40 sm:w-40 md:h-48 md:w-48 cursor-pointer"
+        />
+        <AnimatePresence>
+          {showPopup && (
+            <motion.button
+              type="button"
+              onClick={() => setShowPopup(false)}
+              initial={{ opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.6 }}
+              aria-label="Robot assistant band karo"
+              className="absolute top-1 -right-1 z-10 w-7 h-7 rounded-full bg-red-500 text-white shadow-md flex items-center justify-center transition-colors hover:bg-red-600"
+            >
+              <X size={14} />
+            </motion.button>
+          )}
+        </AnimatePresence>
+      </div>
 
       {running && (
         <button

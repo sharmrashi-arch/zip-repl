@@ -180,6 +180,12 @@ export default function Chatbot() {
   }, [])
 
   useEffect(() => {
+    const onOpenChatbot = () => setOpen(true)
+    window.addEventListener("open-chatbot", onOpenChatbot)
+    return () => window.removeEventListener("open-chatbot", onOpenChatbot)
+  }, [])
+
+  useEffect(() => {
     if (open) {
       bottomRef.current?.scrollIntoView({ behavior: "smooth" })
       setTimeout(() => inputRef.current?.focus(), 100)
@@ -434,6 +440,14 @@ export default function Chatbot() {
                 className="ml-auto w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors"
               >
                 {voiceReply ? <Volume2 size={16} className="text-white" /> : <VolumeX size={16} className="text-orange-200" />}
+              </button>
+              <button
+                onClick={() => setOpen(false)}
+                title="Chatbot band karo"
+                aria-label="Close chatbot"
+                className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors"
+              >
+                <X size={18} className="text-white" />
               </button>
             </div>
 
